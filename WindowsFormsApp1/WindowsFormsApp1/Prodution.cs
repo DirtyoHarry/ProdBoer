@@ -13,7 +13,7 @@ namespace WindowsFormsApp1
         SQLiteConnection dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
         SQLiteCommand command;
 
-        public bool AddOrder(List<string> order) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
+        public bool AddOrder(List<string> Aorder) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
         {
 
             {
@@ -21,33 +21,55 @@ namespace WindowsFormsApp1
                 dbC.Open();
 
                 command = new SQLiteCommand("INSERT INTO Orders (Name,Type,Starting_Date,Expiring_Date,Barcode,Ext_Code,Phase_ID) VALUES (@name,@Type,@SDate,@EDate,@Barcode,@Ext_Code,@Phase)", dbC);
-                command.Parameters.AddWithValue("@name", order[0]);
-                command.Parameters.AddWithValue("@Type", order[1]);
-                command.Parameters.AddWithValue("@SDate", order[2]);
-                command.Parameters.AddWithValue("@EDate", order[3]);
-                command.Parameters.AddWithValue("@Barcode", order[4]);
-                command.Parameters.AddWithValue("@Ext_Code", order[5]);
-                command.Parameters.AddWithValue("@Phase", order[6]);
+                command.Parameters.AddWithValue("@name", Aorder[0]);
+                command.Parameters.AddWithValue("@Type", Aorder[1]);
+                command.Parameters.AddWithValue("@SDate", Aorder[2]);
+                command.Parameters.AddWithValue("@EDate", Aorder[3]);
+                command.Parameters.AddWithValue("@Barcode", Aorder[4]);
+                command.Parameters.AddWithValue("@Ext_Code", Aorder[5]);
+                command.Parameters.AddWithValue("@Phase", Aorder[6]);
                 try
                 {
                     command.ExecuteNonQuery();
+                    dbC.Close();
                     return true;
 
                 }
                 catch
                 {
+                    dbC.Close();
                     return false;
+
                 }
 
-                dbC.Close();
+                
             }
         }
 
-        public void EditOrder()
+        public bool EditOrder(List<string> Eorder)
         {
+            dbC.Open();
 
+            command = new SQLiteCommand("UPDATE Orders SET Name = @name ,Type = @Type , Starting_Date = @SDate , Expiring_Date = @EDate , Barcode = @Barcode , Ext_Code = @Ext_Code , Phase_ID = @Phase Where ID = @ID", dbC);
+            command.Parameters.AddWithValue("@name", Eorder[0]);
+            command.Parameters.AddWithValue("@Type", Eorder[1]);
+            command.Parameters.AddWithValue("@SDate", Eorder[2]);
+            command.Parameters.AddWithValue("@EDate", Eorder[3]);
+            command.Parameters.AddWithValue("@Barcode", Eorder[4]);
+            command.Parameters.AddWithValue("@Ext_Code", Eorder[5]);
+            command.Parameters.AddWithValue("@Phase", Eorder[6]);
+            command.Parameters.AddWithValue("@ID", Eorder[7]);
+            try
             {
-                //Update query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
+
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
             }
         }
 

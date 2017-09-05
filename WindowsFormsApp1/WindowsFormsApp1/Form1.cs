@@ -118,15 +118,17 @@ namespace WindowsFormsApp1
         {
             List<string> a = new List<string>();
 
-            a.Add("0");
             a.Add("1");
             a.Add("2");
             a.Add("3");
             a.Add("4");
             a.Add("5");
             a.Add("6");
+            a.Add("7");
 
-            Label1.Text = prodTest.AddOrder(a).ToString();
+            a.Add("1");
+
+            Label1.Text = prodTest.EditOrder(a).ToString();
 
             dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
             dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
