@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp1
+﻿namespace ProdCycleBoer
 {
     partial class Form1
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Configuration;
 
-namespace WindowsFormsApp1
+namespace ProdCycleBoer
 {
     class Production
     {

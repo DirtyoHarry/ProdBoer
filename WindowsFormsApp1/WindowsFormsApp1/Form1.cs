@@ -11,7 +11,7 @@ using System.Data.SQLite;
 using System.Configuration;
 
 
-namespace WindowsFormsApp1
+namespace ProdCycleBoer
 {
     public partial class Form1 : Form
     {

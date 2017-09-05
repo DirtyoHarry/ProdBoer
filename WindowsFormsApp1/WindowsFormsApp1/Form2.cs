@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace ProdCycleBoer
 {
     public partial class Form2 : Form
     { //articolo su misura
