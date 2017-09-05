@@ -1,6 +1,6 @@
 ﻿namespace ProdCycleBoer
 {
-    partial class Form2
+    partial class FrmProd
     {
         /// <summary>
         /// Required designer variable.
@@ -341,7 +341,7 @@
             this.dateTimePicker3.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker3.TabIndex = 62;
             // 
-            // Form2
+            // FrmProd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -359,9 +359,9 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label3);
-            this.Name = "Form2";
-            this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Name = "FrmProd";
+            this.Text = "FrmProd";
+            this.Load += new System.EventHandler(this.FrmProd_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();

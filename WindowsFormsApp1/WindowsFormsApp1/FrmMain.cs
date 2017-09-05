@@ -13,10 +13,10 @@ using System.Configuration;
 
 namespace ProdCycleBoer
 {
-    public partial class Form1 : Form
+    public partial class FrmMain : Form
     {
         Production prodTest = new Production();
-        public Form1()
+        public FrmMain()
         {
             InitializeComponent();
             dataGridView3.Visible = false;
@@ -103,7 +103,7 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form2 frm = new Form2();
+            FrmProd frm = new FrmProd();
             frm.Show();
         }
 
@@ -114,7 +114,7 @@ namespace ProdCycleBoer
            // frm.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FrmMain_Load(object sender, EventArgs e)
         {
             List<string> a = new List<string>();
 

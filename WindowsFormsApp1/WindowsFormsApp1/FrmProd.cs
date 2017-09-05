@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace ProdCycleBoer
 {
-    public partial class Form2 : Form
+    public partial class FrmProd : Form
     { //articolo su misura
-        public Form2()
+        public FrmProd()
         {
             InitializeComponent();
             //dateTimePicker3.Format = Custom
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void FrmProd_Load(object sender, EventArgs e)
         {
 
         }
