@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        Production prodTest = new Production();
         public Form1()
         {
             InitializeComponent();
@@ -115,6 +116,18 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            List<string> a = new List<string>();
+
+            a.Add("0");
+            a.Add("1");
+            a.Add("2");
+            a.Add("3");
+            a.Add("4");
+            a.Add("5");
+            a.Add("6");
+
+            Label1.Text = prodTest.AddOrder(a).ToString();
+
             dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
             dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
             dataGridView1.Rows.Add("13:30", "matteo", "svuotatore", "svuotatura", "OPQ XYZ");

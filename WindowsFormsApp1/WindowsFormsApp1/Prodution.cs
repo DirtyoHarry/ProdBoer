@@ -11,14 +11,36 @@ namespace WindowsFormsApp1
     class Production
     {
         SQLiteConnection dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
-        
-        public void AddOrder()
-        {
-            //query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
-            dbC.Open();
+        SQLiteCommand command;
 
-            dbC.Close();
-          
+        public bool AddOrder(List<string> order) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
+        {
+
+            {
+
+                dbC.Open();
+
+                command = new SQLiteCommand("INSERT INTO Orders (Name,Type,Starting_Date,Expiring_Date,Barcode,Ext_Code,Phase_ID) VALUES (@name,@Type,@SDate,@EDate,@Barcode,@Ext_Code,@Phase)", dbC);
+                command.Parameters.AddWithValue("@name", order[0]);
+                command.Parameters.AddWithValue("@Type", order[1]);
+                command.Parameters.AddWithValue("@SDate", order[2]);
+                command.Parameters.AddWithValue("@EDate", order[3]);
+                command.Parameters.AddWithValue("@Barcode", order[4]);
+                command.Parameters.AddWithValue("@Ext_Code", order[5]);
+                command.Parameters.AddWithValue("@Phase", order[6]);
+                try
+                {
+                    command.ExecuteNonQuery();
+                    return true;
+
+                }
+                catch
+                {
+                    return false;
+                }
+
+                dbC.Close();
+            }
         }
 
         public void EditOrder()
