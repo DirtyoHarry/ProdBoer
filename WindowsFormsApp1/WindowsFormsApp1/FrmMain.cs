@@ -103,7 +103,7 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FrmProd frm = new FrmProd();
+            FrmNewOrd frm = new FrmNewOrd();
             frm.Show();
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace ProdCycleBoer
 {
-    partial class FrmProd
+    partial class FrmNewOrd
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +31,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,8 +57,6 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -106,6 +106,26 @@
             this.tabPage4.Text = "Fase";
             this.tabPage4.UseVisualStyleBackColor = true;
             this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
+            // 
+            // dateTimePicker3
+            // 
+            this.dateTimePicker3.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+            this.dateTimePicker3.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker3.Location = new System.Drawing.Point(577, 145);
+            this.dateTimePicker3.Name = "dateTimePicker3";
+            this.dateTimePicker3.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker3.TabIndex = 62;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+            this.dateTimePicker2.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(351, 145);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker2.TabIndex = 47;
             // 
             // label9
             // 
@@ -321,27 +341,7 @@
             this.dateTimePicker4.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker4.TabIndex = 43;
             // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTimePicker2.CustomFormat = "dd/MM/yyyy HH:mm";
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(351, 145);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker2.TabIndex = 47;
-            // 
-            // dateTimePicker3
-            // 
-            this.dateTimePicker3.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTimePicker3.CustomFormat = "dd/MM/yyyy HH:mm";
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker3.Location = new System.Drawing.Point(577, 145);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker3.TabIndex = 62;
-            // 
-            // FrmProd
+            // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -359,8 +359,8 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label3);
-            this.Name = "FrmProd";
-            this.Text = "FrmProd";
+            this.Name = "FrmNewOrd";
+            this.Text = "Aggiungi Ordine";
             this.Load += new System.EventHandler(this.FrmProd_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);

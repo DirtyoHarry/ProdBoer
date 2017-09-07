@@ -15,9 +15,7 @@ namespace ProdCycleBoer
 
         public bool AddOrder(List<string> Aorder) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
         {
-
             {
-
                 dbC.Open();
 
                 command = new SQLiteCommand("INSERT INTO Orders (Name,Type,Starting_Date,Expiring_Date,Barcode,Ext_Code,Phase_ID) VALUES (@name,@Type,@SDate,@EDate,@Barcode,@Ext_Code,@Phase)", dbC);
@@ -41,8 +39,6 @@ namespace ProdCycleBoer
                     return false;
 
                 }
-
-                
             }
         }
 
@@ -73,6 +69,55 @@ namespace ProdCycleBoer
             }
         }
 
+        public bool AddObject(List<string> Aobject) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
+        {
+            {
+                dbC.Open();
+
+                command = new SQLiteCommand("INSERT INTO Orders (Name,Surname,ID,Specialization) VALUES (@Name,@Surname,@ID,@Specialization)", dbC);
+                command.Parameters.AddWithValue("@Name", Aobject[0]);
+                command.Parameters.AddWithValue("@Surname", Aobject[1]);
+                command.Parameters.AddWithValue("@ID", Aobject[2]);
+                command.Parameters.AddWithValue("@Specialization", Aobject[3]);
+                try
+                {
+                    command.ExecuteNonQuery();
+                    dbC.Close();
+                    return true;
+
+                }
+                catch
+                {
+                    dbC.Close();
+                    return false;
+
+                }
+            }
+        }
+
+        public bool EditObject(List<string> Eobject)
+        {
+            dbC.Open();
+
+            command = new SQLiteCommand("UPDATE Orders SET Name = @Name, Surname = @Surname, ID = @ID, Specialization = @Specialization", dbC);
+            command.Parameters.AddWithValue("@Name", Eobject[0]);
+            command.Parameters.AddWithValue("@Surname", Eobject[1]);
+            command.Parameters.AddWithValue("@ID", Eobject[2]);
+            command.Parameters.AddWithValue("@Specialization", Eobject[3]);
+            try
+            {
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
+
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
+            }
+        }
+
         public void UpdatePhase()
         {
             if (0 == 0)
@@ -81,7 +126,7 @@ namespace ProdCycleBoer
             }
         }
 
-        //OBJ,TIME
+        //TIME
     }
 
 
