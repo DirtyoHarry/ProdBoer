@@ -15,10 +15,19 @@ namespace ProdCycleBoer
 {
     public partial class FrmMain : Form
     {
+        SQLiteConnection dbC;
+        SQLiteCommand command;
+
         Production prodTest = new Production();
+
         public FrmMain()
         {
             InitializeComponent();
+
+
+            dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
+            dbC.Open();
+
             dataGridView3.Visible = false;
             dataGridView4.Visible = false;
 
@@ -93,6 +102,32 @@ namespace ProdCycleBoer
             dataGridView4.Rows[3].Cells[0].Style = empty;
             dataGridView4.Rows[4].Cells[0].Style = empty;
             dataGridView4.Rows[5].Cells[0].Style = empty;
+
+        }
+
+
+        private void ShowGrid()
+        {
+            dataGridView1.Rows.Clear();
+            //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
+
+            //  dbC.Open();
+
+            string sql = "SELECT * FROM Production order by ID";
+            command = new SQLiteCommand(sql, dbC);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            for (int i = 0; i < reader.FieldCount-1; i++) //hide ID
+            {
+                dataGridView1.Columns[i].HeaderText = reader.GetName(i+1);
+            }
+
+            while (reader.Read())
+            {
+                dataGridView1.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                Refresh();
+            }
+
 
         }
 
@@ -181,6 +216,11 @@ namespace ProdCycleBoer
             dataGridView3.Visible = true;
 
             comboBox1.SelectedIndex = 1;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            ShowGrid();
         }
     }
 }
