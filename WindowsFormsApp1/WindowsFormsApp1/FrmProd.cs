@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace ProdCycleBoer
 {
@@ -21,7 +22,7 @@ namespace ProdCycleBoer
 
         private void FrmProd_Load(object sender, EventArgs e)
         {
-
+           // cmbBoxSelObj1.SelectedIndex = 0;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -35,7 +36,7 @@ namespace ProdCycleBoer
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tabControl1.SelectedTab = tabControl1.TabPages[comboBox1.SelectedIndex];
+            txtBoxCodComm.Visible = lblCodComm.Visible = cmbBoxSelProd.SelectedIndex == 1;
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -73,10 +74,37 @@ namespace ProdCycleBoer
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAddPhase_Click(object sender, EventArgs e)
         {
-            TabPage tb = new TabPage("fase");
-            tabControl1.TabPages.Add(tb);
+            // your TabControl will be defined in your designer
+            // as will your original TabPage
+            TabPage tpOld = tabControlAddPh.SelectedTab;
+
+            TabPage tpNew = new TabPage();
+            foreach (Control c in tpOld.Controls)
+            {
+                Control cNew = (Control)Activator.CreateInstance(c.GetType());
+
+                PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(c);
+
+                foreach (PropertyDescriptor entry in pdc)
+                {
+                    object val = entry.GetValue(c);
+                    entry.SetValue(cNew, val);
+                }
+
+                // add control to new TabPage
+                tpNew.Controls.Add(cNew);
+            }
+            tpNew.BackColor = Color.White;
+            tpNew.Text = "Fase";
+            tabControlAddPh.TabPages.Add(tpNew);
+
+        }
+
+        private void btnNewObj_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
