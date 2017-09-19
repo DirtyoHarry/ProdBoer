@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace ProdCycleBoer
 {
     public partial class FrmDetails : Form
     {
@@ -18,6 +18,11 @@ namespace WindowsFormsApp1
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmDetails_Load(object sender, EventArgs e)
         {
 
         }

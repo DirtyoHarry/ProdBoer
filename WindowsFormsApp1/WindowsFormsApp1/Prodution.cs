@@ -74,23 +74,20 @@ namespace ProdCycleBoer
             {
                 dbC.Open();
 
-                command = new SQLiteCommand("INSERT INTO Orders (Name,Surname,ID,Specialization) VALUES (@Name,@Surname,@ID,@Specialization)", dbC);
+                command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization) VALUES (@Name,@Surname,@Specialization)", dbC);
                 command.Parameters.AddWithValue("@Name", Aobject[0]);
                 command.Parameters.AddWithValue("@Surname", Aobject[1]);
-                command.Parameters.AddWithValue("@ID", Aobject[2]);
-                command.Parameters.AddWithValue("@Specialization", Aobject[3]);
+                command.Parameters.AddWithValue("@Specialization", Aobject[2]);
                 try
                 {
                     command.ExecuteNonQuery();
                     dbC.Close();
                     return true;
-
                 }
                 catch
                 {
                     dbC.Close();
                     return false;
-
                 }
             }
         }
@@ -99,11 +96,10 @@ namespace ProdCycleBoer
         {
             dbC.Open();
 
-            command = new SQLiteCommand("UPDATE Orders SET Name = @Name, Surname = @Surname, ID = @ID, Specialization = @Specialization", dbC);
+            command = new SQLiteCommand("UPDATE Objs SET Name = @Name, Surname = @Surname, Specialization = @Specialization", dbC);
             command.Parameters.AddWithValue("@Name", Eobject[0]);
             command.Parameters.AddWithValue("@Surname", Eobject[1]);
-            command.Parameters.AddWithValue("@ID", Eobject[2]);
-            command.Parameters.AddWithValue("@Specialization", Eobject[3]);
+            command.Parameters.AddWithValue("@Specialization", Eobject[2]);
             try
             {
                 command.ExecuteNonQuery();
@@ -125,9 +121,6 @@ namespace ProdCycleBoer
                 //Update query(Objs: Phase = Phase +- 1)
             }
         }
-
         //TIME
     }
-
-
 }
