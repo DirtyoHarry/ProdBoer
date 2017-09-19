@@ -30,7 +30,8 @@
         {
             this.label3 = new System.Windows.Forms.Label();
             this.tabControlAddPh = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tpNew = new System.Windows.Forms.TabPage();
+            this.btnNewObj = new System.Windows.Forms.Button();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
             this.lblTo = new System.Windows.Forms.Label();
@@ -54,9 +55,8 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
-            this.btnNewObj = new System.Windows.Forms.Button();
             this.tabControlAddPh.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tpNew.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -71,33 +71,44 @@
             // 
             // tabControlAddPh
             // 
-            this.tabControlAddPh.Controls.Add(this.tabPage1);
+            this.tabControlAddPh.Controls.Add(this.tpNew);
             this.tabControlAddPh.Location = new System.Drawing.Point(10, 121);
             this.tabControlAddPh.Name = "tabControlAddPh";
             this.tabControlAddPh.SelectedIndex = 0;
             this.tabControlAddPh.Size = new System.Drawing.Size(885, 490);
             this.tabControlAddPh.TabIndex = 17;
             // 
-            // tabPage1
+            // tpNew
             // 
-            this.tabPage1.Controls.Add(this.btnNewObj);
-            this.tabPage1.Controls.Add(this.dateTimePickerTo);
-            this.tabPage1.Controls.Add(this.dateTimePickerFrom);
-            this.tabPage1.Controls.Add(this.lblTo);
-            this.tabPage1.Controls.Add(this.lblFrom);
-            this.tabPage1.Controls.Add(this.cmbBoxWriteObj1);
-            this.tabPage1.Controls.Add(this.cmbBoxSelObj1);
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.textBox3);
-            this.tabPage1.Controls.Add(this.btnAddPhase);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(877, 464);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "Fase";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Click += new System.EventHandler(this.tabPage4_Click);
+            this.tpNew.Controls.Add(this.btnNewObj);
+            this.tpNew.Controls.Add(this.dateTimePickerTo);
+            this.tpNew.Controls.Add(this.dateTimePickerFrom);
+            this.tpNew.Controls.Add(this.lblTo);
+            this.tpNew.Controls.Add(this.lblFrom);
+            this.tpNew.Controls.Add(this.cmbBoxWriteObj1);
+            this.tpNew.Controls.Add(this.cmbBoxSelObj1);
+            this.tpNew.Controls.Add(this.button2);
+            this.tpNew.Controls.Add(this.label6);
+            this.tpNew.Controls.Add(this.textBox3);
+            this.tpNew.Controls.Add(this.btnAddPhase);
+            this.tpNew.Location = new System.Drawing.Point(4, 22);
+            this.tpNew.Name = "tpNew";
+            this.tpNew.Size = new System.Drawing.Size(877, 464);
+            this.tpNew.TabIndex = 3;
+            this.tpNew.Text = "Fase";
+            this.tpNew.UseVisualStyleBackColor = true;
+            this.tpNew.Click += new System.EventHandler(this.tabPage4_Click);
+            // 
+            // btnNewObj
+            // 
+            this.btnNewObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewObj.Location = new System.Drawing.Point(755, 88);
+            this.btnNewObj.Name = "btnNewObj";
+            this.btnNewObj.Size = new System.Drawing.Size(33, 33);
+            this.btnNewObj.TabIndex = 63;
+            this.btnNewObj.Text = "+";
+            this.btnNewObj.UseVisualStyleBackColor = true;
+            this.btnNewObj.Click += new System.EventHandler(this.btnNewObj_Click);
             // 
             // dateTimePickerTo
             // 
@@ -317,17 +328,6 @@
             this.lblCodComm.Text = "Codice commessa";
             this.lblCodComm.Visible = false;
             // 
-            // btnNewObj
-            // 
-            this.btnNewObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewObj.Location = new System.Drawing.Point(755, 88);
-            this.btnNewObj.Name = "btnNewObj";
-            this.btnNewObj.Size = new System.Drawing.Size(33, 33);
-            this.btnNewObj.TabIndex = 63;
-            this.btnNewObj.Text = "+";
-            this.btnNewObj.UseVisualStyleBackColor = true;
-            this.btnNewObj.Click += new System.EventHandler(this.btnNewObj_Click);
-            // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,8 +352,8 @@
             this.Text = "Aggiungi Ordine";
             this.Load += new System.EventHandler(this.FrmProd_Load);
             this.tabControlAddPh.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tpNew.ResumeLayout(false);
+            this.tpNew.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,7 +364,7 @@
         private System.Windows.Forms.TabControl tabControlAddPh;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tpNew;
         private System.Windows.Forms.ComboBox cmbBoxSelProd;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
