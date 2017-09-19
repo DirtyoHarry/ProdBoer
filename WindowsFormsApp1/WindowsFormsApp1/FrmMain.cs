@@ -106,15 +106,19 @@ namespace ProdCycleBoer
         }
 
 
-        private void ShowGrid()
+        private void ShowDaily(long input)
         {
             dataGridView1.Rows.Clear();
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
             //  dbC.Open();
 
-            string sql = "SELECT * FROM Production order by ID";
+            string sql = "SELECT * FROM Production Where Day_ID = @ID order by Time_ID";
+           
             command = new SQLiteCommand(sql, dbC);
+
+            command.Parameters.AddWithValue("@ID", input);
+
             SQLiteDataReader reader = command.ExecuteReader();
 
             for (int i = 0; i < reader.FieldCount-1; i++) //hide ID
@@ -220,7 +224,20 @@ namespace ProdCycleBoer
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            ShowGrid();
+            
         }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+            ShowDaily(dateTimePicker1.Value.Date.Ticks);
+        }
+
+       // private void tickmanager
     }
 }

@@ -113,7 +113,7 @@ namespace ProdCycleBoer
             // 
             // tabPage1
             // 
-            Button 
+            
             this.tpNew.Controls.Add(this.btnNewObj);
             this.tpNew.Controls.Add(this.dateTimePickerTo);
             this.tpNew.Controls.Add(this.dateTimePickerFrom);
