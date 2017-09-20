@@ -431,7 +431,7 @@
             // 
             // btnAddObj
             // 
-            this.btnAddObj.Location = new System.Drawing.Point(493, 12);
+            this.btnAddObj.Location = new System.Drawing.Point(515, 12);
             this.btnAddObj.Name = "btnAddObj";
             this.btnAddObj.Size = new System.Drawing.Size(92, 29);
             this.btnAddObj.TabIndex = 3;

@@ -31,6 +31,7 @@
             this.lblNewProd = new System.Windows.Forms.Label();
             this.tabControlAddPh = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnRemPhase = new System.Windows.Forms.Button();
             this.btnAddObj = new System.Windows.Forms.Button();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
@@ -55,7 +56,6 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
-            this.btnRemPhase = new System.Windows.Forms.Button();
             this.tabControlAddPh.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -100,6 +100,16 @@
             this.tabPage1.Text = "Fase 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage4_Click);
+            // 
+            // btnRemPhase
+            // 
+            this.btnRemPhase.Location = new System.Drawing.Point(824, 3);
+            this.btnRemPhase.Name = "btnRemPhase";
+            this.btnRemPhase.Size = new System.Drawing.Size(50, 50);
+            this.btnRemPhase.TabIndex = 64;
+            this.btnRemPhase.Text = "-";
+            this.btnRemPhase.UseVisualStyleBackColor = true;
+            this.btnRemPhase.Click += new System.EventHandler(this.btnRemPhase_Click);
             // 
             // btnAddObj
             // 
@@ -181,6 +191,7 @@
             this.btnSavePhase.TabIndex = 54;
             this.btnSavePhase.Text = "Salva Fase";
             this.btnSavePhase.UseVisualStyleBackColor = true;
+            this.btnSavePhase.Click += new System.EventHandler(this.btnSavePhase_Click);
             // 
             // lblNamePhase
             // 
@@ -329,16 +340,6 @@
             this.lblCodComm.TabIndex = 47;
             this.lblCodComm.Text = "Codice commessa";
             this.lblCodComm.Visible = false;
-            // 
-            // btnRemPhase
-            // 
-            this.btnRemPhase.Location = new System.Drawing.Point(824, 3);
-            this.btnRemPhase.Name = "btnRemPhase";
-            this.btnRemPhase.Size = new System.Drawing.Size(50, 50);
-            this.btnRemPhase.TabIndex = 64;
-            this.btnRemPhase.Text = "-";
-            this.btnRemPhase.UseVisualStyleBackColor = true;
-            this.btnRemPhase.Click += new System.EventHandler(this.btnRemPhase_Click);
             // 
             // FrmNewOrd
             // 
