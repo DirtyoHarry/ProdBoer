@@ -56,6 +56,7 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
+            this.lblObjUsed = new System.Windows.Forms.Label();
             this.tabControlAddPh.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblObjUsed);
             this.tabPage1.Controls.Add(this.btnRemPhase);
             this.tabPage1.Controls.Add(this.btnAddObj);
             this.tabPage1.Controls.Add(this.dateTimePickerTo);
@@ -341,6 +343,15 @@
             this.lblCodComm.Text = "Codice commessa";
             this.lblCodComm.Visible = false;
             // 
+            // lblObjUsed
+            // 
+            this.lblObjUsed.AutoSize = true;
+            this.lblObjUsed.Location = new System.Drawing.Point(8, 76);
+            this.lblObjUsed.Name = "lblObjUsed";
+            this.lblObjUsed.Size = new System.Drawing.Size(156, 13);
+            this.lblObjUsed.TabIndex = 65;
+            this.lblObjUsed.Text = "Lavoratori e macchinari utilizzati";
+            // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -401,5 +412,6 @@
         private System.Windows.Forms.Label lblTo;
         private System.Windows.Forms.Button btnAddObj;
         private System.Windows.Forms.Button btnRemPhase;
+        private System.Windows.Forms.Label lblObjUsed;
     }
 }

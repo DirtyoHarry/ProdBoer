@@ -14,16 +14,17 @@ namespace ProdCycleBoer
     public partial class FrmNewOrd : Form
     {
         //articolo su misura
-        int nOftg = 1;
-        int nOftgTot = 0;
+        int nOftg = 1; //numero di tabPages aperte al momento
+        int nOftgTot = 0; //numero di tabPages create in totale
 
         List<Button> newBtnAddObj;
         List<DateTimePicker> newDateTimePickerTo;
         List<DateTimePicker> newdateTimePickerFrom;
         List<Label> newLblTo;
         List<Label> newLblFrom;
-        List<ComboBox> newCmbBoxWriteObj1;
-        List<ComboBox> newCmbBoxSelObj1;
+        List<Label> newlblObjUsed;        
+        List<ComboBox> newCmbBoxWriteObj;
+        List<ComboBox> newCmbBoxSelObj;
         List<Button> newBtnSavePhase;
         List<Label> newLblNamePhase;
         List<TextBox> newTxtBoxNamePhase;
@@ -88,7 +89,19 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            /*for (int i = 0; i < nOftg-1; i++)
+            {
 
+            }*/
+
+            //salva una fase
+            List<List<Button>> newCmbBoxWriteObj1 = new List<List<Button>>();
+            List <Button> nnewCmbBoxWriteObj1 = new List<Button>();
+            newCmbBoxWriteObj1.Add(nnewCmbBoxWriteObj1);
+            Button nnnewCmbBoxWriteObj1 = new Button();
+            nnewCmbBoxWriteObj1.Add(nnnewCmbBoxWriteObj1);
+            nnnewCmbBoxWriteObj1.Text = "test";
+            MessageBox.Show(newCmbBoxWriteObj1[1][1].Text);
         }
 
         private void ListOfObjs()
@@ -98,13 +111,19 @@ namespace ProdCycleBoer
             newdateTimePickerFrom = new List<DateTimePicker>();
             newLblTo = new List<Label>();
             newLblFrom = new List<Label>();
-            newCmbBoxWriteObj1 = new List<ComboBox>();
-            newCmbBoxSelObj1 = new List<ComboBox>();
+            newlblObjUsed = new List<Label>();            
+            newCmbBoxWriteObj = new List<ComboBox>();
+            newCmbBoxSelObj = new List<ComboBox>();
             newBtnSavePhase = new List<Button>();
             newLblNamePhase = new List<Label>();
             newTxtBoxNamePhase = new List<TextBox>();
             newBtnAddPhase = new List<Button>();
             newBtnRemPhase = new List<Button>();
+        }
+
+        private void PhaseObjRow()
+        {
+
         }
 
         private void btnAddPhase_Click(object sender, EventArgs e)
@@ -133,10 +152,12 @@ namespace ProdCycleBoer
             newLblTo.Add(nnewLblTo);
             Label nnewLblFrom = new Label();
             newLblFrom.Add(nnewLblFrom);
+            Label nnewlblObjUsed = new Label();
+            newlblObjUsed.Add(nnewlblObjUsed);            
             ComboBox nnewCmbBoxWriteObj1 = new ComboBox();
-            newCmbBoxWriteObj1.Add(nnewCmbBoxWriteObj1);
+            newCmbBoxWriteObj.Add(nnewCmbBoxWriteObj1);
             ComboBox nnewCmbBoxSelObj1 = new ComboBox();
-            newCmbBoxSelObj1.Add(nnewCmbBoxSelObj1);
+            newCmbBoxSelObj.Add(nnewCmbBoxSelObj1);
             Button nnewBtnSavePhase = new Button();
             newBtnSavePhase.Add(nnewBtnSavePhase);
             Label nnewLblNamePhase = new Label();
@@ -148,11 +169,13 @@ namespace ProdCycleBoer
             Button nnewBtnRemPhase = new Button();
             newBtnRemPhase.Add(nnewBtnRemPhase);
 
+
             tabPageX.Controls.Add(nnewBtnAddObj);
             tabPageX.Controls.Add(nnewDateTimePickerTo);
             tabPageX.Controls.Add(nnewdateTimePickerFrom);
             tabPageX.Controls.Add(nnewLblTo);
             tabPageX.Controls.Add(nnewLblFrom);
+            tabPageX.Controls.Add(nnewlblObjUsed); 
             tabPageX.Controls.Add(nnewCmbBoxWriteObj1);
             tabPageX.Controls.Add(nnewCmbBoxSelObj1);
             tabPageX.Controls.Add(nnewBtnSavePhase);
@@ -161,10 +184,10 @@ namespace ProdCycleBoer
             tabPageX.Controls.Add(nnewBtnAddPhase);
             tabPageX.Controls.Add(nnewBtnRemPhase);
             tabPageX.Location = new System.Drawing.Point(4, 22);
-            tabPageX.Name = "tabPage" + (nOftgTot+2);
+            tabPageX.Name = "tabPage" + (nOftgTot + 2);
             tabPageX.Size = new System.Drawing.Size(877, 464);
             tabPageX.TabIndex = 3;
-            tabPageX.Text = "Fase " + (nOftgTot+2);
+            tabPageX.Text = "Fase " + (nOftgTot + 2);
             tabPageX.UseVisualStyleBackColor = true;
             tabPageX.Click += new System.EventHandler(this.tabPage4_Click);
             // 
@@ -217,28 +240,37 @@ namespace ProdCycleBoer
             newLblFrom[nOftgTot].TabIndex = 60;
             newLblFrom[nOftgTot].Text = "Da";
             // 
+            // lblObjUsed
+            // 
+            newlblObjUsed[nOftgTot].AutoSize = true;
+            newlblObjUsed[nOftgTot].Location = new System.Drawing.Point(8, 76);
+            newlblObjUsed[nOftgTot].Name = "lblObjUsed";
+            newlblObjUsed[nOftgTot].Size = new System.Drawing.Size(156, 13);
+            newlblObjUsed[nOftgTot].TabIndex = 65;
+            newlblObjUsed[nOftgTot].Text = "Lavoratori e macchinari utilizzati:";
+            // 
             // cmbBoxWriteObj1
             // 
-            newCmbBoxWriteObj1[nOftgTot].FormattingEnabled = true;
-            newCmbBoxWriteObj1[nOftgTot].Items.AddRange(new object[] {
+            newCmbBoxWriteObj[nOftgTot].FormattingEnabled = true;
+            newCmbBoxWriteObj[nOftgTot].Items.AddRange(new object[] {
             "Giovanni",
             "Paolo"});
-            newCmbBoxWriteObj1[nOftgTot].Location = new System.Drawing.Point(133, 95);
-            newCmbBoxWriteObj1[nOftgTot].Name = "cmbBoxWriteObj1";
-            newCmbBoxWriteObj1[nOftgTot].Size = new System.Drawing.Size(157, 21);
-            newCmbBoxWriteObj1[nOftgTot].TabIndex = 56;
+            newCmbBoxWriteObj[nOftgTot].Location = new System.Drawing.Point(133, 95);
+            newCmbBoxWriteObj[nOftgTot].Name = "cmbBoxWriteObj1";
+            newCmbBoxWriteObj[nOftgTot].Size = new System.Drawing.Size(157, 21);
+            newCmbBoxWriteObj[nOftgTot].TabIndex = 56;
             // 
             // cmbBoxSelObj1
             // 
-            newCmbBoxSelObj1[nOftgTot].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            newCmbBoxSelObj1[nOftgTot].FormattingEnabled = true;
-            newCmbBoxSelObj1[nOftgTot].Items.AddRange(new object[] {
+            newCmbBoxSelObj[nOftgTot].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            newCmbBoxSelObj[nOftgTot].FormattingEnabled = true;
+            newCmbBoxSelObj[nOftgTot].Items.AddRange(new object[] {
             "Lavoratore",
             "Macchinario"});
-            newCmbBoxSelObj1[nOftgTot].Location = new System.Drawing.Point(6, 95);
-            newCmbBoxSelObj1[nOftgTot].Name = "cmbBoxSelObj1";
-            newCmbBoxSelObj1[nOftgTot].Size = new System.Drawing.Size(121, 21);
-            newCmbBoxSelObj1[nOftgTot].TabIndex = 55;
+            newCmbBoxSelObj[nOftgTot].Location = new System.Drawing.Point(6, 95);
+            newCmbBoxSelObj[nOftgTot].Name = "cmbBoxSelObj1";
+            newCmbBoxSelObj[nOftgTot].Size = new System.Drawing.Size(121, 21);
+            newCmbBoxSelObj[nOftgTot].TabIndex = 55;
             // 
             // btnSavePhase
             // 
