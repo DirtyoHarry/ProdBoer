@@ -31,6 +31,7 @@
             this.lblNewProd = new System.Windows.Forms.Label();
             this.tabControlAddPh = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblObjUsed = new System.Windows.Forms.Label();
             this.btnRemPhase = new System.Windows.Forms.Button();
             this.btnAddObj = new System.Windows.Forms.Button();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
@@ -39,7 +40,6 @@
             this.lblFrom = new System.Windows.Forms.Label();
             this.cmbBoxWriteObj1 = new System.Windows.Forms.ComboBox();
             this.cmbBoxSelObj1 = new System.Windows.Forms.ComboBox();
-            this.btnSavePhase = new System.Windows.Forms.Button();
             this.lblNamePhase = new System.Windows.Forms.Label();
             this.txtBoxNamePhase = new System.Windows.Forms.TextBox();
             this.btnAddPhase = new System.Windows.Forms.Button();
@@ -56,7 +56,6 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
-            this.lblObjUsed = new System.Windows.Forms.Label();
             this.tabControlAddPh.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -91,7 +90,6 @@
             this.tabPage1.Controls.Add(this.lblFrom);
             this.tabPage1.Controls.Add(this.cmbBoxWriteObj1);
             this.tabPage1.Controls.Add(this.cmbBoxSelObj1);
-            this.tabPage1.Controls.Add(this.btnSavePhase);
             this.tabPage1.Controls.Add(this.lblNamePhase);
             this.tabPage1.Controls.Add(this.txtBoxNamePhase);
             this.tabPage1.Controls.Add(this.btnAddPhase);
@@ -102,6 +100,15 @@
             this.tabPage1.Text = "Fase 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage4_Click);
+            // 
+            // lblObjUsed
+            // 
+            this.lblObjUsed.AutoSize = true;
+            this.lblObjUsed.Location = new System.Drawing.Point(8, 76);
+            this.lblObjUsed.Name = "lblObjUsed";
+            this.lblObjUsed.Size = new System.Drawing.Size(156, 13);
+            this.lblObjUsed.TabIndex = 65;
+            this.lblObjUsed.Text = "Lavoratori e macchinari utilizzati";
             // 
             // btnRemPhase
             // 
@@ -184,16 +191,6 @@
             this.cmbBoxSelObj1.Name = "cmbBoxSelObj1";
             this.cmbBoxSelObj1.Size = new System.Drawing.Size(121, 21);
             this.cmbBoxSelObj1.TabIndex = 55;
-            // 
-            // btnSavePhase
-            // 
-            this.btnSavePhase.Location = new System.Drawing.Point(712, 3);
-            this.btnSavePhase.Name = "btnSavePhase";
-            this.btnSavePhase.Size = new System.Drawing.Size(50, 50);
-            this.btnSavePhase.TabIndex = 54;
-            this.btnSavePhase.Text = "Salva Fase";
-            this.btnSavePhase.UseVisualStyleBackColor = true;
-            this.btnSavePhase.Click += new System.EventHandler(this.btnSavePhase_Click);
             // 
             // lblNamePhase
             // 
@@ -343,15 +340,6 @@
             this.lblCodComm.Text = "Codice commessa";
             this.lblCodComm.Visible = false;
             // 
-            // lblObjUsed
-            // 
-            this.lblObjUsed.AutoSize = true;
-            this.lblObjUsed.Location = new System.Drawing.Point(8, 76);
-            this.lblObjUsed.Name = "lblObjUsed";
-            this.lblObjUsed.Size = new System.Drawing.Size(156, 13);
-            this.lblObjUsed.TabIndex = 65;
-            this.lblObjUsed.Text = "Lavoratori e macchinari utilizzati";
-            // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,7 +390,6 @@
         private System.Windows.Forms.Label lblFrom;
         private System.Windows.Forms.ComboBox cmbBoxWriteObj1;
         private System.Windows.Forms.ComboBox cmbBoxSelObj1;
-        private System.Windows.Forms.Button btnSavePhase;
         private System.Windows.Forms.Label lblNamePhase;
         private System.Windows.Forms.TextBox txtBoxNamePhase;
         private System.Windows.Forms.TextBox txtBoxCodComm;

@@ -95,13 +95,34 @@ namespace ProdCycleBoer
             }*/
 
             //salva una fase
-            List<List<Button>> newCmbBoxWriteObj1 = new List<List<Button>>();
-            List <Button> nnewCmbBoxWriteObj1 = new List<Button>();
-            newCmbBoxWriteObj1.Add(nnewCmbBoxWriteObj1);
-            Button nnnewCmbBoxWriteObj1 = new Button();
-            nnewCmbBoxWriteObj1.Add(nnnewCmbBoxWriteObj1);
-            nnnewCmbBoxWriteObj1.Text = "test";
-            MessageBox.Show(newCmbBoxWriteObj1[1][1].Text);
+            List<List<Button>> newCmbBoxWriteObj1 = new List<List<Button>>(); //lista matrice principale
+
+            List <Button> CmbBoxWriteObjPhase1 = new List<Button>(); //lista matrice secondaria della fase x
+
+            newCmbBoxWriteObj1.Add(CmbBoxWriteObjPhase1);
+            Button newCmbBoxWriteObjPhase1 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
+            CmbBoxWriteObjPhase1.Add(newCmbBoxWriteObjPhase1);
+            newCmbBoxWriteObjPhase1.Text = "phase 1 button 1";
+            MessageBox.Show(newCmbBoxWriteObj1[0][0].Text);
+            Refresh();
+
+            newCmbBoxWriteObjPhase1 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
+            CmbBoxWriteObjPhase1.Add(newCmbBoxWriteObjPhase1);
+            newCmbBoxWriteObjPhase1.Text = "phase 1 button 2";
+            MessageBox.Show(newCmbBoxWriteObj1[0][1].Text);
+            Refresh();
+
+
+            List<Button> CmbBoxWriteObjPhase2 = new List<Button>(); //lista matrice secondaria della fase x
+
+            newCmbBoxWriteObj1.Add(CmbBoxWriteObjPhase2);
+            Button newCmbBoxWriteObjPhase2 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
+            CmbBoxWriteObjPhase2.Add(newCmbBoxWriteObjPhase2);
+            newCmbBoxWriteObjPhase2.Text = "phase 2 button 1";
+
+            MessageBox.Show(newCmbBoxWriteObj1[1][0].Text);
+            Refresh();
+
         }
 
         private void ListOfObjs()
