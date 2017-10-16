@@ -1,90 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace ProdCycleBoer
 {
     public partial class FrmNewOrd : Form
     {
         //articolo su misura
-        int nOftg = 1; //numero di tabPages aperte al momento
-        int nOftgTot = 0; //numero di tabPages create in totale
+        int nOfTabPages = 0; //numero di tabPages create in totale
+        int y = 100; //altezza obj in una tabPages
+        int d = 30; //(distance) --> distanza tra obj 
 
-        List<Button> newBtnAddObj;
-        List<DateTimePicker> newDateTimePickerTo;
-        List<DateTimePicker> newdateTimePickerFrom;
-        List<Label> newLblTo;
-        List<Label> newLblFrom;
-        List<Label> newlblObjUsed;        
-        List<ComboBox> newCmbBoxWriteObj;
-        List<ComboBox> newCmbBoxSelObj;
-        List<Button> newBtnSavePhase;
-        List<Label> newLblNamePhase;
-        List<TextBox> newTxtBoxNamePhase;
-        List<Button> newBtnAddPhase;
-        List<Button> newBtnRemPhase;
+        List<List<ComboBox>> _cmbBoxSelObj;
+        List<ComboBox> _cmbBoxSelObjPhaseX;
+        List<List<ComboBox>> _cmbBoxWriteObj;
+        List<ComboBox> _cmbBoxWriteObjPhaseX;
+        List<List<Label>> _lblFrom;
+        List<Label> _lblFromPhaseX;
+        List<List<DateTimePicker>> _dateTimePickerFrom;
+        List<DateTimePicker> _dateTimePickerFromPhaseX;
+        List<List<Label>> _lblTo;
+        List<Label> _lblToPhaseX;
+        List<List<DateTimePicker>> _dateTimePickerTo;
+        List<DateTimePicker> _dateTimePickerToPhaseX;
+
+        List<Label> _LblNamePhase;
+        List<TextBox> _TxtBoxNamePhase;
+        List<Label> _lblObjUsed;
+        List<Button> _BtnAddPhase;
+        List<Button> _BtnRemPhase;
+        List<Button> _BtnAddObj;
+        List<Button> _BtnRemoveObj;
 
         public FrmNewOrd()
         {
             InitializeComponent();
-            //dateTimePicker3.Format = Custom
         }
 
         private void FrmProd_Load(object sender, EventArgs e)
         {
-            // cmbBoxSelObj1.SelectedIndex = 0;
-            ListOfObjs();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
+            InitializeObjList();
+            AddPhase();
+            ShowAllPhases();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtBoxCodComm.Visible = lblCodComm.Visible = cmbBoxSelProd.SelectedIndex == 1;
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -95,268 +59,440 @@ namespace ProdCycleBoer
             }*/
 
             //salva una fase
-            List<List<Button>> newCmbBoxWriteObj1 = new List<List<Button>>(); //lista matrice principale
-
-            List <Button> CmbBoxWriteObjPhase1 = new List<Button>(); //lista matrice secondaria della fase x
-
-            newCmbBoxWriteObj1.Add(CmbBoxWriteObjPhase1);
-            Button newCmbBoxWriteObjPhase1 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
-            CmbBoxWriteObjPhase1.Add(newCmbBoxWriteObjPhase1);
-            newCmbBoxWriteObjPhase1.Text = "phase 1 button 1";
-            MessageBox.Show(newCmbBoxWriteObj1[0][0].Text);
-            Refresh();
-
-            newCmbBoxWriteObjPhase1 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
-            CmbBoxWriteObjPhase1.Add(newCmbBoxWriteObjPhase1);
-            newCmbBoxWriteObjPhase1.Text = "phase 1 button 2";
-            MessageBox.Show(newCmbBoxWriteObj1[0][1].Text);
-            Refresh();
-
-
-            List<Button> CmbBoxWriteObjPhase2 = new List<Button>(); //lista matrice secondaria della fase x
-
-            newCmbBoxWriteObj1.Add(CmbBoxWriteObjPhase2);
-            Button newCmbBoxWriteObjPhase2 = new Button(); //oggetto temporaneo della lista matrice secondaria della fase x
-            CmbBoxWriteObjPhase2.Add(newCmbBoxWriteObjPhase2);
-            newCmbBoxWriteObjPhase2.Text = "phase 2 button 1";
-
-            MessageBox.Show(newCmbBoxWriteObj1[1][0].Text);
-            Refresh();
-
         }
 
-        private void ListOfObjs()
+        private void InitializeObjList()
         {
-            newBtnAddObj = new List<Button>();
-            newDateTimePickerTo = new List<DateTimePicker>();
-            newdateTimePickerFrom = new List<DateTimePicker>();
-            newLblTo = new List<Label>();
-            newLblFrom = new List<Label>();
-            newlblObjUsed = new List<Label>();            
-            newCmbBoxWriteObj = new List<ComboBox>();
-            newCmbBoxSelObj = new List<ComboBox>();
-            newBtnSavePhase = new List<Button>();
-            newLblNamePhase = new List<Label>();
-            newTxtBoxNamePhase = new List<TextBox>();
-            newBtnAddPhase = new List<Button>();
-            newBtnRemPhase = new List<Button>();
+            //inizializza gli oggetti --> fa le new
+            _cmbBoxSelObj = new List<List<ComboBox>>(); //lista matrice principale
+            _cmbBoxWriteObj = new List<List<ComboBox>>(); //lista matrice principale  
+            _lblFrom = new List<List<Label>>(); //lista matrice principale
+            _dateTimePickerFrom = new List<List<DateTimePicker>>(); //lista matrice principale 
+            _lblTo = new List<List<Label>>(); //lista matrice principale
+            _dateTimePickerTo = new List<List<DateTimePicker>>(); //lista matrice principale
+
+            _LblNamePhase = new List<Label>();
+            _TxtBoxNamePhase = new List<TextBox>();
+            _lblObjUsed = new List<Label>();
+            _BtnAddPhase = new List<Button>();
+            _BtnRemPhase = new List<Button>();
+            _BtnAddObj = new List<Button>();
+            _BtnRemoveObj = new List<Button>();
         }
 
-        private void PhaseObjRow()
+        private void AddListToMainList()
         {
-
-        }
-
-        private void btnAddPhase_Click(object sender, EventArgs e)
-        {
-            nOftg++;
-            TabPage tabPageX = new TabPage();
-            // 
-            // tabControlAddPh
-            // 
-            this.tabControlAddPh.Controls.Add(tabPageX);
-            this.tabControlAddPh.Location = new System.Drawing.Point(10, 121);
-            this.tabControlAddPh.Name = "tabControlAddPh";
-            this.tabControlAddPh.SelectedIndex = 0;
-            this.tabControlAddPh.Size = new System.Drawing.Size(885, 490);
-            this.tabControlAddPh.TabIndex = 17;
-            // 
-            // tabPageX
-            // 
-            Button nnewBtnAddObj = new Button();
-            newBtnAddObj.Add(nnewBtnAddObj);
-            DateTimePicker nnewDateTimePickerTo = new DateTimePicker();
-            newDateTimePickerTo.Add(nnewDateTimePickerTo);
-            DateTimePicker nnewdateTimePickerFrom = new DateTimePicker();
-            newdateTimePickerFrom.Add(nnewdateTimePickerFrom);
-            Label nnewLblTo = new Label();
-            newLblTo.Add(nnewLblTo);
-            Label nnewLblFrom = new Label();
-            newLblFrom.Add(nnewLblFrom);
-            Label nnewlblObjUsed = new Label();
-            newlblObjUsed.Add(nnewlblObjUsed);            
-            ComboBox nnewCmbBoxWriteObj1 = new ComboBox();
-            newCmbBoxWriteObj.Add(nnewCmbBoxWriteObj1);
-            ComboBox nnewCmbBoxSelObj1 = new ComboBox();
-            newCmbBoxSelObj.Add(nnewCmbBoxSelObj1);
-            Button nnewBtnSavePhase = new Button();
-            newBtnSavePhase.Add(nnewBtnSavePhase);
-            Label nnewLblNamePhase = new Label();
-            newLblNamePhase.Add(nnewLblNamePhase);
-            TextBox nnewTxtBoxNamePhase = new TextBox();
-            newTxtBoxNamePhase.Add(nnewTxtBoxNamePhase);
-            Button nnewBtnAddPhase = new Button();
-            newBtnAddPhase.Add(nnewBtnAddPhase);
-            Button nnewBtnRemPhase = new Button();
-            newBtnRemPhase.Add(nnewBtnRemPhase);
-
-
-            tabPageX.Controls.Add(nnewBtnAddObj);
-            tabPageX.Controls.Add(nnewDateTimePickerTo);
-            tabPageX.Controls.Add(nnewdateTimePickerFrom);
-            tabPageX.Controls.Add(nnewLblTo);
-            tabPageX.Controls.Add(nnewLblFrom);
-            tabPageX.Controls.Add(nnewlblObjUsed); 
-            tabPageX.Controls.Add(nnewCmbBoxWriteObj1);
-            tabPageX.Controls.Add(nnewCmbBoxSelObj1);
-            tabPageX.Controls.Add(nnewBtnSavePhase);
-            tabPageX.Controls.Add(nnewLblNamePhase);
-            tabPageX.Controls.Add(nnewTxtBoxNamePhase);
-            tabPageX.Controls.Add(nnewBtnAddPhase);
-            tabPageX.Controls.Add(nnewBtnRemPhase);
-            tabPageX.Location = new System.Drawing.Point(4, 22);
-            tabPageX.Name = "tabPage" + (nOftgTot + 2);
-            tabPageX.Size = new System.Drawing.Size(877, 464);
-            tabPageX.TabIndex = 3;
-            tabPageX.Text = "Fase " + (nOftgTot + 2);
-            tabPageX.UseVisualStyleBackColor = true;
-            tabPageX.Click += new System.EventHandler(this.tabPage4_Click);
-            // 
-            // btnAddObj
-            // 
-            newBtnAddObj[nOftgTot].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            newBtnAddObj[nOftgTot].Location = new System.Drawing.Point(755, 88);
-            newBtnAddObj[nOftgTot].Name = "btnNewObj";
-            newBtnAddObj[nOftgTot].Size = new System.Drawing.Size(33, 33);
-            newBtnAddObj[nOftgTot].TabIndex = 63;
-            newBtnAddObj[nOftgTot].Text = "+";
-            newBtnAddObj[nOftgTot].UseVisualStyleBackColor = true;
-            newBtnAddObj[nOftgTot].Click += new System.EventHandler(this.btnNewObj_Click);
-            // 
-            // dateTimePickerTo
-            // 
-            newDateTimePickerTo[nOftgTot].CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            newDateTimePickerTo[nOftgTot].CustomFormat = "dd/MM/yyyy HH:mm";
-            newDateTimePickerTo[nOftgTot].Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            newDateTimePickerTo[nOftgTot].Location = new System.Drawing.Point(549, 96);
-            newDateTimePickerTo[nOftgTot].Name = "dateTimePickerTo";
-            newDateTimePickerTo[nOftgTot].Size = new System.Drawing.Size(200, 20);
-            newDateTimePickerTo[nOftgTot].TabIndex = 62;
-            // 
-            // dateTimePickerFrom
-            // 
-            newdateTimePickerFrom[nOftgTot].CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            newdateTimePickerFrom[nOftgTot].CustomFormat = "dd/MM/yyyy HH:mm";
-            newdateTimePickerFrom[nOftgTot].Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            newdateTimePickerFrom[nOftgTot].Location = new System.Drawing.Point(323, 96);
-            newdateTimePickerFrom[nOftgTot].Name = "dateTimePickerFrom";
-            newdateTimePickerFrom[nOftgTot].Size = new System.Drawing.Size(200, 20);
-            newdateTimePickerFrom[nOftgTot].TabIndex = 47;
-            // 
-            // lblTo
-            // 
-            newLblTo[nOftgTot].AutoSize = true;
-            newLblTo[nOftgTot].Location = new System.Drawing.Point(529, 98);
-            newLblTo[nOftgTot].Name = "lblTo";
-            newLblTo[nOftgTot].Size = new System.Drawing.Size(14, 13);
-            newLblTo[nOftgTot].TabIndex = 61;
-            newLblTo[nOftgTot].Text = "A";
-            // 
-            // lblFrom
-            // 
-            newLblFrom[nOftgTot].AutoSize = true;
-            newLblFrom[nOftgTot].Location = new System.Drawing.Point(296, 98);
-            newLblFrom[nOftgTot].Name = "lblFrom";
-            newLblFrom[nOftgTot].Size = new System.Drawing.Size(21, 13);
-            newLblFrom[nOftgTot].TabIndex = 60;
-            newLblFrom[nOftgTot].Text = "Da";
-            // 
-            // lblObjUsed
-            // 
-            newlblObjUsed[nOftgTot].AutoSize = true;
-            newlblObjUsed[nOftgTot].Location = new System.Drawing.Point(8, 76);
-            newlblObjUsed[nOftgTot].Name = "lblObjUsed";
-            newlblObjUsed[nOftgTot].Size = new System.Drawing.Size(156, 13);
-            newlblObjUsed[nOftgTot].TabIndex = 65;
-            newlblObjUsed[nOftgTot].Text = "Lavoratori e macchinari utilizzati:";
-            // 
-            // cmbBoxWriteObj1
-            // 
-            newCmbBoxWriteObj[nOftgTot].FormattingEnabled = true;
-            newCmbBoxWriteObj[nOftgTot].Items.AddRange(new object[] {
-            "Giovanni",
-            "Paolo"});
-            newCmbBoxWriteObj[nOftgTot].Location = new System.Drawing.Point(133, 95);
-            newCmbBoxWriteObj[nOftgTot].Name = "cmbBoxWriteObj1";
-            newCmbBoxWriteObj[nOftgTot].Size = new System.Drawing.Size(157, 21);
-            newCmbBoxWriteObj[nOftgTot].TabIndex = 56;
-            // 
-            // cmbBoxSelObj1
-            // 
-            newCmbBoxSelObj[nOftgTot].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            newCmbBoxSelObj[nOftgTot].FormattingEnabled = true;
-            newCmbBoxSelObj[nOftgTot].Items.AddRange(new object[] {
-            "Lavoratore",
-            "Macchinario"});
-            newCmbBoxSelObj[nOftgTot].Location = new System.Drawing.Point(6, 95);
-            newCmbBoxSelObj[nOftgTot].Name = "cmbBoxSelObj1";
-            newCmbBoxSelObj[nOftgTot].Size = new System.Drawing.Size(121, 21);
-            newCmbBoxSelObj[nOftgTot].TabIndex = 55;
-            // 
-            // btnSavePhase
-            // 
-            newBtnSavePhase[nOftgTot].Location = new System.Drawing.Point(712, 3);
-            newBtnSavePhase[nOftgTot].Name = "btnSavePhase";
-            newBtnSavePhase[nOftgTot].Size = new System.Drawing.Size(50, 50);
-            newBtnSavePhase[nOftgTot].TabIndex = 54;
-            newBtnSavePhase[nOftgTot].Text = "Salva Fase";
-            newBtnSavePhase[nOftgTot].UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            newLblNamePhase[nOftgTot].AutoSize = true;
-            newLblNamePhase[nOftgTot].Location = new System.Drawing.Point(3, 19);
-            newLblNamePhase[nOftgTot].Name = "label6";
-            newLblNamePhase[nOftgTot].Size = new System.Drawing.Size(61, 13);
-            newLblNamePhase[nOftgTot].TabIndex = 53;
-            newLblNamePhase[nOftgTot].Text = "Nome Fase";
-            // 
-            // textBox3
-            // 
-            newTxtBoxNamePhase[nOftgTot].Location = new System.Drawing.Point(71, 16);
-            newTxtBoxNamePhase[nOftgTot].Name = "textBox3";
-            newTxtBoxNamePhase[nOftgTot].Size = new System.Drawing.Size(100, 20);
-            newTxtBoxNamePhase[nOftgTot].TabIndex = 52;
-            // 
-            // btnAddPhase
-            // 
-            newBtnAddPhase[nOftgTot].Location = new System.Drawing.Point(768, 3);
-            newBtnAddPhase[nOftgTot].Name = "btnAddPhase";
-            newBtnAddPhase[nOftgTot].Size = new System.Drawing.Size(50, 50);
-            newBtnAddPhase[nOftgTot].TabIndex = 47;
-            newBtnAddPhase[nOftgTot].Text = "+";
-            newBtnAddPhase[nOftgTot].UseVisualStyleBackColor = true;
-            newBtnAddPhase[nOftgTot].Click += new System.EventHandler(this.btnAddPhase_Click);
-            // 
-            // btnRemPhase
-            // 
-            newBtnRemPhase[nOftgTot].Location = new System.Drawing.Point(824, 3);
-            newBtnRemPhase[nOftgTot].Name = "btnRemPhase";
-            newBtnRemPhase[nOftgTot].Size = new System.Drawing.Size(50, 50);
-            newBtnRemPhase[nOftgTot].TabIndex = 64;
-            newBtnRemPhase[nOftgTot].Text = "-";
-            newBtnRemPhase[nOftgTot].UseVisualStyleBackColor = true;
-            newBtnRemPhase[nOftgTot].Click += new System.EventHandler(this.btnRemPhase_Click);
-            nOftgTot++;
+            //aggiunge una lista (temporanea, non contiene dati) alla lista principale dell'obj
+            _cmbBoxSelObjPhaseX = new List<ComboBox>();
+            _cmbBoxSelObj.Add(_cmbBoxSelObjPhaseX);
+            _cmbBoxWriteObjPhaseX = new List<ComboBox>();
+            _cmbBoxWriteObj.Add(_cmbBoxWriteObjPhaseX);
+            _lblFromPhaseX = new List<Label>();
+            _lblFrom.Add(_lblFromPhaseX);
+            _dateTimePickerFromPhaseX = new List<DateTimePicker>();
+            _dateTimePickerFrom.Add(_dateTimePickerFromPhaseX);
+            _lblToPhaseX = new List<Label>();
+            _lblTo.Add(_lblToPhaseX);
+            _dateTimePickerToPhaseX = new List<DateTimePicker>();
+            _dateTimePickerTo.Add(_dateTimePickerToPhaseX);
         }
 
         private void btnNewObj_Click(object sender, EventArgs e)
         {
+            int phase = tabControlPhases.SelectedIndex;
+            AddObject(phase);
+            ShowOnePhase(phase);
+        }
 
+        private void AddObject(int phase)
+        {
+            //ANCORA MAI TESTATO
+            //aggiungi nuovo lavoratore o macchinario
+            DateTimePicker dateTimePickerTemp = new DateTimePicker();
+            Label lblTemp = new Label();
+            ComboBox cmbBoxTemp = new ComboBox();
+            TextBox txtBoxTemp = new TextBox();
+            
+            _cmbBoxSelObj[phase].Add(cmbBoxTemp);
+            cmbBoxTemp = new ComboBox();
+            _cmbBoxWriteObj[phase].Add(cmbBoxTemp);
+            _lblFrom[phase].Add(lblTemp);
+            _dateTimePickerFrom[phase].Add(dateTimePickerTemp);
+            lblTemp = new Label();
+            _lblTo[phase].Add(lblTemp);
+            dateTimePickerTemp = new DateTimePicker();
+            _dateTimePickerTo[phase].Add(dateTimePickerTemp);
+        }
+
+        private void btnRemObj_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RemoveObject(int index)
+        {
+            //rimuovi l'ultimo lavoratore o macchinario
+        }
+
+        private void btnAddPhase_Click(object sender, EventArgs e)
+        {
+            AddPhase();
+            ShowAllPhases();
+        }
+
+        private void AddPhase()
+        {
+            //aggiungi una fase
+            nOfTabPages++;
+            Button btnTemp = new Button();
+            DateTimePicker dateTimePickerTemp = new DateTimePicker();
+            Label lblTemp = new Label();
+            ComboBox cmbBoxTemp = new ComboBox();
+            TextBox txtBoxTemp = new TextBox();
+
+            AddListToMainList();
+            _dateTimePickerToPhaseX.Add(dateTimePickerTemp);
+            dateTimePickerTemp = new DateTimePicker();
+            _dateTimePickerFromPhaseX.Add(dateTimePickerTemp);
+            _lblToPhaseX.Add(lblTemp);
+            lblTemp = new Label();
+            _lblFromPhaseX.Add(lblTemp);
+            _cmbBoxWriteObjPhaseX.Add(cmbBoxTemp);
+            cmbBoxTemp = new ComboBox();
+            _cmbBoxSelObjPhaseX.Add(cmbBoxTemp);
+
+            lblTemp = new Label();
+            _lblObjUsed.Add(lblTemp);
+            _BtnAddObj.Add(btnTemp);
+            btnTemp = new Button();
+            _BtnRemoveObj.Add(btnTemp);
+            lblTemp = new Label();
+            _LblNamePhase.Add(lblTemp);
+            _TxtBoxNamePhase.Add(txtBoxTemp);
+            btnTemp = new Button();
+            _BtnAddPhase.Add(btnTemp);
+            btnTemp = new Button();
+            _BtnRemPhase.Add(btnTemp);
         }
 
         private void btnRemPhase_Click(object sender, EventArgs e)
         {
-            if (nOftg > 1)
+            RemovePhase();
+            ShowAllPhases();
+        }
+
+        private void RemovePhase()
+        {
+            //togli una fase
+            if (nOfTabPages > 1)
             {
-                nOftg--;
-                this.tabControlAddPh.Controls.RemoveAt(tabControlAddPh.SelectedIndex);
+                for (int i = tabControlPhases.SelectedIndex; i < nOfTabPages - 1; i++)
+                {
+                    _BtnAddObj[i] = _BtnAddObj[i + 1];
+                    _BtnRemoveObj[i] = _BtnRemoveObj[i + 1];
+                    _dateTimePickerTo[i][0] = _dateTimePickerTo[i + 1][0];
+                    _dateTimePickerFrom[i][0] = _dateTimePickerFrom[i + 1][0];
+                    _lblTo[i][0] = _lblTo[i + 1][0];
+                    _lblFrom[i][0] = _lblFrom[i + 1][0];
+                    _lblObjUsed[i] = _lblObjUsed[i + 1];
+                    _cmbBoxWriteObj[i][0] = _cmbBoxWriteObj[i + 1][0];
+                    _cmbBoxSelObj[i][0] = _cmbBoxSelObj[i + 1][0];
+                    _LblNamePhase[i] = _LblNamePhase[i + 1];
+                    _TxtBoxNamePhase[i] = _TxtBoxNamePhase[i + 1];
+                    _BtnAddPhase[i] = _BtnAddPhase[i + 1];
+                    _BtnRemPhase[i] = _BtnRemPhase[i + 1];
+                }
+                nOfTabPages--;
+                RemoveObjsAt(nOfTabPages);
             }
         }
 
-        private void btnSavePhase_Click(object sender, EventArgs e)
+        private void RemoveObjsAt(int index)
         {
+            _BtnAddObj.RemoveAt(index);
+            _BtnRemoveObj.RemoveAt(index);
+            _dateTimePickerTo.RemoveAt(index);
+            _dateTimePickerFrom.RemoveAt(index);
+            _lblTo.RemoveAt(index);
+            _lblFrom.RemoveAt(index);
+            _lblObjUsed.RemoveAt(index);
+            _cmbBoxWriteObj.RemoveAt(index);
+            _cmbBoxSelObj.RemoveAt(index);
+            _LblNamePhase.RemoveAt(index);
+            _TxtBoxNamePhase.RemoveAt(index);
+            _BtnAddPhase.RemoveAt(index);
+            _BtnRemPhase.RemoveAt(index);
+        }
 
+        private void ShowOnePhase(int phase)
+        {
+            //mostra le fasi nella tabControl
+            tabControlPhases.TabPages[phase].Controls.Clear();
+            tabControlPhases.TabPages[phase].Controls.Add(_BtnAddObj[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_BtnRemoveObj[phase]);
+            for (int i = 0; i < _dateTimePickerTo[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_dateTimePickerTo[phase][i]);
+            }
+            for (int i = 0; i < _dateTimePickerFrom[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_dateTimePickerFrom[phase][i]);
+            }
+            for (int i = 0; i < _lblTo[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_lblTo[phase][i]);
+            }
+            for (int i = 0; i < _lblFrom[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_lblFrom[phase][i]);
+            }
+            tabControlPhases.TabPages[phase].Controls.Add(_lblObjUsed[phase]);
+            for (int i = 0; i < _cmbBoxWriteObj[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_cmbBoxWriteObj[phase][i]);
+            }
+            for (int i = 0; i < _cmbBoxSelObj[phase].Count; i++)
+            {
+                tabControlPhases.TabPages[phase].Controls.Add(_cmbBoxSelObj[phase][i]);
+            }
+            tabControlPhases.TabPages[phase].Controls.Add(_LblNamePhase[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_TxtBoxNamePhase[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_BtnAddPhase[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_BtnRemPhase[phase]);
+
+            ShowBtnAddObj(phase);
+            ShowBtnRemoveObj(phase);
+            ShowDateTimePickerTo(phase);
+            ShowDateTimePickerFrom(phase);
+            ShowLabelTo(phase);
+            ShowLabelFrom(phase);
+            ShowLblObjUsed(phase);
+            ShowCmbBoxWriteObj(phase);
+            ShowCmbBoxSelObj(phase);
+            ShowLblNamePhase(phase);
+            ShowTxtBoxNamePhase(phase);
+            ShowAddPhase(phase);
+            ShowRemovePhase(phase);
+        }
+
+
+        private void ShowAllPhases()
+        {
+            //mostra le fasi nella tabControl
+            tabControlPhases.Controls.Clear();
+            TabPage newTabPage;
+            for (int i = 0; i < nOfTabPages; i++)
+            {
+                newTabPage = new TabPage();
+                tabControlPhases.Controls.Add(newTabPage);
+                tabControlPhases.Location = new System.Drawing.Point(10, 121);
+                tabControlPhases.Name = "tabControlAddPh";
+                tabControlPhases.SelectedIndex = 0;
+                tabControlPhases.Size = new System.Drawing.Size(885, 490);
+                tabControlPhases.TabIndex = 17;
+
+                newTabPage.Location = new System.Drawing.Point(4, 22);
+                newTabPage.Name = "tabPage" + (i + 1);
+                newTabPage.Size = new System.Drawing.Size(877, 464);
+                newTabPage.TabIndex = 3;
+                newTabPage.Text = "Fase " + (i + 1);
+                newTabPage.UseVisualStyleBackColor = true;
+
+                ShowOnePhase(i);
+            }
+        }
+
+        private void ShowBtnAddObj(int phase)
+        {
+            _BtnAddObj[phase].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            _BtnAddObj[phase].Location = new System.Drawing.Point(755, 88);
+            _BtnAddObj[phase].Name = "btnNewObj";
+            _BtnAddObj[phase].Size = new System.Drawing.Size(33, 33);
+            _BtnAddObj[phase].TabIndex = 63;
+            _BtnAddObj[phase].Text = "+";
+            _BtnAddObj[phase].UseVisualStyleBackColor = true;
+            RemoveClickEvent(_BtnAddObj[phase]);
+            _BtnAddObj[phase].Click += new System.EventHandler(this.btnNewObj_Click);
+        }
+
+        private void ShowBtnRemoveObj(int phase)
+        {
+            _BtnRemoveObj[phase].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            _BtnRemoveObj[phase].Location = new System.Drawing.Point(790, 88);
+            _BtnRemoveObj[phase].Name = "btnRemObj";
+            _BtnRemoveObj[phase].Size = new System.Drawing.Size(33, 33);
+            _BtnRemoveObj[phase].TabIndex = 63;
+            _BtnRemoveObj[phase].Text = "-";
+            _BtnRemoveObj[phase].UseVisualStyleBackColor = true;
+            RemoveClickEvent(_BtnRemoveObj[phase]);
+            _BtnRemoveObj[phase].Click += new System.EventHandler(this.btnRemObj_Click);
+        }
+
+        private void ShowDateTimePickerTo(int phase)
+        {
+            y = 100;
+            for (int j = 0; j < _dateTimePickerTo[phase].Count; j++)
+            {
+                _dateTimePickerTo[phase][j].CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+                _dateTimePickerTo[phase][j].CustomFormat = "dd/MM/yyyy HH:mm";
+                _dateTimePickerTo[phase][j].Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+                _dateTimePickerTo[phase][j].Location = new System.Drawing.Point(549, y);
+                _dateTimePickerTo[phase][j].Name = "dateTimePickerTo";
+                _dateTimePickerTo[phase][j].Size = new System.Drawing.Size(200, 20);
+                _dateTimePickerTo[phase][j].TabIndex = 62;
+                y = y + d;
+            }
+        }
+
+        private void ShowDateTimePickerFrom(int phase)
+        {
+            y = 100;
+            for (int j = 0; j < _dateTimePickerFrom[phase].Count; j++)
+            {
+                _dateTimePickerFrom[phase][j].CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+                _dateTimePickerFrom[phase][j].CustomFormat = "dd/MM/yyyy HH:mm";
+                _dateTimePickerFrom[phase][j].Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+                _dateTimePickerFrom[phase][j].Location = new System.Drawing.Point(323, y);
+                _dateTimePickerFrom[phase][j].Name = "dateTimePickerFrom";
+                _dateTimePickerFrom[phase][j].Size = new System.Drawing.Size(200, 20);
+                _dateTimePickerFrom[phase][j].TabIndex = 47;
+                y = y + d;
+            }
+        }
+
+        private void ShowLabelTo(int phase)
+        {
+            y = 100+2;
+            for (int j = 0; j < _lblTo[phase].Count; j++)
+            {
+                _lblTo[phase][j].AutoSize = true;
+                _lblTo[phase][j].Location = new System.Drawing.Point(529, y);
+                _lblTo[phase][j].Name = "lblTo";
+                _lblTo[phase][j].Size = new System.Drawing.Size(14, 13);
+                _lblTo[phase][j].TabIndex = 61;
+                _lblTo[phase][j].Text = "A";
+                y = y + d;
+            }
+        }
+
+        private void ShowLabelFrom(int phase)
+        {
+            y = 100+2;
+            for (int j = 0; j < _lblFrom[phase].Count; j++)
+            {
+                _lblFrom[phase][j].AutoSize = true;
+                _lblFrom[phase][j].Location = new System.Drawing.Point(296, y);
+                _lblFrom[phase][j].Name = "lblFrom";
+                _lblFrom[phase][j].Size = new System.Drawing.Size(21, 13);
+                _lblFrom[phase][j].TabIndex = 60;
+                _lblFrom[phase][j].Text = "Da";
+                y = y + d;
+            }
+        }
+
+        private void ShowLblObjUsed(int phase)
+        {
+            _lblObjUsed[phase].AutoSize = true;
+            _lblObjUsed[phase].Location = new System.Drawing.Point(8, 76);
+            _lblObjUsed[phase].Name = "lblObjUsed";
+            _lblObjUsed[phase].Size = new System.Drawing.Size(156, 13);
+            _lblObjUsed[phase].TabIndex = 65;
+            _lblObjUsed[phase].Text = "Lavoratori e macchinari utilizzati:";
+        }
+
+        private void ShowCmbBoxWriteObj(int phase)
+        {
+            y = 100;
+            for (int j = 0; j < _cmbBoxWriteObj[phase].Count; j++)
+            {
+                _cmbBoxWriteObj[phase][j].FormattingEnabled = true;
+                _cmbBoxWriteObj[phase][j].Items.AddRange(new object[] { "Giovanni", "Paolo" });
+                _cmbBoxWriteObj[phase][j].Location = new System.Drawing.Point(133, y);
+                _cmbBoxWriteObj[phase][j].Name = "cmbBoxWriteObj";
+                _cmbBoxWriteObj[phase][j].Size = new System.Drawing.Size(157, 21);
+                _cmbBoxWriteObj[phase][j].TabIndex = 56;
+                y = y + d;
+            }
+        }
+
+        private void ShowCmbBoxSelObj(int phase)
+        {
+            y = 100;
+            for (int j = 0; j < _cmbBoxSelObj[phase].Count; j++)
+            {
+                _cmbBoxSelObj[phase][j].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                _cmbBoxSelObj[phase][j].FormattingEnabled = true;
+                _cmbBoxSelObj[phase][j].Items.AddRange(new object[] { "Lavoratore", "Macchinario" });
+                _cmbBoxSelObj[phase][j].Location = new System.Drawing.Point(6, y);
+                _cmbBoxSelObj[phase][j].Name = "cmbBoxSelObj";
+                _cmbBoxSelObj[phase][j].Size = new System.Drawing.Size(121, 21);
+                _cmbBoxSelObj[phase][j].TabIndex = 55;
+                y = y + d;
+            }
+        }
+
+        private void ShowLblNamePhase(int phase)
+        {
+            _LblNamePhase[phase].AutoSize = true;
+            _LblNamePhase[phase].Location = new System.Drawing.Point(3, 19);
+            _LblNamePhase[phase].Name = "label6";
+            _LblNamePhase[phase].Size = new System.Drawing.Size(61, 13);
+            _LblNamePhase[phase].TabIndex = 53;
+            _LblNamePhase[phase].Text = "Nome Fase";
+        }
+
+        private void ShowTxtBoxNamePhase(int phase)
+        {
+            _TxtBoxNamePhase[phase].Location = new System.Drawing.Point(71, 16);
+            _TxtBoxNamePhase[phase].Name = "txtBoxNamePhase";
+            _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
+            _TxtBoxNamePhase[phase].TabIndex = 52;
+        }
+
+        private void ShowAddPhase(int phase)
+        {
+            _BtnAddPhase[phase].Location = new System.Drawing.Point(768, 3);
+            _BtnAddPhase[phase].Name = "btnAddPhase";
+            _BtnAddPhase[phase].Size = new System.Drawing.Size(50, 50);
+            _BtnAddPhase[phase].TabIndex = 47;
+            _BtnAddPhase[phase].Text = "+";
+            _BtnAddPhase[phase].UseVisualStyleBackColor = true;
+            RemoveClickEvent(_BtnAddPhase[phase]);
+            _BtnAddPhase[phase].Click += new System.EventHandler(this.btnAddPhase_Click);
+        }
+
+        private void ShowRemovePhase(int phase)
+        {
+            _BtnRemPhase[phase].Location = new System.Drawing.Point(824, 3);
+            _BtnRemPhase[phase].Name = "btnRemPhase";
+            _BtnRemPhase[phase].Size = new System.Drawing.Size(50, 50);
+            _BtnRemPhase[phase].TabIndex = 64;
+            _BtnRemPhase[phase].Text = "-";
+            _BtnRemPhase[phase].UseVisualStyleBackColor = true;
+            RemoveClickEvent(_BtnRemPhase[phase]);
+            _BtnRemPhase[phase].Click += new System.EventHandler(this.btnRemPhase_Click);
+            tabControlPhases.SelectedIndex = phase;
+        }
+
+        private void RemoveClickEvent(Button b)
+        {
+            FieldInfo f1 = typeof(Control).GetField("EventClick",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            object obj = f1.GetValue(b);
+            PropertyInfo pi = b.GetType().GetProperty("Events",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            EventHandlerList list = (EventHandlerList)pi.GetValue(b, null);
+            list.RemoveHandler(obj, list[obj]);
+        }
+
+        private void BtnToDebug_Click(object sender, EventArgs e)
+        {
+            string s = "N fasi: " + nOfTabPages.ToString() + " - ";
+            for (int i = 0; i < nOfTabPages; i++)
+            {
+                s = s + _TxtBoxNamePhase[i].Text + "-";
+            }
+            MessageBox.Show(s);
         }
     }
 }
