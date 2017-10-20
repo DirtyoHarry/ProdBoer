@@ -43,7 +43,6 @@
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
             this.tabControlPhases = new System.Windows.Forms.TabControl();
-            this.BtnToDebug = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblNewProd
@@ -58,35 +57,39 @@
             // 
             // txtBoxNameProd
             // 
-            this.txtBoxNameProd.Location = new System.Drawing.Point(479, 29);
+            this.txtBoxNameProd.Location = new System.Drawing.Point(418, 39);
             this.txtBoxNameProd.Name = "txtBoxNameProd";
             this.txtBoxNameProd.Size = new System.Drawing.Size(160, 20);
             this.txtBoxNameProd.TabIndex = 9;
+            this.txtBoxNameProd.TextChanged += new System.EventHandler(this.txtBoxNameProd_TextChanged);
             // 
             // lblNameProd
             // 
             this.lblNameProd.AutoSize = true;
-            this.lblNameProd.Location = new System.Drawing.Point(380, 32);
+            this.lblNameProd.Location = new System.Drawing.Point(323, 45);
             this.lblNameProd.Name = "lblNameProd";
-            this.lblNameProd.Size = new System.Drawing.Size(77, 13);
+            this.lblNameProd.Size = new System.Drawing.Size(80, 13);
             this.lblNameProd.TabIndex = 8;
-            this.lblNameProd.Text = "Nome prodotto";
+            this.lblNameProd.Text = "Nome prodotto:";
+            this.lblNameProd.Click += new System.EventHandler(this.lblNameProd_Click);
             // 
             // txtBoxCodProd
             // 
-            this.txtBoxCodProd.Location = new System.Drawing.Point(479, 55);
+            this.txtBoxCodProd.Location = new System.Drawing.Point(418, 65);
             this.txtBoxCodProd.Name = "txtBoxCodProd";
             this.txtBoxCodProd.Size = new System.Drawing.Size(160, 20);
             this.txtBoxCodProd.TabIndex = 7;
+            this.txtBoxCodProd.TextChanged += new System.EventHandler(this.txtBoxCodProd_TextChanged);
             // 
             // lblCodProd
             // 
             this.lblCodProd.AutoSize = true;
-            this.lblCodProd.Location = new System.Drawing.Point(380, 58);
+            this.lblCodProd.Location = new System.Drawing.Point(323, 71);
             this.lblCodProd.Name = "lblCodProd";
-            this.lblCodProd.Size = new System.Drawing.Size(82, 13);
+            this.lblCodProd.Size = new System.Drawing.Size(85, 13);
             this.lblCodProd.TabIndex = 6;
-            this.lblCodProd.Text = "Codice prodotto";
+            this.lblCodProd.Text = "Codice prodotto:";
+            this.lblCodProd.Click += new System.EventHandler(this.lblCodProd_Click);
             // 
             // btnSave
             // 
@@ -162,46 +165,37 @@
             // 
             // txtBoxCodComm
             // 
-            this.txtBoxCodComm.Location = new System.Drawing.Point(479, 81);
+            this.txtBoxCodComm.Location = new System.Drawing.Point(418, 91);
             this.txtBoxCodComm.Name = "txtBoxCodComm";
             this.txtBoxCodComm.Size = new System.Drawing.Size(160, 20);
             this.txtBoxCodComm.TabIndex = 48;
             this.txtBoxCodComm.Visible = false;
+            this.txtBoxCodComm.TextChanged += new System.EventHandler(this.txtBoxCodComm_TextChanged);
             // 
             // lblCodComm
             // 
             this.lblCodComm.AutoSize = true;
-            this.lblCodComm.Location = new System.Drawing.Point(380, 84);
+            this.lblCodComm.Location = new System.Drawing.Point(323, 97);
             this.lblCodComm.Name = "lblCodComm";
-            this.lblCodComm.Size = new System.Drawing.Size(93, 13);
+            this.lblCodComm.Size = new System.Drawing.Size(96, 13);
             this.lblCodComm.TabIndex = 47;
-            this.lblCodComm.Text = "Codice commessa";
+            this.lblCodComm.Text = "Codice commessa:";
             this.lblCodComm.Visible = false;
+            this.lblCodComm.Click += new System.EventHandler(this.lblCodComm_Click);
             // 
-            // tabControlAddPh
+            // tabControlPhases
             // 
-            this.tabControlPhases.Location = new System.Drawing.Point(10, 121);
-            this.tabControlPhases.Name = "tabControlAddPh";
+            this.tabControlPhases.Location = new System.Drawing.Point(10, 117);
+            this.tabControlPhases.Name = "tabControlPhases";
             this.tabControlPhases.SelectedIndex = 0;
-            this.tabControlPhases.Size = new System.Drawing.Size(885, 490);
+            this.tabControlPhases.Size = new System.Drawing.Size(885, 494);
             this.tabControlPhases.TabIndex = 17;
-            // 
-            // BtnToDebug
-            // 
-            this.BtnToDebug.Location = new System.Drawing.Point(306, 4);
-            this.BtnToDebug.Name = "BtnToDebug";
-            this.BtnToDebug.Size = new System.Drawing.Size(75, 23);
-            this.BtnToDebug.TabIndex = 49;
-            this.BtnToDebug.Text = "per debug";
-            this.BtnToDebug.UseVisualStyleBackColor = true;
-            this.BtnToDebug.Click += new System.EventHandler(this.BtnToDebug_Click);
             // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 619);
-            this.Controls.Add(this.BtnToDebug);
             this.Controls.Add(this.txtBoxCodComm);
             this.Controls.Add(this.lblCodComm);
             this.Controls.Add(this.txtBoxNameProd);
@@ -241,6 +235,5 @@
         private System.Windows.Forms.TextBox txtBoxCodComm;
         private System.Windows.Forms.Label lblCodComm;
         private System.Windows.Forms.TabControl tabControlPhases;
-        private System.Windows.Forms.Button BtnToDebug;
     }
 }
