@@ -56,7 +56,9 @@ namespace ProdCycleBoer
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtBoxCodComm.Visible = lblCodComm.Visible = cmbBoxSelProd.SelectedIndex == 1;
+            txtBoxCodComm.Enabled = cmbBoxSelProd.SelectedIndex == 1;
+            if (cmbBoxSelProd.SelectedIndex == 0)
+            { txtBoxCodComm.Text = ""; }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -199,6 +201,7 @@ namespace ProdCycleBoer
             dateTimePickerTemp = new DateTimePicker();
             _dateTimePickerFromPhaseX.Add(dateTimePickerTemp);
             _lblToPhaseX.Add(lblTemp);
+            lblTemp = new Label();
             lblTemp = new Label();
             _lblFromPhaseX.Add(lblTemp);
             _cmbBoxWriteObjPhaseX.Add(cmbBoxTemp);
