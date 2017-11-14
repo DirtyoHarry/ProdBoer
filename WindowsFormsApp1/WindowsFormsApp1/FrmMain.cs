@@ -18,7 +18,7 @@ namespace ProdCycleBoer
         SQLiteConnection dbC;
         SQLiteCommand command;
 
-        Production prodTest = new Production();
+        Production production = new Production();
 
         public FrmMain()
         {
@@ -228,7 +228,7 @@ namespace ProdCycleBoer
 
             a.Add("1");
 
-            Label1.Text = prodTest.EditOrder(a).ToString();
+            Label1.Text = production.EditOrder(a).ToString();
 
             dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
             dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
@@ -304,6 +304,16 @@ namespace ProdCycleBoer
 
         }
 
-       // private void tickmanager
+        private void btnAddObj_Click(object sender, EventArgs e)
+        {
+            FrmAddObj frm = new FrmAddObj();
+            frm.ShowDialog();
+            if (frm.DialogResult == DialogResult.OK)
+            {
+                production.AddObject(frm.newObject); //write database
+            }
+        }
+
+        // private void tickmanager
     }
 }

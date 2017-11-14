@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp1
+﻿namespace ProdCycleBoer
 {
     partial class FrmDetails
     {
@@ -202,6 +202,7 @@
             this.Controls.Add(this.lbl1);
             this.Name = "FrmDetails";
             this.Text = "FrmOrders";
+            this.Load += new System.EventHandler(this.FrmDetails_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
