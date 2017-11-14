@@ -111,7 +111,7 @@ namespace ProdCycleBoer
             dataGridView1.Rows.Clear();
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
-            //  dbC.Open();
+            dbC.Open();
 
             string sql = "SELECT * FROM Production Where Day_ID = @ID order by Time_ID";
            
@@ -131,9 +131,70 @@ namespace ProdCycleBoer
                 dataGridView1.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
-
+            dbC.Close();
 
         }
+
+        private void ShowWeekly(DateTime input)
+        {
+            
+            dataGridView2.Rows.Clear();
+            
+            //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
+
+             dbC.Open();
+
+            string sql = "SELECT * FROM Production Where strftime('%W', @ID) = strftime('%W', Day_ID) order by Time_ID";
+
+            command = new SQLiteCommand(sql, dbC);
+
+            command.Parameters.AddWithValue("@ID", input.Day);
+
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            for (int i = 0; i < reader.FieldCount - 1; i++) //hide ID
+            {
+                dataGridView2.Columns[i].HeaderText = reader.GetName(i + 1);
+            }
+
+            while (reader.Read())
+            {
+                dataGridView2.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                Refresh();
+            }
+            dbC.Close();
+
+        }
+
+        private void ShowMonthly(DateTime input)
+        {
+            dataGridView3.Rows.Clear();
+            //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
+
+            dbC.Open();
+
+            string sql = "SELECT * FROM Production Where strftime('%m',@ID) = strftime('%m',Day_ID) order by Time_ID";
+
+            command = new SQLiteCommand(sql, dbC);
+
+            command.Parameters.AddWithValue("@ID", input);
+
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            for (int i = 0; i < reader.FieldCount - 1; i++) //hide ID
+            {
+                dataGridView3.Columns[i].HeaderText = reader.GetName(i + 1);
+            }
+
+            while (reader.Read())
+            {
+                dataGridView3.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                Refresh();
+            }
+            dbC.Close();
+
+        }
+
 
         private void chart1_Click(object sender, EventArgs e)
         {
@@ -234,8 +295,13 @@ namespace ProdCycleBoer
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-
+            dbC.Close();
             ShowDaily(dateTimePicker1.Value.Date.Ticks);
+            ShowWeekly(dateTimePicker1.Value.Date);
+            ShowMonthly(dateTimePicker1.Value.Date);
+            
+                  
+
         }
 
        // private void tickmanager
