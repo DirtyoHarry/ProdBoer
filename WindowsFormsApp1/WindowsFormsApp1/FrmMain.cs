@@ -298,8 +298,7 @@ namespace ProdCycleBoer
             dbC.Close();
             ShowDaily(dateTimePicker1.Value.Date.Ticks);
             ShowWeekly(dateTimePicker1.Value.Date);
-            ShowMonthly(dateTimePicker1.Value.Date);
-            
+            ShowMonthly(dateTimePicker1.Value.Date);         
                   
 
         }
