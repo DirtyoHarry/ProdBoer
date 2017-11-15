@@ -33,6 +33,7 @@ namespace ProdCycleBoer
                 {
                     command.ExecuteNonQuery();
                     dbC.Close();
+                    bool x = true;
                     return true;
 
                 }
