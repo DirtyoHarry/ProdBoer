@@ -33,7 +33,6 @@ namespace ProdCycleBoer
                 {
                     command.ExecuteNonQuery();
                     dbC.Close();
-                    bool x = true;
                     return true;
 
                 }
@@ -129,5 +128,55 @@ namespace ProdCycleBoer
             }
         }
         //TIME
+
+        public List<string> GetProducts(out List<int> prodType)
+        {
+            prodType = new List<int>();
+            List<string> prod = new List<string>();
+            dbC.Open();
+            try
+            {
+                command = new SQLiteCommand("SELECT Name, Measure, Type FROM Products", dbC);
+                SQLiteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    prod.Add(reader["Name"].ToString() + " - " + reader["Measure"].ToString());
+                    prodType.Add(int.Parse(reader["Type"].ToString()));
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }           
+            return prod;
+        }
+
+
+        public List<string> GetObjs(out List<int> objType)
+        {
+            objType = new List<int>();
+            List<string> obj = new List<string>();
+            dbC.Open();
+            try
+            {
+                command = new SQLiteCommand("SELECT Name, Surname, Human FROM Objs", dbC);
+                SQLiteDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string a = reader["Name"].ToString() + " " + reader["Surname"].ToString();
+                    obj.Add(reader["Name"].ToString() + " " + reader["Surname"].ToString());
+                    objType.Add(int.Parse(reader["Human"].ToString()));
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            return obj;
+        }
     }
 }

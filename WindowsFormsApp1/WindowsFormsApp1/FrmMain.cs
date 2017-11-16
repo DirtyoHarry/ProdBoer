@@ -203,7 +203,11 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FrmNewOrd frm = new FrmNewOrd();
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType);
             frm.Show();
         }
 
@@ -225,8 +229,11 @@ namespace ProdCycleBoer
             a.Add("5");
             a.Add("6");
             a.Add("7");
-
-            a.Add("1");
+            a.Add("8");
+            a.Add("8");
+            a.Add("8");
+            a.Add("9");
+            a.Add("10");
 
             Label1.Text = production.EditOrder(a).ToString();
 
@@ -285,7 +292,7 @@ namespace ProdCycleBoer
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            
+
         }
 
         private void tabPage1_Click(object sender, EventArgs e)

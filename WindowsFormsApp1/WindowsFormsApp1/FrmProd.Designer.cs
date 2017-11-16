@@ -36,17 +36,17 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.cmbBoxSelProd = new System.Windows.Forms.ComboBox();
             this.lblDateEnd = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTmPickED = new System.Windows.Forms.DateTimePicker();
             this.lblDateStart = new System.Windows.Forms.Label();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+            this.dateTmPickSD = new System.Windows.Forms.DateTimePicker();
             this.txtBoxCodComm = new System.Windows.Forms.TextBox();
             this.lblCodComm = new System.Windows.Forms.Label();
             this.tabControlPhases = new System.Windows.Forms.TabControl();
             this.lblNameOrd = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtBoxNameOrd = new System.Windows.Forms.TextBox();
             this.lblNotes = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.txtBoxNotes = new System.Windows.Forms.TextBox();
+            this.cmbBoxNameProd = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblNewProd
@@ -113,13 +113,13 @@
             this.cmbBoxSelProd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBoxSelProd.FormattingEnabled = true;
             this.cmbBoxSelProd.Items.AddRange(new object[] {
-            "Produzione Interna",
-            "Produzione Esterna"});
+            "Produzione Esterna",
+            "Produzione Interna"});
             this.cmbBoxSelProd.Location = new System.Drawing.Point(743, 69);
             this.cmbBoxSelProd.Name = "cmbBoxSelProd";
             this.cmbBoxSelProd.Size = new System.Drawing.Size(156, 21);
             this.cmbBoxSelProd.TabIndex = 30;
-            this.cmbBoxSelProd.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.cmbBoxSelProd.SelectedIndexChanged += new System.EventHandler(this.cmbBoxSelProd_SelectedIndexChanged);
             // 
             // lblDateEnd
             // 
@@ -130,15 +130,15 @@
             this.lblDateEnd.TabIndex = 46;
             this.lblDateEnd.Text = "Scadenza";
             // 
-            // dateTimePicker1
+            // dateTmPickED
             // 
-            this.dateTimePicker1.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy HH:mm";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(88, 91);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 45;
+            this.dateTmPickED.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+            this.dateTmPickED.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTmPickED.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTmPickED.Location = new System.Drawing.Point(88, 91);
+            this.dateTmPickED.Name = "dateTmPickED";
+            this.dateTmPickED.Size = new System.Drawing.Size(200, 20);
+            this.dateTmPickED.TabIndex = 45;
             // 
             // lblDateStart
             // 
@@ -149,15 +149,15 @@
             this.lblDateStart.TabIndex = 44;
             this.lblDateStart.Text = "Inizio";
             // 
-            // dateTimePicker4
+            // dateTmPickSD
             // 
-            this.dateTimePicker4.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTimePicker4.CustomFormat = "dd/MM/yyyy HH:mm";
-            this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker4.Location = new System.Drawing.Point(88, 65);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker4.TabIndex = 43;
+            this.dateTmPickSD.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
+            this.dateTmPickSD.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTmPickSD.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTmPickSD.Location = new System.Drawing.Point(88, 65);
+            this.dateTmPickSD.Name = "dateTmPickSD";
+            this.dateTmPickSD.Size = new System.Drawing.Size(200, 20);
+            this.dateTmPickSD.TabIndex = 43;
             // 
             // txtBoxCodComm
             // 
@@ -195,12 +195,12 @@
             this.lblNameOrd.TabIndex = 49;
             this.lblNameOrd.Text = "Nome ordine";
             // 
-            // textBox1
+            // txtBoxNameOrd
             // 
-            this.textBox1.Location = new System.Drawing.Point(88, 38);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
-            this.textBox1.TabIndex = 50;
+            this.txtBoxNameOrd.Location = new System.Drawing.Point(88, 38);
+            this.txtBoxNameOrd.Name = "txtBoxNameOrd";
+            this.txtBoxNameOrd.Size = new System.Drawing.Size(200, 20);
+            this.txtBoxNameOrd.TabIndex = 50;
             // 
             // lblNotes
             // 
@@ -211,42 +211,42 @@
             this.lblNotes.TabIndex = 51;
             this.lblNotes.Text = "Note";
             // 
-            // textBox2
+            // txtBoxNotes
             // 
-            this.textBox2.Location = new System.Drawing.Point(573, 35);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(156, 76);
-            this.textBox2.TabIndex = 52;
+            this.txtBoxNotes.Location = new System.Drawing.Point(573, 35);
+            this.txtBoxNotes.Multiline = true;
+            this.txtBoxNotes.Name = "txtBoxNotes";
+            this.txtBoxNotes.Size = new System.Drawing.Size(156, 76);
+            this.txtBoxNotes.TabIndex = 52;
             // 
-            // comboBox1
+            // cmbBoxNameProd
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(396, 38);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 21);
-            this.comboBox1.TabIndex = 53;
+            this.cmbBoxNameProd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBoxNameProd.FormattingEnabled = true;
+            this.cmbBoxNameProd.Location = new System.Drawing.Point(396, 38);
+            this.cmbBoxNameProd.Name = "cmbBoxNameProd";
+            this.cmbBoxNameProd.Size = new System.Drawing.Size(160, 21);
+            this.cmbBoxNameProd.TabIndex = 53;
             // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 619);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.cmbBoxNameProd);
+            this.Controls.Add(this.txtBoxNotes);
             this.Controls.Add(this.lblNotes);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtBoxNameOrd);
             this.Controls.Add(this.lblNameOrd);
             this.Controls.Add(this.txtBoxCodComm);
             this.Controls.Add(this.lblCodComm);
             this.Controls.Add(this.lblDateEnd);
             this.Controls.Add(this.lblNameProd);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dateTmPickED);
             this.Controls.Add(this.txtBoxCodProd);
             this.Controls.Add(this.lblCodProd);
             this.Controls.Add(this.lblDateStart);
-            this.Controls.Add(this.dateTimePicker4);
+            this.Controls.Add(this.dateTmPickSD);
             this.Controls.Add(this.cmbBoxSelProd);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -266,9 +266,9 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmbBoxSelProd;
         private System.Windows.Forms.Label lblDateEnd;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dateTmPickED;
         private System.Windows.Forms.Label lblDateStart;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
+        private System.Windows.Forms.DateTimePicker dateTmPickSD;
         private System.Windows.Forms.Label lblCodProd;
         private System.Windows.Forms.Label lblNameProd;
         private System.Windows.Forms.TextBox txtBoxCodProd;
@@ -276,9 +276,9 @@
         private System.Windows.Forms.Label lblCodComm;
         private System.Windows.Forms.TabControl tabControlPhases;
         private System.Windows.Forms.Label lblNameOrd;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBoxNameOrd;
         private System.Windows.Forms.Label lblNotes;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox txtBoxNotes;
+        private System.Windows.Forms.ComboBox cmbBoxNameProd;
     }
 }
