@@ -47,6 +47,8 @@ namespace ProdCycleBoer
         List<string> objsHuman;
         List<string> objsNotHuman;
 
+        Production production;
+
         public FrmNewOrd(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
         {
             InitializeComponent();
@@ -106,7 +108,46 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //salva una fase
+            //save in order table
+            production = new Production();            
+           // production.AddOrder(SaveOrder());
+            //save in production table
+            SaveProduction();
+            //production.AddProduction(SaveProduction()); 
+        }
+
+        private List<string> SaveProduction()
+        {
+            //Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID
+            List<string> saveProd = new List<string>();
+            TimeSpan ts = _dateTimePickerTo[0][0].Value - _dateTimePickerFrom[0][0].Value;
+            int totTime = (Int16)(ts.TotalHours * 2);
+            for (int i = 0; i < totTime; i++)
+            {
+                //Time_ID
+                string hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[0][0].Value);
+                string rowID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour);
+                saveProd.Add(rowID);
+                //Obj_ID
+            }
+            return saveProd;
+        }
+
+        private List<string> SaveOrder()
+        {
+            //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes
+            List<string> saveOrd = new List<string>();
+            int type = cmbBoxSelProd.SelectedIndex;
+            saveOrd.Add(txtBoxNameOrd.Text);
+            saveOrd.Add(type.ToString());
+            saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickSD.Value));
+            saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickED.Value));
+            saveOrd.Add(txtBoxCodProd.Text);
+            saveOrd.Add(txtBoxCodComm.Text);
+            saveOrd.Add("0");
+            saveOrd.Add(production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, type, "Products_ID", "Products").ToString());
+            saveOrd.Add(txtBoxNotes.Text);
+            return saveOrd;
         }
 
         private void InitializeObjList()

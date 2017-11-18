@@ -102,7 +102,6 @@ namespace ProdCycleBoer
             dataGridView4.Rows[3].Cells[0].Style = empty;
             dataGridView4.Rows[4].Cells[0].Style = empty;
             dataGridView4.Rows[5].Cells[0].Style = empty;
-
         }
 
 
@@ -128,7 +127,7 @@ namespace ProdCycleBoer
 
             while (reader.Read())
             {
-                dataGridView1.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView1.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -159,7 +158,7 @@ namespace ProdCycleBoer
 
             while (reader.Read())
             {
-                dataGridView2.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView2.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -188,7 +187,7 @@ namespace ProdCycleBoer
 
             while (reader.Read())
             {
-                dataGridView3.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView3.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -208,7 +207,11 @@ namespace ProdCycleBoer
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
             FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType);
-            frm.Show();
+            DialogResult dr = frm.ShowDialog();
+            if (frm.DialogResult == DialogResult.OK)
+            {
+
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
