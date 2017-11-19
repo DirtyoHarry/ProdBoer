@@ -35,20 +35,7 @@ namespace ProdCycleBoer
             Color colYellow = System.Drawing.ColorTranslator.FromHtml("#FFFF8D");
             Color colRed = System.Drawing.ColorTranslator.FromHtml("#FF9E80");
 
-            chart1.ChartAreas[0].AxisX.Minimum = 0;
-            chart1.ChartAreas[0].AxisX.Maximum = 100;
-            chart1.Series[0].Points.AddY(50);
-            chart1.Series[0].Points.AddY(30);
-            chart1.Series[0].Points.AddY(20);
-            chart1.Series[0].Points[0].LegendText = "Giornata parzialmente piena";
-            chart1.Series[0].Points[1].LegendText = "Giornata piena";
-            chart1.Series[0].Points[2].LegendText = "Giornata vuota";
-            chart1.Series[0].Points[0].Color = colYellow;
-            chart1.Series[0].Points[1].Color = colRed;
-            chart1.Series[0].Points[2].Color = colGreen;
-
-            comboBox2.SelectedIndex = 0;
-            comboBox1.SelectedIndex = 0;
+            
 
 
             DataGridViewCellStyle empty = new DataGridViewCellStyle();
@@ -203,17 +190,7 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<int> prodType = new List<int>();
-            List<string> prod = production.GetProducts(out prodType);
-            List<int> objType = new List<int>();
-            List<string> obj = production.GetObjs(out objType);
-            int countOrd = production.CountRows("Orders");
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd+1);
-            DialogResult dr = frm.ShowDialog();
-            if (frm.DialogResult == DialogResult.OK)
-            {
-
-            }
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -225,29 +202,9 @@ namespace ProdCycleBoer
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            List<string> a = new List<string>();
+            
 
-            a.Add("1");
-            a.Add("2");
-            a.Add("3");
-            a.Add("4");
-            a.Add("5");
-            a.Add("6");
-            a.Add("7");
-            a.Add("8");
-            a.Add("8");
-            a.Add("8");
-            a.Add("9");
-            a.Add("10");
-
-            Label1.Text = production.EditOrder(a).ToString();
-
-            dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
-            dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
-            dataGridView1.Rows.Add("13:30", "matteo", "svuotatore", "svuotatura", "OPQ XYZ");
-
-            dataGridView2.Rows.Add("08:00", "stefano", "carroponte", "pulizia stampi", "vasca circolare A1");
-            dataGridView2.Rows.Add("08:00", "riccardo", "carroponte", "armo e getto", "vasca circolare A1");
+      
            // this.reportViewer1.RefreshReport();
         }
 
@@ -316,6 +273,36 @@ namespace ProdCycleBoer
         }
 
         private void btnAddObj_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void nuovoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ordineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            int countOrd = production.CountRows("Orders");
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd + 1);
+            DialogResult dr = frm.ShowDialog();
+            if (frm.DialogResult == DialogResult.OK)
+            {
+
+            }
+        }
+
+        private void prodottoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frm
+        }
+
+        private void lavoratoreMacchinarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAddObj frm = new FrmAddObj();
             frm.ShowDialog();

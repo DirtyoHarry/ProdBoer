@@ -99,10 +99,11 @@ namespace ProdCycleBoer
             {
                 dbC.Open();
 
-                command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization) VALUES (@Name,@Surname,@Specialization)", dbC);
+                command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type) VALUES (@Name,@Surname,@Specialization,@Type)", dbC);
                 command.Parameters.AddWithValue("@Name", Aobject[0]);
                 command.Parameters.AddWithValue("@Surname", Aobject[1]);
                 command.Parameters.AddWithValue("@Specialization", Aobject[2]);
+                command.Parameters.AddWithValue("@Type", Aobject[3]);
                 try
                 {
                     command.ExecuteNonQuery();

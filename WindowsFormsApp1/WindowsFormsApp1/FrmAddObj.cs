@@ -12,6 +12,7 @@ namespace ProdCycleBoer
 {
     public partial class FrmAddObj : Form
     {
+        private Production addObj = new Production();
         private List<string> obj;
         public List<string> newObject { get { return obj; } }
 
@@ -23,7 +24,7 @@ namespace ProdCycleBoer
 
         private void cmbBoxSelObj_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbBoxSelObj.SelectedIndex == 1)
+            if (cmbBoxSelObj.SelectedIndex == 0)
             {
                 lblSurname.Visible = txtBoxSurname.Visible = false;
                 txtBoxSpec.Location = new System.Drawing.Point(119, 147);
@@ -39,10 +40,16 @@ namespace ProdCycleBoer
         }
 
         private void btnOk_Click(object sender, EventArgs e)
-        {            
+        {
             obj.Add(txtBoxName.Text);
             obj.Add(txtBoxSurname.Text);
             obj.Add(txtBoxSpec.Text);
+            obj.Add(cmbBoxSelObj.SelectedIndex.ToString());
+
         }
+
+
+
+
     }
 }
