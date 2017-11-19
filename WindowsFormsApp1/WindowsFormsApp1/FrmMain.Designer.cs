@@ -43,11 +43,6 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +67,14 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnAddObj = new System.Windows.Forms.Button();
+<<<<<<< HEAD
             this.button3 = new System.Windows.Forms.Button();
+=======
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -219,7 +221,6 @@
             // 
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView4.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column15,
             this.Column11,
             this.Column12,
             this.Column13,
@@ -229,31 +230,6 @@
             this.dataGridView4.Size = new System.Drawing.Size(797, 441);
             this.dataGridView4.TabIndex = 2;
             this.dataGridView4.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellDoubleClick);
-            // 
-            // Column15
-            // 
-            this.Column15.HeaderText = " ";
-            this.Column15.Name = "Column15";
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Settimana 1";
-            this.Column11.Name = "Column11";
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Settimana 2";
-            this.Column12.Name = "Column12";
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Settimana 3";
-            this.Column13.Name = "Column13";
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "Settimana 4";
-            this.Column14.Name = "Column14";
             // 
             // dataGridView3
             // 
@@ -440,6 +416,7 @@
             this.btnAddObj.UseVisualStyleBackColor = true;
             this.btnAddObj.Click += new System.EventHandler(this.btnAddObj_Click);
             // 
+<<<<<<< HEAD
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(519, 4);
@@ -449,6 +426,27 @@
             this.button3.Text = "edit Ordine";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+=======
+            // Column11
+            // 
+            this.Column11.HeaderText = "Settimana 1";
+            this.Column11.Name = "Column11";
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Settimana 2";
+            this.Column12.Name = "Column12";
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Settimana 3";
+            this.Column13.Name = "Column13";
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "Settimana 4";
+            this.Column14.Name = "Column14";
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
             // 
             // FrmMain
             // 
@@ -513,15 +511,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridView dataGridView4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
+        private System.Windows.Forms.Label Label1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnAddObj;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+<<<<<<< HEAD
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnAddObj;
         private System.Windows.Forms.Button button3;
+=======
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
     }
 }
 
