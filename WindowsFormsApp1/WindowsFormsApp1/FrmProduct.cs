@@ -12,8 +12,10 @@ namespace ProdCycleBoer
 {
     public partial class FrmProduct : Form
     {
+        Production AddPR = new Production();
         List<string> AddProduct = new List<string>();
-        
+        public List<string> newObject { get { return AddProduct; } }
+
         public FrmProduct()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace ProdCycleBoer
             AddProduct.Add(txtBoxName.Text);
             AddProduct.Add(txtBoxMeasure.Text);
             AddProduct.Add(comboBox1.SelectedIndex.ToString());
+
+            AddPR.AddProduct(AddProduct);
         }
     }
 }

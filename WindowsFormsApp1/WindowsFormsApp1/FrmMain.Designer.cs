@@ -29,28 +29,27 @@
         private void InitializeComponent()
         {
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-<<<<<<< HEAD
-            this.Fase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Macchinario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Macchinario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.nuovoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,33 +57,10 @@
             this.ordineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavoratoreMacchinarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-=======
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnAddObj = new System.Windows.Forms.Button();
-<<<<<<< HEAD
-            this.button3 = new System.Windows.Forms.Button();
-=======
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
->>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -104,61 +80,50 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Produzione";
             // 
-            // dateTimePicker1
+            // dataGridView1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(575, 6);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(245, 20);
-            this.dateTimePicker1.TabIndex = 2;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Macchinario,
+            this.Fase,
+            this.Column3});
+            this.dataGridView1.Location = new System.Drawing.Point(0, 60);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(814, 438);
+            this.dataGridView1.TabIndex = 0;
             // 
-            // comboBox1
+            // Column1
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Vista Giornaliera",
-            "Vista Settimanale",
-            "Vista Mensile"});
-            this.comboBox1.Location = new System.Drawing.Point(575, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(242, 21);
-            this.comboBox1.TabIndex = 3;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.Column1.HeaderText = "Ora";
+            this.Column1.Name = "Column1";
             // 
-            // dataGridView4
+            // Column2
             // 
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column11,
-            this.Column12,
-            this.Column13,
-            this.Column14});
-            this.dataGridView4.Location = new System.Drawing.Point(0, 60);
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(814, 443);
-            this.dataGridView4.TabIndex = 2;
-            this.dataGridView4.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellDoubleClick);
+            this.Column2.FillWeight = 130F;
+            this.Column2.HeaderText = "Lavoratore";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 145;
             // 
-            // Column14
+            // Macchinario
             // 
-            this.Column14.HeaderText = "Settimana 4";
-            this.Column14.Name = "Column14";
+            this.Macchinario.FillWeight = 125F;
+            this.Macchinario.HeaderText = "Macchinario";
+            this.Macchinario.Name = "Macchinario";
+            this.Macchinario.Width = 150;
             // 
-            // Column13
+            // Fase
             // 
-            this.Column13.HeaderText = "Settimana 3";
-            this.Column13.Name = "Column13";
+            this.Fase.HeaderText = "Fase";
+            this.Fase.Name = "Fase";
+            this.Fase.Width = 150;
             // 
-            // Column12
+            // Column3
             // 
-            this.Column12.HeaderText = "Settimana 2";
-            this.Column12.Name = "Column12";
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Settimana 1";
-            this.Column11.Name = "Column11";
+            this.Column3.HeaderText = "Prodotto";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 200;
             // 
             // dataGridView3
             // 
@@ -179,108 +144,108 @@
             this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick);
             this.dataGridView3.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellDoubleClick);
             // 
-            // Column10
+            // Column4
             // 
-            this.Column10.HeaderText = "Domenica";
-            this.Column10.Name = "Column10";
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Sabato";
-            this.Column9.Name = "Column9";
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Venerdi";
-            this.Column8.Name = "Column8";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Giovedi";
-            this.Column7.Name = "Column7";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Mercoledi";
-            this.Column6.Name = "Column6";
+            this.Column4.HeaderText = "Lunedi";
+            this.Column4.Name = "Column4";
             // 
             // Column5
             // 
             this.Column5.HeaderText = "Martedi";
             this.Column5.Name = "Column5";
             // 
-            // Column4
+            // Column6
             // 
-            this.Column4.HeaderText = "Lunedi";
-            this.Column4.Name = "Column4";
+            this.Column6.HeaderText = "Mercoledi";
+            this.Column6.Name = "Column6";
             // 
-            // dataGridView1
+            // Column7
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Macchinario,
-            this.Fase,
-            this.Column3});
-            this.dataGridView1.Location = new System.Drawing.Point(0, 60);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(814, 438);
-            this.dataGridView1.TabIndex = 0;
+            this.Column7.HeaderText = "Giovedi";
+            this.Column7.Name = "Column7";
             // 
-            // Column3
+            // Column8
             // 
-            this.Column3.HeaderText = "Prodotto";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 200;
+            this.Column8.HeaderText = "Venerdi";
+            this.Column8.Name = "Column8";
             // 
-            // Fase
+            // Column9
             // 
-            this.Fase.HeaderText = "Fase";
-            this.Fase.Name = "Fase";
-            this.Fase.Width = 150;
+            this.Column9.HeaderText = "Sabato";
+            this.Column9.Name = "Column9";
             // 
-            // Macchinario
+            // Column10
             // 
-            this.Macchinario.FillWeight = 125F;
-            this.Macchinario.HeaderText = "Macchinario";
-            this.Macchinario.Name = "Macchinario";
-            this.Macchinario.Width = 150;
+            this.Column10.HeaderText = "Domenica";
+            this.Column10.Name = "Column10";
             // 
-            // Column2
+            // dataGridView4
             // 
-            this.Column2.FillWeight = 130F;
-            this.Column2.HeaderText = "Lavoratore";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 145;
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column11,
+            this.Column12,
+            this.Column13,
+            this.Column14});
+            this.dataGridView4.Location = new System.Drawing.Point(0, 60);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(814, 443);
+            this.dataGridView4.TabIndex = 2;
+            this.dataGridView4.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellDoubleClick);
             // 
-            // Column1
+            // Column11
             // 
-            this.Column1.HeaderText = "Ora";
-            this.Column1.Name = "Column1";
+            this.Column11.HeaderText = "Settimana 1";
+            this.Column11.Name = "Column11";
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Settimana 2";
+            this.Column12.Name = "Column12";
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Settimana 3";
+            this.Column13.Name = "Column13";
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "Settimana 4";
+            this.Column14.Name = "Column14";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Vista Giornaliera",
+            "Vista Settimanale",
+            "Vista Mensile"});
+            this.comboBox1.Location = new System.Drawing.Point(575, 33);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(242, 21);
+            this.comboBox1.TabIndex = 3;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(575, 6);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(245, 20);
+            this.dateTimePicker1.TabIndex = 2;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // tabControl1
             // 
-<<<<<<< HEAD
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 42);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(828, 525);
             this.tabControl1.TabIndex = 0;
-=======
-            this.button1.Location = new System.Drawing.Point(645, 9);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 34);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Aggiungi Ordine";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // menuStrip1
             // 
-<<<<<<< HEAD
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -288,19 +253,9 @@
             this.menuStrip1.Size = new System.Drawing.Size(852, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
-=======
-            this.button2.Location = new System.Drawing.Point(232, 7);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 34);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "write datagrid";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // nuovoToolStripMenuItem1
             // 
-<<<<<<< HEAD
             this.nuovoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem});
             this.nuovoToolStripMenuItem1.Name = "nuovoToolStripMenuItem1";
@@ -309,35 +264,13 @@
             this.nuovoToolStripMenuItem1.Click += new System.EventHandler(this.nuovoToolStripMenuItem1_Click);
             // 
             // nuovoToolStripMenuItem
-=======
-            this.btnAddObj.Location = new System.Drawing.Point(375, 9);
-            this.btnAddObj.Name = "btnAddObj";
-            this.btnAddObj.Size = new System.Drawing.Size(92, 29);
-            this.btnAddObj.TabIndex = 3;
-            this.btnAddObj.Text = "Aggiungi obj";
-            this.btnAddObj.UseVisualStyleBackColor = true;
-            this.btnAddObj.Click += new System.EventHandler(this.btnAddObj_Click);
-            // 
-<<<<<<< HEAD
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(519, 4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(141, 34);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "edit Ordine";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-=======
-            // Column11
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             this.nuovoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ordineToolStripMenuItem,
             this.prodottoToolStripMenuItem,
             this.lavoratoreMacchinarioToolStripMenuItem});
             this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
-            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.nuovoToolStripMenuItem.Text = "Nuovo";
             // 
             // ordineToolStripMenuItem
@@ -356,38 +289,25 @@
             // 
             // lavoratoreMacchinarioToolStripMenuItem
             // 
-<<<<<<< HEAD
             this.lavoratoreMacchinarioToolStripMenuItem.Name = "lavoratoreMacchinarioToolStripMenuItem";
             this.lavoratoreMacchinarioToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.lavoratoreMacchinarioToolStripMenuItem.Text = "Lavoratore/Macchinario";
             this.lavoratoreMacchinarioToolStripMenuItem.Click += new System.EventHandler(this.lavoratoreMacchinarioToolStripMenuItem_Click);
-=======
-            this.Column14.HeaderText = "Settimana 4";
-            this.Column14.Name = "Column14";
->>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(852, 579);
-<<<<<<< HEAD
             this.Controls.Add(this.menuStrip1);
-=======
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.btnAddObj);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             this.Controls.Add(this.tabControl1);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -417,7 +337,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-<<<<<<< HEAD
+
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -427,15 +347,11 @@
         private System.Windows.Forms.ToolStripMenuItem ordineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prodottoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lavoratoreMacchinarioToolStripMenuItem;
-=======
-<<<<<<< HEAD
+
+
         private System.Windows.Forms.Label Label1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnAddObj;
-        private System.Windows.Forms.Button button3;
-=======
->>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
+
+
     }
 }
 

@@ -190,9 +190,7 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-           
-=======
+
             List<int> prodType = new List<int>();
             List<string> prod = production.GetProducts(out prodType);
             List<int> objType = new List<int>();
@@ -200,7 +198,7 @@ namespace ProdCycleBoer
             int countOrd = production.CountRows("Orders");
             FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd+1);
             frm.Show();
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -309,7 +307,12 @@ namespace ProdCycleBoer
 
         private void prodottoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frm
+            FrmProduct frm1 = new FrmProduct();
+            frm1.ShowDialog();
+            if (frm1.DialogResult == DialogResult.OK)
+            {
+                production.AddProduct(frm1.newObject);
+                    }
         }
 
         private void lavoratoreMacchinarioToolStripMenuItem_Click(object sender, EventArgs e)

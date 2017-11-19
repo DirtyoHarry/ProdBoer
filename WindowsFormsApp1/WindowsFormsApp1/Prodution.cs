@@ -14,6 +14,26 @@ namespace ProdCycleBoer
         SQLiteConnection dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
         SQLiteCommand command;
 
+        public bool AddProduct(List<string> AddProduct)
+        {
+            dbC.Open();
+            command = new SQLiteCommand("INSTERT INTO Products (Name, Measure, Type) VALUES (@name , @measure , @type)", dbC);
+            command.Parameters.AddWithValue("@name", AddProduct[0]);
+            command.Parameters.AddWithValue("@measure", AddProduct[1]);
+            command.Parameters.AddWithValue("@type", AddProduct[2]);
+            try
+            {
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
+            }
+        }
+
         public bool AddOrder(List<string> AddOrder)
         {
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes, Number
@@ -99,20 +119,18 @@ namespace ProdCycleBoer
             {
                 dbC.Open();
 
-<<<<<<< HEAD
+
                 command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type) VALUES (@Name,@Surname,@Specialization,@Type)", dbC);
-=======
+
                 command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type,Spec_Int,Spec_Ext) VALUES (@Name,@Surname,@Specialization,@Type,@Spec_Int,@Spec_Ext)", dbC);
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
+
                 command.Parameters.AddWithValue("@Name", Aobject[0]);
                 command.Parameters.AddWithValue("@Surname", Aobject[1]);
                 command.Parameters.AddWithValue("@Specialization", Aobject[2]);
                 command.Parameters.AddWithValue("@Type", Aobject[3]);
-<<<<<<< HEAD
-=======
-                command.Parameters.AddWithValue("@Spec_Int", Aobject[4]);
-                command.Parameters.AddWithValue("@Spec_Ext", Aobject[5]);
->>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
+                command.Parameters.AddWithValue("@Spec_Int", "0"); // Aobject[4]
+                command.Parameters.AddWithValue("@Spec_Ext", "0"); //Aobject[5]
+
                 try
                 {
                     command.ExecuteNonQuery();
