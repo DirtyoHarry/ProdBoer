@@ -46,6 +46,7 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+<<<<<<< HEAD
             this.Fase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Macchinario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +58,29 @@
             this.ordineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavoratoreMacchinarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+=======
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnAddObj = new System.Windows.Forms.Button();
+<<<<<<< HEAD
+            this.button3 = new System.Windows.Forms.Button();
+=======
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -237,15 +261,26 @@
             // 
             // tabControl1
             // 
+<<<<<<< HEAD
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 42);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(828, 525);
             this.tabControl1.TabIndex = 0;
+=======
+            this.button1.Location = new System.Drawing.Point(645, 9);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(187, 34);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Aggiungi Ordine";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // menuStrip1
             // 
+<<<<<<< HEAD
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -253,9 +288,19 @@
             this.menuStrip1.Size = new System.Drawing.Size(852, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
+=======
+            this.button2.Location = new System.Drawing.Point(232, 7);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(99, 34);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "write datagrid";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // nuovoToolStripMenuItem1
             // 
+<<<<<<< HEAD
             this.nuovoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem});
             this.nuovoToolStripMenuItem1.Name = "nuovoToolStripMenuItem1";
@@ -264,6 +309,28 @@
             this.nuovoToolStripMenuItem1.Click += new System.EventHandler(this.nuovoToolStripMenuItem1_Click);
             // 
             // nuovoToolStripMenuItem
+=======
+            this.btnAddObj.Location = new System.Drawing.Point(375, 9);
+            this.btnAddObj.Name = "btnAddObj";
+            this.btnAddObj.Size = new System.Drawing.Size(92, 29);
+            this.btnAddObj.TabIndex = 3;
+            this.btnAddObj.Text = "Aggiungi obj";
+            this.btnAddObj.UseVisualStyleBackColor = true;
+            this.btnAddObj.Click += new System.EventHandler(this.btnAddObj_Click);
+            // 
+<<<<<<< HEAD
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(519, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(141, 34);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "edit Ordine";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+=======
+            // Column11
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             this.nuovoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ordineToolStripMenuItem,
@@ -289,17 +356,30 @@
             // 
             // lavoratoreMacchinarioToolStripMenuItem
             // 
+<<<<<<< HEAD
             this.lavoratoreMacchinarioToolStripMenuItem.Name = "lavoratoreMacchinarioToolStripMenuItem";
             this.lavoratoreMacchinarioToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.lavoratoreMacchinarioToolStripMenuItem.Text = "Lavoratore/Macchinario";
             this.lavoratoreMacchinarioToolStripMenuItem.Click += new System.EventHandler(this.lavoratoreMacchinarioToolStripMenuItem_Click);
+=======
+            this.Column14.HeaderText = "Settimana 4";
+            this.Column14.Name = "Column14";
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(852, 579);
+<<<<<<< HEAD
             this.Controls.Add(this.menuStrip1);
+=======
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnAddObj);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
             this.Controls.Add(this.tabControl1);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
@@ -337,6 +417,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
+<<<<<<< HEAD
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -346,6 +427,15 @@
         private System.Windows.Forms.ToolStripMenuItem ordineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prodottoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lavoratoreMacchinarioToolStripMenuItem;
+=======
+<<<<<<< HEAD
+        private System.Windows.Forms.Label Label1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnAddObj;
+        private System.Windows.Forms.Button button3;
+=======
+>>>>>>> 4ce524bdaeb5e0892683959b1b74738d5ad5ab88
+>>>>>>> e32dccb122350ded11b95bacda4226ec7db145ee
     }
 }
 

@@ -1,0 +1,5 @@
+SELECT COUNT(*) FROM Production
+WHERE Production.Order_ID = 12
+AND Production.Obj_ID = 5
+AND Production.Phase_ID = 1
+AND Production.Day_ID = strftime('%Y/%d/%m', '2017-11-19')
