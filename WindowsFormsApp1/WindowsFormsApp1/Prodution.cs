@@ -18,7 +18,7 @@ namespace ProdCycleBoer
         {
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes
             dbC.Open();
-            command = new SQLiteCommand("INSERT INTO Orders (Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes) VALUES (@name,@Type,@SDate,@EDate,@Barcode,@Ext_Code,@Phase,@Products_ID, @Notes)", dbC);
+            command = new SQLiteCommand("INSERT INTO Orders (Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes, Number) VALUES (@name,@Type,@SDate,@EDate,@Barcode,@Ext_Code,@Phase,@Products_ID, @Notes, @Number)", dbC);
             command.Parameters.AddWithValue("@name", AddOrder[0]);
             command.Parameters.AddWithValue("@Type", AddOrder[1]);
             command.Parameters.AddWithValue("@SDate", AddOrder[2]);
@@ -28,6 +28,7 @@ namespace ProdCycleBoer
             command.Parameters.AddWithValue("@Phase", AddOrder[6]);
             command.Parameters.AddWithValue("@Products_ID", AddOrder[7]);
             command.Parameters.AddWithValue("@Notes", AddOrder[8]);
+            command.Parameters.AddWithValue("@Number", AddOrder[9]);
             try
             {
                 command.ExecuteNonQuery();
@@ -43,14 +44,14 @@ namespace ProdCycleBoer
 
         public bool AddProduction(List<string> AddProd) /// query(Objs: Name,Type,SDate,EDate,Barcode,Ext_Code(null),Phase)
         {
-            //Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID            dbC.Open();
-            command = new SQLiteCommand("INSERT INTO Production (Production_ID, Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID) VALUES (@Production_ID, @Time_ID, @Obj_ID, @Order_ID, @Phase_ID, @Day_ID)", dbC);
-            command.Parameters.AddWithValue("@Production_ID", AddProd[0]);
-            command.Parameters.AddWithValue("@Time_ID", AddProd[1]);
-            command.Parameters.AddWithValue("@Obj_ID", AddProd[2]);
-            command.Parameters.AddWithValue("@Order_ID", AddProd[3]);
-            command.Parameters.AddWithValue("@Phase_ID", AddProd[4]);
-            command.Parameters.AddWithValue("@Day_ID", AddProd[5]);
+            //Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID            
+            dbC.Open();
+            command = new SQLiteCommand("INSERT INTO Production (Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID) VALUES (@Time_ID, @Obj_ID, @Order_ID, @Phase_ID, @Day_ID)", dbC);
+            command.Parameters.AddWithValue("@Time_ID", AddProd[0]);
+            command.Parameters.AddWithValue("@Obj_ID", AddProd[1]);
+            command.Parameters.AddWithValue("@Order_ID", AddProd[2]);
+            command.Parameters.AddWithValue("@Phase_ID", AddProd[3]);
+            command.Parameters.AddWithValue("@Day_ID", AddProd[4]);
             try
             {
                 command.ExecuteNonQuery();
@@ -270,6 +271,28 @@ namespace ProdCycleBoer
                 dbC.Close();
             }
             return retString;
+        }
+
+        public int CountRows(string table)
+        {
+            int count = -1;
+            dbC.Open();
+            string query = "SELECT COUNT(*) as count FROM " + table;
+            command = new SQLiteCommand(query, dbC);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    count = int.Parse(reader["count"].ToString());
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            return count;
         }
 
     }

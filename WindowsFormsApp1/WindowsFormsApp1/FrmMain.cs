@@ -206,7 +206,8 @@ namespace ProdCycleBoer
             List<string> prod = production.GetProducts(out prodType);
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType);
+            int countOrd = production.CountRows("Orders");
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd+1);
             DialogResult dr = frm.ShowDialog();
             if (frm.DialogResult == DialogResult.OK)
             {
