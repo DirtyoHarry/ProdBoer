@@ -60,13 +60,58 @@ namespace ProdCycleBoer
             numUpDownNOrd.Maximum = ordID;
             numUpDownNOrd.Enabled = newOrd;
             orderID = ordID;
+            StartForm();
+            if (!newOrd)
+            { EditOrder(ordID); }
         }
 
         private void FrmProd_Load(object sender, EventArgs e)
         {
+
+        }        
+
+        private void StartForm()
+        {
             InitializeObjList();
             AddPhase();
             ShowAllPhases();
+        }
+
+        private void EditOrder(int ordID)
+        {
+            ShowOrder(ordID);
+            ShowProduction(ordID);
+        }
+
+        private void ShowOrder(int ordID)
+        {
+            //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes, Number
+            List<string> order = new List<string>();
+            order = production.SelectWithWhereOrders("Orders_ID", ordID.ToString());
+            txtBoxNameOrd.Text = order[0];
+            cmbBoxSelProd.SelectedIndex = int.Parse(order[1]);
+            dateTmPickSD.Value = DateTime.ParseExact(order[2], "yyyy/dd/MM", System.Globalization.CultureInfo.InvariantCulture);
+            dateTmPickED.Value = DateTime.ParseExact(order[3], "yyyy/dd/MM", System.Globalization.CultureInfo.InvariantCulture);
+            txtBoxCodProd.Text = order[4];
+            txtBoxCodComm.Text = order[5];
+            string actualPhase = order[6];
+            int selProd = production.GetObjAndProdRow("Products_ID", int.Parse(order[1]), "Products", int.Parse(order[7])) - 1;
+            cmbBoxNameProd.SelectedIndex = selProd;
+            txtBoxNotes.Text = order[8];
+            numUpDownNOrd.Maximum = int.Parse(order[9]);
+            numUpDownNOrd.Value = int.Parse(order[9]);
+        }
+
+        private void ShowProduction(int ordID)
+        {
+            List<List<string>> prod = new List<List<string>>();
+            prod = production.GetProduction(ordID,1);
+            int y = int.Parse(prod[0][1]);
+            int x = production.GetType(y, "Objs", "Objs_ID");
+            _cmbBoxSelObjType[0][0].SelectedIndex = x;
+
+            //AddObj();                     
+            
         }
 
         private void SetProdObjLists(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
@@ -104,13 +149,6 @@ namespace ProdCycleBoer
                 for (int i = 0; i < productsExt.Count; i++)
                 { cmbBoxNameProd.Items.Add(productsExt[i]); }
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            txtBoxCodComm.Enabled = cmbBoxSelProd.SelectedIndex == 0;
-            if (cmbBoxSelProd.SelectedIndex == 1)
-            { txtBoxCodComm.Text = ""; }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -219,6 +257,11 @@ namespace ProdCycleBoer
 
         private void btnAddObj_Click(object sender, EventArgs e)
         {
+            AddObj();
+        }
+
+        private void AddObj()
+        {
             int phase = tabControlPhases.SelectedIndex;
             int count = _dateTimePickerFrom[phase].Count;
             SaveCmbBoxSelIndex();
@@ -295,7 +338,6 @@ namespace ProdCycleBoer
             dateTimePickerTemp = new DateTimePicker();
             _dateTimePickerFromPhaseX.Add(dateTimePickerTemp);
             _lblToPhaseX.Add(lblTemp);
-            lblTemp = new Label();
             lblTemp = new Label();
             _lblFromPhaseX.Add(lblTemp);
             _cmbBoxSelObjPhaseX.Add(cmbBoxTemp);
@@ -457,14 +499,19 @@ namespace ProdCycleBoer
         private void ApplyCmbBoxSelIndex()
         {
             //salva i selected index delle ComboBox       
-            for (int phase = 0; phase < _cmbBoxSelObjType.Count; phase++)
+            try
             {
-                for (int i = 0; i < _cmbBoxSelObjType[phase].Count; i++)
+                for (int phase = 0; phase < _cmbBoxSelObjType.Count; phase++)
                 {
-                    _cmbBoxSelObjType[phase][i].SelectedIndex = _cmbBoxSelObjTypeSelInd[phase][i];
-                    _cmbBoxSelObj[phase][i].SelectedIndex = _cmbBoxSelObjSelInd[phase][i];
+                    for (int i = 0; i < _cmbBoxSelObjType[phase].Count; i++)
+                    {
+                        _cmbBoxSelObjType[phase][i].SelectedIndex = _cmbBoxSelObjTypeSelInd[phase][i];
+                        _cmbBoxSelObj[phase][i].SelectedIndex = _cmbBoxSelObjSelInd[phase][i];
+                    }
                 }
             }
+            catch
+            { SaveCmbBoxSelIndex(); }
         }
 
         private void ShowAllPhases()
@@ -735,6 +782,9 @@ namespace ProdCycleBoer
 
         private void cmbBoxSelObjType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ComboBox cmb = new ComboBox();
+            cmb = (ComboBox)sender;
+            
             SaveCmbBoxSelIndex();
             int phase = tabControlPhases.SelectedIndex;
             for (int j = 0; j < _cmbBoxSelObj[phase].Count; j++)
@@ -790,5 +840,9 @@ namespace ProdCycleBoer
             dtp.Value = dt;
         }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            ShowProduction(12);
+        }
     }
 }

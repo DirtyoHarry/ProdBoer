@@ -111,6 +111,7 @@
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "Annulla";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // cmbBoxSelProd
             // 
@@ -137,7 +138,7 @@
             // dateTmPickED
             // 
             this.dateTmPickED.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTmPickED.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTmPickED.CustomFormat = "dd/MM/yyyy";
             this.dateTmPickED.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTmPickED.Location = new System.Drawing.Point(85, 116);
             this.dateTmPickED.Name = "dateTmPickED";
@@ -156,7 +157,7 @@
             // dateTmPickSD
             // 
             this.dateTmPickSD.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
-            this.dateTmPickSD.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTmPickSD.CustomFormat = "dd/MM/yyyy";
             this.dateTmPickSD.Enabled = false;
             this.dateTmPickSD.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTmPickSD.Location = new System.Drawing.Point(85, 89);

@@ -209,11 +209,7 @@ namespace ProdCycleBoer
             List<string> obj = production.GetObjs(out objType);
             int countOrd = production.CountRows("Orders");
             FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd+1);
-            DialogResult dr = frm.ShowDialog();
-            if (frm.DialogResult == DialogResult.OK)
-            {
-
-            }
+            frm.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -323,6 +319,17 @@ namespace ProdCycleBoer
             {
                 production.AddObject(frm.newObject); //write database
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            int countOrd = production.CountRows("Orders");
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, false, 12);
+            frm.Show();
         }
 
         // private void tickmanager
