@@ -129,12 +129,7 @@ namespace ProdCycleBoer
 
             while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
-<<<<<<< HEAD
                 dataGridView1.Rows.Add(reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"]);
-          
-=======
-                dataGridView1.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
->>>>>>> 9c452085bacbb352421f92a724c94c716d89a2e7
                 Refresh();
             }
           
@@ -231,9 +226,6 @@ namespace ProdCycleBoer
         {
             List<string> a = new List<string>();
 
-<<<<<<< HEAD
-           
-=======
             a.Add("1");
             a.Add("2");
             a.Add("3");
@@ -248,7 +240,6 @@ namespace ProdCycleBoer
             a.Add("10");
 
             Label1.Text = production.EditOrder(a).ToString();
->>>>>>> 9c452085bacbb352421f92a724c94c716d89a2e7
 
             dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
             dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
