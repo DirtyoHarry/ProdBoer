@@ -105,7 +105,7 @@ namespace ProdCycleBoer
         }
 
 
-        private void ShowDaily(long input)
+        private void ShowDaily(string input)
         {
             
             dataGridView1.Rows.Clear();
@@ -132,34 +132,34 @@ namespace ProdCycleBoer
                 dataGridView1.Rows.Add(reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"]);
                 Refresh();
             }
-          
+            dbC.Close();
         }
 
         private void ShowWeekly(DateTime input)
         {
             
-            dataGridView2.Rows.Clear();
+            dataGridView3.Rows.Clear();
             
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
              dbC.Open();
 
-            string sql = "SELECT * FROM Production Where strftime('%W', @ID) = strftime('%W', Day_ID) order by Time_ID";
+            string sql = "Select (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '1') As Lunedi, (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '2') As Martedi,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '3') As Mercoledi ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '4') As Giovedi ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '5') As Venerdi, (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '6') As Sabato ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '0') As Domenica";
 
             command = new SQLiteCommand(sql, dbC);
 
-            command.Parameters.AddWithValue("@ID", input.Day);
+            command.Parameters.AddWithValue("@ID", input.ToString("yyyy-MM-dd"));
 
             SQLiteDataReader reader = command.ExecuteReader();
 
             for (int i = 0; i < reader.FieldCount - 1; i++) //hide ID
             {
-                dataGridView2.Columns[i].HeaderText = reader.GetName(i + 1);
+                dataGridView3.Columns[i].HeaderText = reader.GetName(i);
             }
 
             while (reader.Read())
             {
-                dataGridView2.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView3.Rows.Add(reader["Lunedi"], reader["Martedi"], reader["Mercoledi"], reader["Giovedi"], reader["Venerdi"], reader["Sabato"], reader["Domenica"]);
                 Refresh();
             }
             dbC.Close();
@@ -168,7 +168,7 @@ namespace ProdCycleBoer
 
         private void ShowMonthly(DateTime input)
         {
-            dataGridView3.Rows.Clear();
+            dataGridView4.Rows.Clear();
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
             dbC.Open();
@@ -183,12 +183,12 @@ namespace ProdCycleBoer
 
             for (int i = 0; i < reader.FieldCount - 1; i++) //hide ID
             {
-                dataGridView3.Columns[i].HeaderText = reader.GetName(i + 1);
+                dataGridView4.Columns[i].HeaderText = reader.GetName(i + 1);
             }
 
             while (reader.Read())
             {
-                dataGridView3.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView4.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -307,8 +307,8 @@ namespace ProdCycleBoer
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dbC.Close();
-            ShowDaily(dateTimePicker1.Value.Date.Ticks);
-           // ShowWeekly(dateTimePicker1.Value.Date);
+            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+            ShowWeekly(dateTimePicker1.Value.Date);
             //ShowMonthly(dateTimePicker1.Value.Date);         
                   
 
