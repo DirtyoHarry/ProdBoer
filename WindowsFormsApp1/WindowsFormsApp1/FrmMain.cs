@@ -102,7 +102,6 @@ namespace ProdCycleBoer
             dataGridView4.Rows[3].Cells[0].Style = empty;
             dataGridView4.Rows[4].Cells[0].Style = empty;
             dataGridView4.Rows[5].Cells[0].Style = empty;
-
         }
 
 
@@ -130,8 +129,12 @@ namespace ProdCycleBoer
 
             while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
+<<<<<<< HEAD
                 dataGridView1.Rows.Add(reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"]);
           
+=======
+                dataGridView1.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
+>>>>>>> 9c452085bacbb352421f92a724c94c716d89a2e7
                 Refresh();
             }
           
@@ -161,7 +164,7 @@ namespace ProdCycleBoer
 
             while (reader.Read())
             {
-                dataGridView2.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView2.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -190,7 +193,7 @@ namespace ProdCycleBoer
 
             while (reader.Read())
             {
-                dataGridView3.Rows.Add(reader["Time_ID"], reader["Worker_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView3.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
                 Refresh();
             }
             dbC.Close();
@@ -205,8 +208,16 @@ namespace ProdCycleBoer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FrmNewOrd frm = new FrmNewOrd();
-            frm.Show();
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType);
+            DialogResult dr = frm.ShowDialog();
+            if (frm.DialogResult == DialogResult.OK)
+            {
+
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -220,7 +231,24 @@ namespace ProdCycleBoer
         {
             List<string> a = new List<string>();
 
+<<<<<<< HEAD
            
+=======
+            a.Add("1");
+            a.Add("2");
+            a.Add("3");
+            a.Add("4");
+            a.Add("5");
+            a.Add("6");
+            a.Add("7");
+            a.Add("8");
+            a.Add("8");
+            a.Add("8");
+            a.Add("9");
+            a.Add("10");
+
+            Label1.Text = production.EditOrder(a).ToString();
+>>>>>>> 9c452085bacbb352421f92a724c94c716d89a2e7
 
             dataGridView1.Rows.Add("13:30", "johnny", "banco vib 1", "banco vibrante", "pozzetto XYZ");
             dataGridView1.Rows.Add("13:30", "marco", "impastatrice", "impastatura", "coperchi ABC");
@@ -277,7 +305,7 @@ namespace ProdCycleBoer
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            
+
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
