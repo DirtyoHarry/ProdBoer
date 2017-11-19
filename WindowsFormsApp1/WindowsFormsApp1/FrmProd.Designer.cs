@@ -47,6 +47,10 @@
             this.lblNotes = new System.Windows.Forms.Label();
             this.txtBoxNotes = new System.Windows.Forms.TextBox();
             this.cmbBoxNameProd = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblNOrder = new System.Windows.Forms.Label();
+            this.numUpDownNOrd = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNewProd
@@ -62,7 +66,7 @@
             // lblNameProd
             // 
             this.lblNameProd.AutoSize = true;
-            this.lblNameProd.Location = new System.Drawing.Point(301, 43);
+            this.lblNameProd.Location = new System.Drawing.Point(301, 67);
             this.lblNameProd.Name = "lblNameProd";
             this.lblNameProd.Size = new System.Drawing.Size(77, 13);
             this.lblNameProd.TabIndex = 8;
@@ -71,7 +75,7 @@
             // 
             // txtBoxCodProd
             // 
-            this.txtBoxCodProd.Location = new System.Drawing.Point(396, 65);
+            this.txtBoxCodProd.Location = new System.Drawing.Point(396, 90);
             this.txtBoxCodProd.Name = "txtBoxCodProd";
             this.txtBoxCodProd.Size = new System.Drawing.Size(160, 20);
             this.txtBoxCodProd.TabIndex = 7;
@@ -80,7 +84,7 @@
             // lblCodProd
             // 
             this.lblCodProd.AutoSize = true;
-            this.lblCodProd.Location = new System.Drawing.Point(301, 69);
+            this.lblCodProd.Location = new System.Drawing.Point(301, 93);
             this.lblCodProd.Name = "lblCodProd";
             this.lblCodProd.Size = new System.Drawing.Size(82, 13);
             this.lblCodProd.TabIndex = 6;
@@ -115,16 +119,16 @@
             this.cmbBoxSelProd.Items.AddRange(new object[] {
             "Produzione Esterna",
             "Produzione Interna"});
-            this.cmbBoxSelProd.Location = new System.Drawing.Point(743, 69);
+            this.cmbBoxSelProd.Location = new System.Drawing.Point(85, 37);
             this.cmbBoxSelProd.Name = "cmbBoxSelProd";
-            this.cmbBoxSelProd.Size = new System.Drawing.Size(156, 21);
-            this.cmbBoxSelProd.TabIndex = 30;
+            this.cmbBoxSelProd.Size = new System.Drawing.Size(200, 21);
+            this.cmbBoxSelProd.TabIndex = 2;
             this.cmbBoxSelProd.SelectedIndexChanged += new System.EventHandler(this.cmbBoxSelProd_SelectedIndexChanged);
             // 
             // lblDateEnd
             // 
             this.lblDateEnd.AutoSize = true;
-            this.lblDateEnd.Location = new System.Drawing.Point(15, 95);
+            this.lblDateEnd.Location = new System.Drawing.Point(14, 119);
             this.lblDateEnd.Name = "lblDateEnd";
             this.lblDateEnd.Size = new System.Drawing.Size(55, 13);
             this.lblDateEnd.TabIndex = 46;
@@ -135,7 +139,7 @@
             this.dateTmPickED.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
             this.dateTmPickED.CustomFormat = "dd/MM/yyyy HH:mm";
             this.dateTmPickED.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTmPickED.Location = new System.Drawing.Point(88, 91);
+            this.dateTmPickED.Location = new System.Drawing.Point(85, 116);
             this.dateTmPickED.Name = "dateTmPickED";
             this.dateTmPickED.Size = new System.Drawing.Size(200, 20);
             this.dateTmPickED.TabIndex = 45;
@@ -143,7 +147,7 @@
             // lblDateStart
             // 
             this.lblDateStart.AutoSize = true;
-            this.lblDateStart.Location = new System.Drawing.Point(17, 69);
+            this.lblDateStart.Location = new System.Drawing.Point(14, 93);
             this.lblDateStart.Name = "lblDateStart";
             this.lblDateStart.Size = new System.Drawing.Size(31, 13);
             this.lblDateStart.TabIndex = 44;
@@ -153,8 +157,9 @@
             // 
             this.dateTmPickSD.CalendarTitleBackColor = System.Drawing.SystemColors.WindowText;
             this.dateTmPickSD.CustomFormat = "dd/MM/yyyy HH:mm";
+            this.dateTmPickSD.Enabled = false;
             this.dateTmPickSD.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTmPickSD.Location = new System.Drawing.Point(88, 65);
+            this.dateTmPickSD.Location = new System.Drawing.Point(85, 89);
             this.dateTmPickSD.Name = "dateTmPickSD";
             this.dateTmPickSD.Size = new System.Drawing.Size(200, 20);
             this.dateTmPickSD.TabIndex = 43;
@@ -162,7 +167,7 @@
             // txtBoxCodComm
             // 
             this.txtBoxCodComm.Enabled = false;
-            this.txtBoxCodComm.Location = new System.Drawing.Point(396, 91);
+            this.txtBoxCodComm.Location = new System.Drawing.Point(396, 116);
             this.txtBoxCodComm.Name = "txtBoxCodComm";
             this.txtBoxCodComm.Size = new System.Drawing.Size(160, 20);
             this.txtBoxCodComm.TabIndex = 48;
@@ -171,7 +176,7 @@
             // lblCodComm
             // 
             this.lblCodComm.AutoSize = true;
-            this.lblCodComm.Location = new System.Drawing.Point(301, 95);
+            this.lblCodComm.Location = new System.Drawing.Point(301, 119);
             this.lblCodComm.Name = "lblCodComm";
             this.lblCodComm.Size = new System.Drawing.Size(93, 13);
             this.lblCodComm.TabIndex = 47;
@@ -180,7 +185,7 @@
             // 
             // tabControlPhases
             // 
-            this.tabControlPhases.Location = new System.Drawing.Point(10, 117);
+            this.tabControlPhases.Location = new System.Drawing.Point(10, 141);
             this.tabControlPhases.Name = "tabControlPhases";
             this.tabControlPhases.SelectedIndex = 0;
             this.tabControlPhases.Size = new System.Drawing.Size(885, 494);
@@ -189,7 +194,7 @@
             // lblNameOrd
             // 
             this.lblNameOrd.AutoSize = true;
-            this.lblNameOrd.Location = new System.Drawing.Point(17, 43);
+            this.lblNameOrd.Location = new System.Drawing.Point(14, 67);
             this.lblNameOrd.Name = "lblNameOrd";
             this.lblNameOrd.Size = new System.Drawing.Size(67, 13);
             this.lblNameOrd.TabIndex = 49;
@@ -197,15 +202,15 @@
             // 
             // txtBoxNameOrd
             // 
-            this.txtBoxNameOrd.Location = new System.Drawing.Point(88, 38);
+            this.txtBoxNameOrd.Location = new System.Drawing.Point(85, 62);
             this.txtBoxNameOrd.Name = "txtBoxNameOrd";
             this.txtBoxNameOrd.Size = new System.Drawing.Size(200, 20);
-            this.txtBoxNameOrd.TabIndex = 50;
+            this.txtBoxNameOrd.TabIndex = 1;
             // 
             // lblNotes
             // 
             this.lblNotes.AutoSize = true;
-            this.lblNotes.Location = new System.Drawing.Point(570, 19);
+            this.lblNotes.Location = new System.Drawing.Point(570, 21);
             this.lblNotes.Name = "lblNotes";
             this.lblNotes.Size = new System.Drawing.Size(30, 13);
             this.lblNotes.TabIndex = 51;
@@ -213,26 +218,64 @@
             // 
             // txtBoxNotes
             // 
-            this.txtBoxNotes.Location = new System.Drawing.Point(573, 35);
+            this.txtBoxNotes.Location = new System.Drawing.Point(573, 37);
             this.txtBoxNotes.Multiline = true;
             this.txtBoxNotes.Name = "txtBoxNotes";
-            this.txtBoxNotes.Size = new System.Drawing.Size(156, 76);
+            this.txtBoxNotes.Size = new System.Drawing.Size(161, 100);
             this.txtBoxNotes.TabIndex = 52;
             // 
             // cmbBoxNameProd
             // 
             this.cmbBoxNameProd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBoxNameProd.FormattingEnabled = true;
-            this.cmbBoxNameProd.Location = new System.Drawing.Point(396, 38);
+            this.cmbBoxNameProd.Location = new System.Drawing.Point(396, 63);
             this.cmbBoxNameProd.Name = "cmbBoxNameProd";
             this.cmbBoxNameProd.Size = new System.Drawing.Size(160, 21);
             this.cmbBoxNameProd.TabIndex = 53;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 41);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(28, 13);
+            this.label1.TabIndex = 54;
+            this.label1.Text = "Tipo";
+            // 
+            // lblNOrder
+            // 
+            this.lblNOrder.AutoSize = true;
+            this.lblNOrder.Location = new System.Drawing.Point(301, 41);
+            this.lblNOrder.Name = "lblNOrder";
+            this.lblNOrder.Size = new System.Drawing.Size(76, 13);
+            this.lblNOrder.TabIndex = 55;
+            this.lblNOrder.Text = "Numero ordine";
+            // 
+            // numUpDownNOrd
+            // 
+            this.numUpDownNOrd.Location = new System.Drawing.Point(396, 37);
+            this.numUpDownNOrd.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numUpDownNOrd.Name = "numUpDownNOrd";
+            this.numUpDownNOrd.Size = new System.Drawing.Size(160, 20);
+            this.numUpDownNOrd.TabIndex = 56;
+            this.numUpDownNOrd.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // FrmNewOrd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(906, 619);
+            this.ClientSize = new System.Drawing.Size(906, 643);
+            this.Controls.Add(this.numUpDownNOrd);
+            this.Controls.Add(this.lblNOrder);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbBoxNameProd);
             this.Controls.Add(this.txtBoxNotes);
             this.Controls.Add(this.lblNotes);
@@ -255,6 +298,7 @@
             this.Name = "FrmNewOrd";
             this.Text = "Aggiungi Ordine";
             this.Load += new System.EventHandler(this.FrmProd_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,5 +324,8 @@
         private System.Windows.Forms.Label lblNotes;
         private System.Windows.Forms.TextBox txtBoxNotes;
         private System.Windows.Forms.ComboBox cmbBoxNameProd;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblNOrder;
+        private System.Windows.Forms.NumericUpDown numUpDownNOrd;
     }
 }

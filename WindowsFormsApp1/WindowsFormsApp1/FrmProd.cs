@@ -47,12 +47,19 @@ namespace ProdCycleBoer
         List<string> objsHuman;
         List<string> objsNotHuman;
 
+        int orderID = -1;
+
         Production production;
 
-        public FrmNewOrd(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
+        public FrmNewOrd(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType, bool newOrd, int ordID)
         {
             InitializeComponent();
+            production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
+            numUpDownNOrd.Value = ordID;
+            numUpDownNOrd.Maximum = ordID;
+            numUpDownNOrd.Enabled = newOrd;
+            orderID = ordID;
         }
 
         private void FrmProd_Load(object sender, EventArgs e)
@@ -108,29 +115,46 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //save in order table
-            production = new Production();            
-           // production.AddOrder(SaveOrder());
+            //save in order table           
+            production.AddOrder(SaveOrder());
             //save in production table
-            SaveProduction();
-            //production.AddProduction(SaveProduction()); 
+            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            {
+                for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
+                { SaveProduction(i, j); }
+            }
         }
 
-        private List<string> SaveProduction()
+        private void SaveProduction(int ph, int idx)
         {
             //Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID
-            List<string> saveProd = new List<string>();
-            TimeSpan ts = _dateTimePickerTo[0][0].Value - _dateTimePickerFrom[0][0].Value;
-            int totTime = (Int16)(ts.TotalHours * 2);
-            for (int i = 0; i < totTime; i++)
+            List<string> saveProd;
+            TimeSpan ts = _dateTimePickerTo[ph][idx].Value - _dateTimePickerFrom[ph][idx].Value;
+            int totTime = (Int16)(Math.Round(ts.TotalHours * 2));
+            int times = 0;
+            for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
             {
+                saveProd = new List<string>();
                 //Time_ID
-                string hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[0][0].Value);
-                string rowID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour);
-                saveProd.Add(rowID);
+                string hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value);
+                string timeID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour);
+                timeID = (int.Parse(timeID) + times).ToString();
+                saveProd.Add(timeID);
                 //Obj_ID
+                int objIdx = _cmbBoxSelObj[ph][idx].SelectedIndex;
+                int objType = _cmbBoxSelObjType[ph][idx].SelectedIndex;
+                int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
+                saveProd.Add(objID.ToString());
+                //Order_ID
+                saveProd.Add(orderID.ToString());
+                //Phase_ID
+                saveProd.Add((ph+1).ToString());
+                //Day_ID
+                string dayID = String.Format("{0:yyyy-MM-dd}", _dateTimePickerFrom[ph][idx].Value);
+                saveProd.Add(dayID);
+                production.AddProduction(saveProd);
+                times++;
             }
-            return saveProd;
         }
 
         private List<string> SaveOrder()
@@ -144,9 +168,10 @@ namespace ProdCycleBoer
             saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickED.Value));
             saveOrd.Add(txtBoxCodProd.Text);
             saveOrd.Add(txtBoxCodComm.Text);
-            saveOrd.Add("0");
+            saveOrd.Add("1");
             saveOrd.Add(production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, type, "Products_ID", "Products").ToString());
             saveOrd.Add(txtBoxNotes.Text);
+            saveOrd.Add(numUpDownNOrd.Value.ToString());
             return saveOrd;
         }
 
@@ -199,9 +224,6 @@ namespace ProdCycleBoer
             SaveCmbBoxSelIndex();
             AddObject(phase);
             ShowOnePhase(phase);
-            //setta data inizio e fine come nell'obj precedente
-            _dateTimePickerFrom[phase][count].Value = _dateTimePickerFrom[phase][count - 1].Value;
-            _dateTimePickerTo[phase][count].Value = _dateTimePickerTo[phase][count - 1].Value;
         }
 
         private void AddObject(int phase)
@@ -253,7 +275,9 @@ namespace ProdCycleBoer
         private void btnAddPhase_Click(object sender, EventArgs e)
         {
             AddPhase();
-            ShowAllPhases();
+            int phase = tabControlPhases.SelectedIndex + 1;
+            AddTabPage(phase);
+            ShowOnePhase(phase);
         }
 
         private void AddPhase()
@@ -414,6 +438,7 @@ namespace ProdCycleBoer
             ShowDateTimePickerFrom(phase);
             ShowLabelTo(phase);
             ShowDateTimePickerTo(phase);
+            RoundDateTimePicker();
         }
 
         private void SaveCmbBoxSelIndex()
@@ -447,26 +472,29 @@ namespace ProdCycleBoer
             SaveCmbBoxSelIndex();
             //mostra le fasi nella tabControl
             tabControlPhases.Controls.Clear();
-            TabPage newTabPage;
             for (int phase = 0; phase < nOfTabPages; phase++)
             {
-                newTabPage = new TabPage();
-                tabControlPhases.Controls.Add(newTabPage);
-                tabControlPhases.Location = new System.Drawing.Point(10, 121);
-                tabControlPhases.Name = "tabControlAddPh";
-                tabControlPhases.SelectedIndex = 0;
-                tabControlPhases.Size = new System.Drawing.Size(885, 490);
-                tabControlPhases.TabIndex = 17;
-
-                newTabPage.Location = new System.Drawing.Point(4, 22);
-                newTabPage.Name = "tabPage" + (phase + 1);
-                newTabPage.Size = new System.Drawing.Size(877, 464);
-                newTabPage.TabIndex = 3;
-                newTabPage.Text = "Fase " + (phase + 1);
-                newTabPage.UseVisualStyleBackColor = true;
-
+                AddTabPage(phase);
                 ShowOnePhase(phase);
             }
+        }
+
+        private void AddTabPage(int phase)
+        {
+            TabPage newTabPage = new TabPage();
+            tabControlPhases.Controls.Add(newTabPage);
+            tabControlPhases.Location = new System.Drawing.Point(10, 140);
+            tabControlPhases.Name = "tabControlAddPh";
+            tabControlPhases.SelectedIndex = 0;
+            tabControlPhases.Size = new System.Drawing.Size(885, 490);
+            tabControlPhases.TabIndex = 17;
+
+            newTabPage.Location = new System.Drawing.Point(4, 22);
+            newTabPage.Name = "tabPage" + (phase + 1);
+            newTabPage.Size = new System.Drawing.Size(877, 464);
+            newTabPage.TabIndex = 3;
+            newTabPage.Text = "Fase " + (phase + 1);
+            newTabPage.UseVisualStyleBackColor = true;
         }
 
         private void ShowBtnAddObj(int phase)
@@ -509,6 +537,9 @@ namespace ProdCycleBoer
                 _dateTimePickerTo[phase][j].Name = "dateTimePickerTo";
                 _dateTimePickerTo[phase][j].Size = new System.Drawing.Size(150, 20);
                 _dateTimePickerTo[phase][j].TabIndex = 62;
+                DateTimePicker dtp = new DateTimePicker();
+                dtp = _dateTimePickerTo[phase][j];
+                dtp.Leave += new System.EventHandler(dateTimePickerTo_Leave);
                 y1 = y1 + dy;
             }
             x1 = x1 + dx + _dateTimePickerTo[phase][0].Size.Width;
@@ -526,6 +557,9 @@ namespace ProdCycleBoer
                 _dateTimePickerFrom[phase][j].Name = "dateTimePickerFrom";
                 _dateTimePickerFrom[phase][j].Size = new System.Drawing.Size(150, 20);
                 _dateTimePickerFrom[phase][j].TabIndex = 47;
+                DateTimePicker dtp = new DateTimePicker();
+                dtp = _dateTimePickerFrom[phase][j];
+                dtp.Leave += new System.EventHandler(dateTimePickerFrom_Leave);
                 y1 = y1 + dy;
             }
             x1 = x1 + dx + _dateTimePickerFrom[phase][0].Size.Width;
@@ -630,7 +664,6 @@ namespace ProdCycleBoer
             _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
             _TxtBoxNamePhase[phase].TabIndex = 52;
         }
-
         private void ShowBtnAddPhase(int phase)
         {
             _btnAddPhase[phase].Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -728,5 +761,34 @@ namespace ProdCycleBoer
             { txtBoxCodComm.Text = ""; }
             SetCmbBoxNameProd();
         }
+
+        private void dateTimePickerTo_Leave(object sender, EventArgs e)
+        {
+            RoundDateTimePicker();
+        }
+
+        private void dateTimePickerFrom_Leave(object sender, EventArgs e)
+        {
+            RoundDateTimePicker();
+        }
+
+        private void RoundDateTimePicker()
+        {
+            int phase = tabControlPhases.SelectedIndex;
+            for (int j = 0; j < _dateTimePickerTo[phase].Count; j++)
+            {
+                RoundDownMinutes(_dateTimePickerTo[phase][j], phase, 30);
+                RoundDownMinutes(_dateTimePickerFrom[phase][j], phase, 30);
+            }
+        }
+
+        private void RoundDownMinutes(DateTimePicker dtp, int phase, int round)
+        {
+            int x = dtp.Value.Minute;
+            x = -1 * (x % round);
+            DateTime dt = dtp.Value.AddMinutes(x);
+            dtp.Value = dt;
+        }
+
     }
 }
