@@ -17,7 +17,7 @@ namespace ProdCycleBoer
         public bool AddProduct(List<string> AddProduct)
         {
             dbC.Open();
-            command = new SQLiteCommand("INSTERT INTO Products (Name, Measure, Type) VALUES (@name , @measure , @type)", dbC);
+            command = new SQLiteCommand("INSERT INTO Products (Name, Measure, Type) VALUES (@name , @measure , @type)", dbC);
             command.Parameters.AddWithValue("@name", AddProduct[0]);
             command.Parameters.AddWithValue("@measure", AddProduct[1]);
             command.Parameters.AddWithValue("@type", AddProduct[2]);

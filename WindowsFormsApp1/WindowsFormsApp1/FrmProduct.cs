@@ -32,7 +32,7 @@ namespace ProdCycleBoer
             AddProduct.Add(txtBoxMeasure.Text);
             AddProduct.Add(comboBox1.SelectedIndex.ToString());
 
-            AddPR.AddProduct(AddProduct);
+           
         }
     }
 }
