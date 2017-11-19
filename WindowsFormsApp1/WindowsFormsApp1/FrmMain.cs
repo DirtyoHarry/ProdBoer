@@ -107,31 +107,32 @@ namespace ProdCycleBoer
 
         private void ShowDaily(long input)
         {
+            
             dataGridView1.Rows.Clear();
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
             dbC.Open();
 
-            string sql = "SELECT * FROM Production Where Day_ID = @ID order by Time_ID";
-           
+            string sql = "SELECT (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine' FROM Production JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID JOIN Orders ON Orders.Orders_ID = Production.Order_ID Where Production.Day_ID = @ID order by Production.Time_ID"; // cerco ID nelle tabelle e trascrivo tutto nella lista
+
+
             command = new SQLiteCommand(sql, dbC);
 
             command.Parameters.AddWithValue("@ID", input);
 
             SQLiteDataReader reader = command.ExecuteReader();
 
-            for (int i = 0; i < reader.FieldCount-1; i++) //hide ID
+            for (int i = 0; i < reader.FieldCount; i++) //hide ID
             {
-                dataGridView1.Columns[i].HeaderText = reader.GetName(i+1);
+                dataGridView1.Columns[i].HeaderText = reader.GetName(i);
             }
 
-            while (reader.Read())
+            while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
-                dataGridView1.Rows.Add(reader["Time_ID"], reader["Obj_ID"], reader["Phase_ID"], reader["Order_ID"]);
+                dataGridView1.Rows.Add(reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"]);
                 Refresh();
             }
-            dbC.Close();
-
+          
         }
 
         private void ShowWeekly(DateTime input)
@@ -308,8 +309,8 @@ namespace ProdCycleBoer
         {
             dbC.Close();
             ShowDaily(dateTimePicker1.Value.Date.Ticks);
-            ShowWeekly(dateTimePicker1.Value.Date);
-            ShowMonthly(dateTimePicker1.Value.Date);         
+           // ShowWeekly(dateTimePicker1.Value.Date);
+            //ShowMonthly(dateTimePicker1.Value.Date);         
                   
 
         }
