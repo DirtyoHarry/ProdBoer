@@ -21,7 +21,7 @@ namespace ProdCycleBoer
             InitializeComponent();
             obj = new List<string>();
         }
-
+        
         private void cmbBoxSelObj_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbBoxSelObj.SelectedIndex == 0)
