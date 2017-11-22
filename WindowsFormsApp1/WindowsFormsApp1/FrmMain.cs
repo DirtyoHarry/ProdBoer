@@ -24,83 +24,28 @@ namespace ProdCycleBoer
         {
             InitializeComponent();
 
-
+            comboBox1.SelectedIndex = 0;
             dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
             dbC.Open();
-
+            dbC.Close();
+            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+            ShowWeekly(dateTimePicker1.Value.Date);
+            //ShowMonthly(dateTimePicker1.Value.Date);    
             dataGridView3.Visible = false;
             dataGridView4.Visible = false;
 
-            Color colGreen = System.Drawing.ColorTranslator.FromHtml("#CCFF90");
-            Color colYellow = System.Drawing.ColorTranslator.FromHtml("#FFFF8D");
-            Color colRed = System.Drawing.ColorTranslator.FromHtml("#FF9E80");
-
-            
-
-
-            DataGridViewCellStyle empty = new DataGridViewCellStyle();
-            empty.BackColor = Color.White;
-
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
-            style.BackColor = Color.IndianRed;
-            style.ForeColor = Color.Black;
-
-            DataGridViewCellStyle style2 = new DataGridViewCellStyle();
-            style2.BackColor = Color.Yellow;
-            style2.ForeColor = Color.Black;
-
-            DataGridViewCellStyle style3 = new DataGridViewCellStyle();
-            style3.BackColor = Color.LightGreen;
-            style3.ForeColor = Color.Black;
-
-            dataGridView3.Rows.Add("Cliente1", "Cliente1", "Cliente1", "Cliente1", "Cliente1" );
-            dataGridView3.Rows.Add("Cliente2", "Cliente2", "Cliente2", "Cliente2", "Cliente2");
-
-            dataGridView3.Rows[0].Cells[0].Style = style;
-            dataGridView3.Rows[1].Cells[0].Style = style;
-            dataGridView3.Rows[0].Cells[1].Style = style2;
-            dataGridView3.Rows[1].Cells[1].Style = style2;
-            dataGridView3.Rows[0].Cells[2].Style = style2;
-            dataGridView3.Rows[1].Cells[2].Style = style2;
-            dataGridView3.Rows[0].Cells[3].Style = style2;
-            dataGridView3.Rows[1].Cells[3].Style = style2;
-            dataGridView3.Rows[0].Cells[4].Style = style2;
-            dataGridView3.Rows[1].Cells[4].Style = style2;
-            dataGridView3.Rows[0].Cells[5].Style = style3;
-            dataGridView3.Rows[1].Cells[5].Style = style3;
-
-            dataGridView4.Rows.Add("Lunedi");
-            dataGridView4.Rows.Add("Martedi");
-            dataGridView4.Rows.Add("Mercoledi");
-            dataGridView4.Rows.Add("Giovedi");
-            dataGridView4.Rows.Add("Venerdi");
-            dataGridView4.Rows.Add("Sabato");
-
-            dataGridView4.Rows[0].DefaultCellStyle = style;
-            dataGridView4.Rows[1].DefaultCellStyle = style2;
-            dataGridView4.Rows[2].DefaultCellStyle = style2;
-            dataGridView4.Rows[3].DefaultCellStyle = style2;
-            dataGridView4.Rows[4].DefaultCellStyle = style3;
-            dataGridView4.Rows[5].DefaultCellStyle = style3;
-
-            dataGridView4.Rows[0].Cells[0].Style = empty;
-            dataGridView4.Rows[1].Cells[0].Style = empty;
-            dataGridView4.Rows[2].Cells[0].Style = empty;
-            dataGridView4.Rows[3].Cells[0].Style = empty;
-            dataGridView4.Rows[4].Cells[0].Style = empty;
-            dataGridView4.Rows[5].Cells[0].Style = empty;
         }
 
 
         private void ShowDaily(string input)
         {
-            
+
             dataGridView1.Rows.Clear();
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
             dbC.Open();
 
-            string sql = "SELECT (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine' FROM Production JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID JOIN Orders ON Orders.Orders_ID = Production.Order_ID Where Production.Day_ID = @ID order by Production.Time_ID"; // cerco ID nelle tabelle e trascrivo tutto nella lista
+            string sql = "SELECT Production.Order_ID as 'Order', (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine', (Products.Name || ' ' || Products.Measure) as Prodotto FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID  JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID JOIN Orders ON Orders.Orders_ID = Production.Order_ID Where Production.Day_ID = @ID order by Production.Time_ID"; // cerco ID nelle tabelle e trascrivo tutto nella lista
 
 
             command = new SQLiteCommand(sql, dbC);
@@ -116,7 +61,7 @@ namespace ProdCycleBoer
 
             while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
-                dataGridView1.Rows.Add(reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"]);
+                dataGridView1.Rows.Add(reader["Order"],reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"], reader["Prodotto"]);
                 Refresh();
             }
             dbC.Close();
@@ -124,12 +69,12 @@ namespace ProdCycleBoer
 
         private void ShowWeekly(DateTime input)
         {
-            
+
             dataGridView3.Rows.Clear();
-            
+
             //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
 
-             dbC.Open();
+            dbC.Open();
 
             string sql = "Select (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '1') As Lunedi, (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '2') As Martedi,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '3') As Mercoledi ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '4') As Giovedi ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '5') As Venerdi, (Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '6') As Sabato ,(Select Orders.Name From Production  Join Orders ON Orders.Orders_ID = Production.Order_ID  Where strftime('%W', @ID) = strftime('%W', Day_ID) and strftime('%w',Day_ID) = '0') As Domenica";
 
@@ -196,7 +141,7 @@ namespace ProdCycleBoer
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
             int countOrd = production.CountRows("Orders");
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd+1);
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd + 1);
             frm.Show();
 
         }
@@ -205,15 +150,15 @@ namespace ProdCycleBoer
         {
 
             //Form3 frm = new Form3();
-           // frm.Show();
+            // frm.Show();
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            
 
-      
-           // this.reportViewer1.RefreshReport();
+
+
+            // this.reportViewer1.RefreshReport();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -231,14 +176,16 @@ namespace ProdCycleBoer
         {
             if (comboBox1.SelectedIndex == 0)
             {
+                dataGridView1.Visible = true;
                 dataGridView3.Visible = false;
                 dataGridView4.Visible = false;
             }
 
             if (comboBox1.SelectedIndex == 1)
             {
+                dataGridView1.Visible = false;
                 dataGridView3.Visible = true;
-                dataGridView4.Visible = false;
+                dataGridView4.Visible = true;
             }
             if (comboBox1.SelectedIndex == 2)
             {
@@ -276,13 +223,13 @@ namespace ProdCycleBoer
             ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
             ShowWeekly(dateTimePicker1.Value.Date);
             //ShowMonthly(dateTimePicker1.Value.Date);         
-                  
+
 
         }
 
         private void btnAddObj_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void nuovoToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -292,17 +239,19 @@ namespace ProdCycleBoer
 
         private void ordineToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int lastOrd = production.GetLastRowID("Orders_ID", "Orders");
+            FormProduction(true, lastOrd + 1);
+        }
+
+        private void FormProduction(bool newOrd, int orderID)
+        {
             List<int> prodType = new List<int>();
             List<string> prod = production.GetProducts(out prodType);
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
-            int countOrd = production.CountRows("Orders");
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd + 1);
-            DialogResult dr = frm.ShowDialog();
-            if (frm.DialogResult == DialogResult.OK)
-            {
-
-            }
+            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, newOrd, orderID);
+            frm.Show();
+            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
         }
 
         private void prodottoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,7 +261,7 @@ namespace ProdCycleBoer
             if (frm1.DialogResult == DialogResult.OK)
             {
                 production.AddProduct(frm1.newObject);
-                    }
+            }
         }
 
         private void lavoratoreMacchinarioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -325,15 +274,10 @@ namespace ProdCycleBoer
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            List<int> prodType = new List<int>();
-            List<string> prod = production.GetProducts(out prodType);
-            List<int> objType = new List<int>();
-            List<string> obj = production.GetObjs(out objType);
-            int countOrd = production.CountRows("Orders");
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, false, 12);
-            frm.Show();
+            string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
+            FormProduction(false, int.Parse(orderID));
         }
 
         // private void tickmanager

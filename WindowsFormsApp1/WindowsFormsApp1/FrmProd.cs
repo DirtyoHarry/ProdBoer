@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Reflection;
 using System.ComponentModel;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace ProdCycleBoer
 {
@@ -48,6 +48,7 @@ namespace ProdCycleBoer
         List<string> objsNotHuman;
 
         int orderID = -1;
+        bool newOrder = true;
 
         Production production;
 
@@ -56,19 +57,20 @@ namespace ProdCycleBoer
             InitializeComponent();
             production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
-            numUpDownNOrd.Value = ordID;
             numUpDownNOrd.Maximum = ordID;
             numUpDownNOrd.Enabled = newOrd;
             orderID = ordID;
+            newOrder = newOrd;
             StartForm();
-            if (!newOrd)
-            { EditOrder(ordID); }
         }
 
         private void FrmProd_Load(object sender, EventArgs e)
         {
-
-        }        
+            if (!newOrder)
+            { lblChangeProd.Text = "Modifica Ordine #" + orderID; }
+            else
+            { lblChangeProd.Text = "Nuovo Ordine #" + orderID; }
+        }
 
         private void StartForm()
         {
@@ -77,17 +79,28 @@ namespace ProdCycleBoer
             ShowAllPhases();
         }
 
-        private void EditOrder(int ordID)
+
+        private void FrmNewOrd_Shown(object sender, EventArgs e)
         {
-            ShowOrder(ordID);
-            ShowProduction(ordID);
+            if (!newOrder)
+            {
+                numUpDownNOrd.Enabled = newOrder;
+                EditOrder();
+            }
+
         }
 
-        private void ShowOrder(int ordID)
+        private void EditOrder()
+        {
+            ShowOrder();
+            ShowProduction();
+        }
+
+        private void ShowOrder()
         {
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes, Number
             List<string> order = new List<string>();
-            order = production.SelectWithWhereOrders("Orders_ID", ordID.ToString());
+            order = production.SelectWithWhereOrders("Orders_ID", orderID.ToString());
             txtBoxNameOrd.Text = order[0];
             cmbBoxSelProd.SelectedIndex = int.Parse(order[1]);
             dateTmPickSD.Value = DateTime.ParseExact(order[2], "yyyy/dd/MM", System.Globalization.CultureInfo.InvariantCulture);
@@ -102,16 +115,49 @@ namespace ProdCycleBoer
             numUpDownNOrd.Value = int.Parse(order[9]);
         }
 
-        private void ShowProduction(int ordID)
+        private void ShowProduction()
         {
-            List<List<string>> prod = new List<List<string>>();
-            prod = production.GetProduction(ordID,1);
-            int y = int.Parse(prod[0][1]);
-            int x = production.GetType(y, "Objs", "Objs_ID");
-            _cmbBoxSelObjType[0][0].SelectedIndex = x;
-
-            //AddObj();                     
-            
+            /*
+             prod[x][0] = Time_ID
+             prod[x][1] = Obj_ID
+             prod[x][2] = Phase_ID
+             prod[x][3] = strftime('%Y/%d/%m', Day_ID)            
+             */
+            List<List<string>> prodLong = new List<List<string>>();
+            List<List<string>> prodShort = new List<List<string>>();
+            int nOfPhases = production.GetNOfPhasesInProd(orderID);
+            for (int phase = 0; phase < nOfPhases; phase++)
+            {
+                if (phase != 0)
+                { AddPhaseMain(); }
+                prodLong = production.GetProduction(orderID, phase + 1);
+                prodShort = production.GetProductionGroupBy(orderID, phase + 1);
+                int objPerPhase = 0;
+                objPerPhase = production.GetNOfObjsInProd(orderID, phase + 1);
+                List<List<int>> time = new List<List<int>>();
+                time = production.GetHoursOfObj(orderID, phase + 1);
+                for (int k = 0; k < objPerPhase; k++)
+                {
+                    if (k != 0)
+                    { AddObj(); }
+                    int type = production.GetType(int.Parse(prodShort[k][1]), "Objs", "Objs_ID");
+                    _cmbBoxSelObjType[phase][k].SelectedIndex = type;
+                    int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(prodShort[k][1]) - 1);
+                    _cmbBoxSelObj[phase][k].SelectedIndex = selObj;
+                    TimeSpan ts = new TimeSpan();
+                    ts = TimeSpan.FromMinutes(time[k][2] * 30);
+                    int sdtID = time[k][0] - time[k][2] + 1;
+                    string sdtDay = prodShort[k][3];
+                    string sdtHour = production.SelectWithWhere("Real_STime", "Time", "Time_ID", sdtID.ToString());
+                    if (int.Parse(prodShort[k][0]) <= 4) //8:00 --> 08:00
+                    { sdtHour = "0" + sdtHour; }
+                    DateTime sdt = DateTime.ParseExact(sdtDay + " " + sdtHour, "yyyy/dd/MM HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                    _dateTimePickerFrom[phase][k].Value = sdt;
+                    _dateTimePickerTo[phase][k].Value = sdt + ts;
+                    Refresh();
+                }
+            }
+            tabControlPhases.SelectedIndex = 0;
         }
 
         private void SetProdObjLists(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
@@ -141,7 +187,7 @@ namespace ProdCycleBoer
             cmbBoxNameProd.Items.Clear();
             if (cmbBoxSelProd.SelectedIndex == 1)//interna
             {
-                for(int i = 0;i< productsInt.Count;i++)
+                for (int i = 0; i < productsInt.Count; i++)
                 { cmbBoxNameProd.Items.Add(productsInt[i]); }
             }
             else //esterna
@@ -153,14 +199,29 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //save in order table           
-            production.AddOrder(SaveOrder());
-            //save in production table
-            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            if (newOrder)
             {
-                for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
-                { SaveProduction(i, j); }
+                //save in order table           
+                production.AddOrder(SaveOrder());
+                //save in production table
+                for (int i = 0; i < tabControlPhases.TabCount; i++)
+                {
+                    for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
+                    { SaveProduction(i, j); }
+                }
             }
+            else
+            {
+                //save in order table           
+                production.EditOrder(SaveOrder());
+                //save in production table
+                for (int i = 0; i < tabControlPhases.TabCount; i++)
+                {
+                    for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
+                    { SaveProduction(i, j); }
+                }
+            }
+            Close();
         }
 
         private void SaveProduction(int ph, int idx)
@@ -169,29 +230,48 @@ namespace ProdCycleBoer
             List<string> saveProd;
             TimeSpan ts = _dateTimePickerTo[ph][idx].Value - _dateTimePickerFrom[ph][idx].Value;
             int totTime = (Int16)(Math.Round(ts.TotalHours * 2));
-            int times = 0;
+            int restart = 1;
+            string hour = _dateTimePickerFrom[ph][idx].Value.ToString();
+            if (_dateTimePickerFrom[ph][idx].Value <= Convert.ToDateTime("09:30")) //08.00 --> 8.00
+            { hour = String.Format("{0:H:mm}", _dateTimePickerFrom[ph][idx].Value); }
+            else
+            { hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value); }
             for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
             {
                 saveProd = new List<string>();
                 //Time_ID
-                string hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value);
                 string timeID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour);
-                timeID = (int.Parse(timeID) + times).ToString();
-                saveProd.Add(timeID);
-                //Obj_ID
-                int objIdx = _cmbBoxSelObj[ph][idx].SelectedIndex;
-                int objType = _cmbBoxSelObjType[ph][idx].SelectedIndex;
-                int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
-                saveProd.Add(objID.ToString());
-                //Order_ID
-                saveProd.Add(orderID.ToString());
-                //Phase_ID
-                saveProd.Add((ph+1).ToString());
-                //Day_ID
-                string dayID = String.Format("{0:yyyy-MM-dd}", _dateTimePickerFrom[ph][idx].Value);
-                saveProd.Add(dayID);
-                production.AddProduction(saveProd);
-                times++;
+                timeID = (int.Parse(timeID) + i).ToString();
+                int inputTime = int.Parse(timeID);
+                if(inputTime > 48) //il 48 sarebbe il time_ID delle 7.30
+                {
+                    inputTime = restart;
+                    restart++;
+                }
+                if (inputTime < 20 && inputTime != 10 && inputTime != 11) //solo ore lavorative
+                {                    
+                    saveProd.Add(inputTime.ToString());
+                    //Obj_ID
+                    int objIdx = _cmbBoxSelObj[ph][idx].SelectedIndex;
+                    int objType = _cmbBoxSelObjType[ph][idx].SelectedIndex;
+                    int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
+                    saveProd.Add(objID.ToString());
+                    //Order_ID
+                    saveProd.Add(orderID.ToString());
+                    //Phase_ID
+                    saveProd.Add((ph + 1).ToString());
+                    //Day_ID
+                    string dayID = String.Format("{0:yyyy-MM-dd}", _dateTimePickerFrom[ph][idx].Value);
+                    string inputDay = dayID;
+                    if (restart > 1)
+                    {
+                        inputDay = String.Format("{0:yyyy-MM-dd}", _dateTimePickerTo[ph][idx].Value);
+                    }
+                    saveProd.Add(inputDay);
+                    if ((!newOrder) && (ph == 0) && (idx == 0))
+                    { production.RemoveRowsProduction(orderID); }
+                    production.AddProduction(saveProd);
+                }
             }
         }
 
@@ -200,6 +280,7 @@ namespace ProdCycleBoer
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes
             List<string> saveOrd = new List<string>();
             int type = cmbBoxSelProd.SelectedIndex;
+            saveOrd.Add(orderID.ToString());
             saveOrd.Add(txtBoxNameOrd.Text);
             saveOrd.Add(type.ToString());
             saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickSD.Value));
@@ -210,6 +291,8 @@ namespace ProdCycleBoer
             saveOrd.Add(production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, type, "Products_ID", "Products").ToString());
             saveOrd.Add(txtBoxNotes.Text);
             saveOrd.Add(numUpDownNOrd.Value.ToString());
+            if (!newOrder)
+            { saveOrd.Add(orderID.ToString()); }
             return saveOrd;
         }
 
@@ -267,6 +350,7 @@ namespace ProdCycleBoer
             SaveCmbBoxSelIndex();
             AddObject(phase);
             ShowOnePhase(phase);
+            Refresh();
         }
 
         private void AddObject(int phase)
@@ -316,6 +400,11 @@ namespace ProdCycleBoer
         }
 
         private void btnAddPhase_Click(object sender, EventArgs e)
+        {
+            AddPhaseMain();
+        }
+
+        private void AddPhaseMain()
         {
             AddPhase();
             int phase = tabControlPhases.SelectedIndex + 1;
@@ -490,8 +579,8 @@ namespace ProdCycleBoer
             {
                 for (int i = 0; i < _cmbBoxSelObjType[phase].Count; i++)
                 {
-                    _cmbBoxSelObjTypeSelInd[phase][i] = _cmbBoxSelObjType[phase][i].SelectedIndex;
-                    _cmbBoxSelObjSelInd[phase][i] = _cmbBoxSelObj[phase][i].SelectedIndex;
+                    int x = _cmbBoxSelObjTypeSelInd[phase][i] = _cmbBoxSelObjType[phase][i].SelectedIndex;
+                    int y = _cmbBoxSelObjSelInd[phase][i] = _cmbBoxSelObj[phase][i].SelectedIndex;
                 }
             }
         }
@@ -702,6 +791,7 @@ namespace ProdCycleBoer
             _LblNamePhase[phase].Size = new System.Drawing.Size(61, 13);
             _LblNamePhase[phase].TabIndex = 53;
             _LblNamePhase[phase].Text = "Nome Fase";
+            _LblNamePhase[phase].Visible = false;
         }
 
         private void ShowTxtBoxNamePhase(int phase)
@@ -710,6 +800,7 @@ namespace ProdCycleBoer
             _TxtBoxNamePhase[phase].Name = "txtBoxNamePhase";
             _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
             _TxtBoxNamePhase[phase].TabIndex = 52;
+            _TxtBoxNamePhase[phase].Visible = false;
         }
         private void ShowBtnAddPhase(int phase)
         {
@@ -782,9 +873,11 @@ namespace ProdCycleBoer
 
         private void cmbBoxSelObjType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox cmb = new ComboBox();
-            cmb = (ComboBox)sender;
-            
+            SetCmbBoxSelObj();
+        }
+
+        private void SetCmbBoxSelObj()
+        {
             SaveCmbBoxSelIndex();
             int phase = tabControlPhases.SelectedIndex;
             for (int j = 0; j < _cmbBoxSelObj[phase].Count; j++)
@@ -842,7 +935,7 @@ namespace ProdCycleBoer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            ShowProduction(12);
+            Close();
         }
     }
 }

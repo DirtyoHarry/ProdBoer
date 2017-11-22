@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblNewProd = new System.Windows.Forms.Label();
+            this.lblChangeProd = new System.Windows.Forms.Label();
             this.lblNameProd = new System.Windows.Forms.Label();
             this.txtBoxCodProd = new System.Windows.Forms.TextBox();
             this.lblCodProd = new System.Windows.Forms.Label();
@@ -53,15 +53,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblNewProd
+            // lblChangeProd
             // 
-            this.lblNewProd.AutoSize = true;
-            this.lblNewProd.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewProd.Location = new System.Drawing.Point(4, 4);
-            this.lblNewProd.Name = "lblNewProd";
-            this.lblNewProd.Size = new System.Drawing.Size(181, 31);
-            this.lblNewProd.TabIndex = 6;
-            this.lblNewProd.Text = "Nuovo Ordine";
+            this.lblChangeProd.AutoSize = true;
+            this.lblChangeProd.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblChangeProd.Location = new System.Drawing.Point(4, 4);
+            this.lblChangeProd.Name = "lblChangeProd";
+            this.lblChangeProd.Size = new System.Drawing.Size(181, 31);
+            this.lblChangeProd.TabIndex = 6;
+            this.lblChangeProd.Text = "Nuovo Ordine";
             // 
             // lblNameProd
             // 
@@ -295,10 +295,11 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControlPhases);
-            this.Controls.Add(this.lblNewProd);
+            this.Controls.Add(this.lblChangeProd);
             this.Name = "FrmNewOrd";
             this.Text = "Aggiungi Ordine";
             this.Load += new System.EventHandler(this.FrmProd_Load);
+            this.Shown += new System.EventHandler(this.FrmNewOrd_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -306,7 +307,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblNewProd;
+        private System.Windows.Forms.Label lblChangeProd;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmbBoxSelProd;
