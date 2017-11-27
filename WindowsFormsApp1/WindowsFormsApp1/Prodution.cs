@@ -90,17 +90,17 @@ namespace ProdCycleBoer
         {
             dbC.Open();
             command = new SQLiteCommand("UPDATE Orders SET Name = @name ,Type = @Type , Starting_Date = @SDate , Expiring_Date = @EDate , Barcode = @Barcode , Ext_Code = @Ext_Code , Phase_ID = @Phase, Products_ID = @Products_ID, Notes = @Notes, Number = @Number Where Orders_ID = @ID", dbC);
-            command.Parameters.AddWithValue("@name", EditOrder[0]);
-            command.Parameters.AddWithValue("@Type", EditOrder[1]);
-            command.Parameters.AddWithValue("@SDate", EditOrder[2]);
-            command.Parameters.AddWithValue("@EDate", EditOrder[3]);
-            command.Parameters.AddWithValue("@Barcode", EditOrder[4]);
-            command.Parameters.AddWithValue("@Ext_Code", EditOrder[5]);
-            command.Parameters.AddWithValue("@Phase", EditOrder[6]);
-            command.Parameters.AddWithValue("@Products_ID", EditOrder[7]);
-            command.Parameters.AddWithValue("@Notes", EditOrder[8]);
-            command.Parameters.AddWithValue("@Number", EditOrder[9]);
-            command.Parameters.AddWithValue("@ID", EditOrder[10]);
+            command.Parameters.AddWithValue("@ID", EditOrder[0]);
+            command.Parameters.AddWithValue("@name", EditOrder[1]);
+            command.Parameters.AddWithValue("@Type", EditOrder[2]);
+            command.Parameters.AddWithValue("@SDate", EditOrder[3]);
+            command.Parameters.AddWithValue("@EDate", EditOrder[4]);
+            command.Parameters.AddWithValue("@Barcode", EditOrder[5]);
+            command.Parameters.AddWithValue("@Ext_Code", EditOrder[6]);
+            command.Parameters.AddWithValue("@Phase", EditOrder[7]);
+            command.Parameters.AddWithValue("@Products_ID", EditOrder[8]);
+            command.Parameters.AddWithValue("@Notes", EditOrder[9]);
+            command.Parameters.AddWithValue("@Number", EditOrder[10]);
             try
             {
                 command.ExecuteNonQuery();
@@ -162,18 +162,14 @@ namespace ProdCycleBoer
         {
             {
                 dbC.Open();
-
-
-                command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type) VALUES (@Name,@Surname,@Specialization,@Type)", dbC);
-
                 command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type,Spec_Int,Spec_Ext) VALUES (@Name,@Surname,@Specialization,@Type,@Spec_Int,@Spec_Ext)", dbC);
 
                 command.Parameters.AddWithValue("@Name", Aobject[0]);
                 command.Parameters.AddWithValue("@Surname", Aobject[1]);
                 command.Parameters.AddWithValue("@Specialization", Aobject[2]);
                 command.Parameters.AddWithValue("@Type", Aobject[3]);
-                command.Parameters.AddWithValue("@Spec_Int", "0"); // Aobject[4]
-                command.Parameters.AddWithValue("@Spec_Ext", "0"); //Aobject[5]
+                command.Parameters.AddWithValue("@Spec_Int", Aobject[4]);  
+                command.Parameters.AddWithValue("@Spec_Ext", Aobject[5]); 
 
                 try
                 {
@@ -572,6 +568,54 @@ namespace ProdCycleBoer
             }
             dbC.Close();
             return time;
+        }
+
+        public List<List<string>> GetOrders()
+        {
+            List<List<string>> orders = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string query = "SELECT Orders_ID, Orders.Name, CASE Orders.Type WHEN 0 THEN 'esterno' ELSE 'interno' END as Type, strftime('%Y/%d/%m', Starting_Date) as Starting_Date, strftime('%Y/%d/%m', Expiring_Date) as Expiring_Date, Barcode, Ext_Code, Phase_ID, Products.Name as nameProd, Measure, Notes FROM Orders JOIN Products ON Products.Products_ID = Orders.Products_ID";
+            command = new SQLiteCommand(query, dbC);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                orders.Add(temp);
+                orders[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    orders[i].Add(reader[reader.GetName(j)].ToString());
+                }
+                i++;
+            }
+            dbC.Close();
+            return orders;
+        }
+
+        public List<List<string>> GetProducts()
+        {
+            List<List<string>> orders = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string date = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+            string query = "SELECT Products.Products_ID, Products.Name, CASE Orders.Products_ID WHEN Orders.Products_ID IS NOT NULL AND strftime('%Y/%d/%m', Production.Day_ID) >= strftime('%Y/%d/%m', @date) THEN 'si' ELSE 'no' END as InProduzione, CASE Products.Type WHEN 0 THEN 'esterno' ELSE 'interno' END as Type FROM Products LEFT JOIN Orders ON(Products.Products_ID = Orders.Products_ID) LEFT JOIN Production ON(Orders.Orders_ID = Production.Order_ID) GROUP BY Products.Products_ID";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@date", date);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                orders.Add(temp);
+                orders[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    orders[i].Add(reader[reader.GetName(j)].ToString());
+                }
+                i++;
+            }
+            dbC.Close();
+            return orders;
         }
 
     }

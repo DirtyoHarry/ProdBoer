@@ -45,11 +45,27 @@ namespace ProdCycleBoer
             obj.Add(txtBoxSurname.Text);
             obj.Add(txtBoxSpec.Text);
             obj.Add(cmbBoxSelObj.SelectedIndex.ToString());
-
+            SetIntExtSpec();
         }
 
-
-
+        private void SetIntExtSpec()
+        {
+            if (radioBbtnInt.Checked == true)
+            {
+                obj.Add("2");
+                obj.Add("0");
+            }
+            else if (radioBtnExt.Checked == true)
+            {
+                obj.Add("0");
+                obj.Add("2");
+            }
+            else
+            {
+                obj.Add("1");
+                obj.Add("1");
+            }
+        }
 
     }
 }

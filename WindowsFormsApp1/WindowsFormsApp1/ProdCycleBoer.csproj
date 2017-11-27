@@ -56,6 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmAddDefaultPh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddDefaultPh.Designer.cs">
+      <DependentUpon>FrmAddDefaultPh.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmAddObj.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,9 +92,18 @@
     <Compile Include="FrmProduct.Designer.cs">
       <DependentUpon>FrmProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmViewTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmViewTable.Designer.cs">
+      <DependentUpon>FrmViewTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Prodution.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmAddDefaultPh.resx">
+      <DependentUpon>FrmAddDefaultPh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAddObj.resx">
       <DependentUpon>FrmAddObj.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProduct.resx">
       <DependentUpon>FrmProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmViewTable.resx">
+      <DependentUpon>FrmViewTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

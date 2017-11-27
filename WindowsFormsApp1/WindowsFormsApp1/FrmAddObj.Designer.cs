@@ -39,9 +39,9 @@
             this.txtBoxSpec = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioBbtnInt = new System.Windows.Forms.RadioButton();
+            this.radioBtnExt = new System.Windows.Forms.RadioButton();
+            this.radioBtnBoth = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // cmbBoxSelObj
@@ -146,47 +146,47 @@
             this.btnCancel.Text = "Annulla";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioBbtnInt
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(119, 242);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(58, 17);
-            this.radioButton1.TabIndex = 69;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Interno";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioBbtnInt.AutoSize = true;
+            this.radioBbtnInt.Location = new System.Drawing.Point(119, 242);
+            this.radioBbtnInt.Name = "radioBbtnInt";
+            this.radioBbtnInt.Size = new System.Drawing.Size(58, 17);
+            this.radioBbtnInt.TabIndex = 69;
+            this.radioBbtnInt.TabStop = true;
+            this.radioBbtnInt.Text = "Interno";
+            this.radioBbtnInt.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radioBtnExt
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(183, 242);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(61, 17);
-            this.radioButton2.TabIndex = 70;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Esterno";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioBtnExt.AutoSize = true;
+            this.radioBtnExt.Location = new System.Drawing.Point(183, 242);
+            this.radioBtnExt.Name = "radioBtnExt";
+            this.radioBtnExt.Size = new System.Drawing.Size(61, 17);
+            this.radioBtnExt.TabIndex = 70;
+            this.radioBtnExt.TabStop = true;
+            this.radioBtnExt.Text = "Esterno";
+            this.radioBtnExt.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radioBtnBoth
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(250, 242);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(66, 17);
-            this.radioButton3.TabIndex = 71;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Entrambi";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioBtnBoth.AutoSize = true;
+            this.radioBtnBoth.Location = new System.Drawing.Point(250, 242);
+            this.radioBtnBoth.Name = "radioBtnBoth";
+            this.radioBtnBoth.Size = new System.Drawing.Size(66, 17);
+            this.radioBtnBoth.TabIndex = 71;
+            this.radioBtnBoth.TabStop = true;
+            this.radioBtnBoth.Text = "Entrambi";
+            this.radioBtnBoth.UseVisualStyleBackColor = true;
             // 
             // FrmAddObj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 381);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.radioBtnBoth);
+            this.Controls.Add(this.radioBtnExt);
+            this.Controls.Add(this.radioBbtnInt);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtBoxSpec);
@@ -217,8 +217,8 @@
         private System.Windows.Forms.TextBox txtBoxSpec;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioBbtnInt;
+        private System.Windows.Forms.RadioButton radioBtnExt;
+        private System.Windows.Forms.RadioButton radioBtnBoth;
     }
 }

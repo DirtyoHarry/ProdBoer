@@ -46,6 +46,8 @@ namespace ProdCycleBoer
         List<string> productsInt;
         List<string> objsHuman;
         List<string> objsNotHuman;
+        List<string> objsNotHumanInt;
+        List<string> objsNotHumanExt;
 
         int orderID = -1;
         bool newOrder = true;
@@ -57,7 +59,7 @@ namespace ProdCycleBoer
             InitializeComponent();
             production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
-            numUpDownNOrd.Maximum = ordID;
+            numUpDownNOrd.Maximum = ordID-1;
             numUpDownNOrd.Enabled = newOrd;
             orderID = ordID;
             newOrder = newOrd;
@@ -84,7 +86,6 @@ namespace ProdCycleBoer
         {
             if (!newOrder)
             {
-                numUpDownNOrd.Enabled = newOrder;
                 EditOrder();
             }
 
@@ -214,6 +215,8 @@ namespace ProdCycleBoer
             {
                 //save in order table           
                 production.EditOrder(SaveOrder());
+                //cancel all rows of that order in production
+                production.RemoveRowsProduction(orderID);
                 //save in production table
                 for (int i = 0; i < tabControlPhases.TabCount; i++)
                 {
@@ -236,20 +239,21 @@ namespace ProdCycleBoer
             { hour = String.Format("{0:H:mm}", _dateTimePickerFrom[ph][idx].Value); }
             else
             { hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value); }
+            string dtpTimeID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour); 
             for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
             {
                 saveProd = new List<string>();
                 //Time_ID
-                string timeID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour);
+                string timeID = dtpTimeID;
                 timeID = (int.Parse(timeID) + i).ToString();
                 int inputTime = int.Parse(timeID);
-                if(inputTime > 48) //il 48 sarebbe il time_ID delle 7.30
+                if (inputTime > 48) //il 48 sarebbe il time_ID delle 7.30
                 {
                     inputTime = restart;
                     restart++;
                 }
                 if (inputTime < 20 && inputTime != 10 && inputTime != 11) //solo ore lavorative
-                {                    
+                {
                     saveProd.Add(inputTime.ToString());
                     //Obj_ID
                     int objIdx = _cmbBoxSelObj[ph][idx].SelectedIndex;
@@ -264,12 +268,8 @@ namespace ProdCycleBoer
                     string dayID = String.Format("{0:yyyy-MM-dd}", _dateTimePickerFrom[ph][idx].Value);
                     string inputDay = dayID;
                     if (restart > 1)
-                    {
-                        inputDay = String.Format("{0:yyyy-MM-dd}", _dateTimePickerTo[ph][idx].Value);
-                    }
+                    { inputDay = String.Format("{0:yyyy-MM-dd}", _dateTimePickerTo[ph][idx].Value); }
                     saveProd.Add(inputDay);
-                    if ((!newOrder) && (ph == 0) && (idx == 0))
-                    { production.RemoveRowsProduction(orderID); }
                     production.AddProduction(saveProd);
                 }
             }
@@ -280,7 +280,7 @@ namespace ProdCycleBoer
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes
             List<string> saveOrd = new List<string>();
             int type = cmbBoxSelProd.SelectedIndex;
-            saveOrd.Add(orderID.ToString());
+            saveOrd.Add(orderID.ToString()); 
             saveOrd.Add(txtBoxNameOrd.Text);
             saveOrd.Add(type.ToString());
             saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickSD.Value));
@@ -291,8 +291,6 @@ namespace ProdCycleBoer
             saveOrd.Add(production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, type, "Products_ID", "Products").ToString());
             saveOrd.Add(txtBoxNotes.Text);
             saveOrd.Add(numUpDownNOrd.Value.ToString());
-            if (!newOrder)
-            { saveOrd.Add(orderID.ToString()); }
             return saveOrd;
         }
 
@@ -936,6 +934,11 @@ namespace ProdCycleBoer
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void lblChangeProd_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

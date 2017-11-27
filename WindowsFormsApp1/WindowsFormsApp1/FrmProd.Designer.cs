@@ -62,6 +62,7 @@
             this.lblChangeProd.Size = new System.Drawing.Size(181, 31);
             this.lblChangeProd.TabIndex = 6;
             this.lblChangeProd.Text = "Nuovo Ordine";
+            this.lblChangeProd.Click += new System.EventHandler(this.lblChangeProd_Click);
             // 
             // lblNameProd
             // 
@@ -255,11 +256,6 @@
             // numUpDownNOrd
             // 
             this.numUpDownNOrd.Location = new System.Drawing.Point(396, 37);
-            this.numUpDownNOrd.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.numUpDownNOrd.Name = "numUpDownNOrd";
             this.numUpDownNOrd.Size = new System.Drawing.Size(160, 20);
             this.numUpDownNOrd.TabIndex = 56;

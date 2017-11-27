@@ -67,6 +67,51 @@ namespace ProdCycleBoer
             dbC.Close();
         }
 
+
+        /*private void ShowDailyTwo(string input)
+        {
+            List<List<string>> production = new List<List<string>>();
+            List < string > productionTemp = new List<string>();
+
+            dataGridView1.Rows.Clear();
+            //  dbC = new SQLiteConnection(ConfigurationManager.AppSettings.Get("dbConnectionString"));
+
+            dbC.Open();
+
+            string sql = "SELECT Production.Order_ID as 'Order', (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine', (Products.Name || ' ' || Products.Measure) as Prodotto FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID  JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID JOIN Orders ON Orders.Orders_ID = Production.Order_ID Where Production.Day_ID = @ID order by Production.Time_ID"; // cerco ID nelle tabelle e trascrivo tutto nella lista
+            string sqlCount = "SELECT Count(*), Time.Time_ID FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID JOIN Orders ON Orders.Orders_ID = Production.Order_ID WHERE Production.Day_ID = @ID GROUP by Production.Time_ID";
+
+            command = new SQLiteCommand(sql, dbC);
+
+            command.Parameters.AddWithValue("@ID", input);
+
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            for (int i = 0; i < reader.FieldCount; i++) //hide ID
+            {
+                dataGridView1.Columns[i].HeaderText = reader.GetName(i);
+            }
+
+            while (reader.Read()) // scrivo gli ID dentro ad una lista
+            {
+                production.Add(productionTemp);
+                dataGridView1.Rows.Add(reader["Order"], reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"], reader["Prodotto"]);
+                Refresh();
+            }
+            dbC.Close();
+        }
+
+        private void ShowDailyOnDataGrid(List<List<string>> prodDaily, int lastTimeID, List<int> rowsForTimeID)
+        {
+            for (int i = 0; i < lastTimeID; i++)
+            {
+                for (int j = 0; j < rowsForTimeID[i]; i++)
+                {
+
+                }
+            }
+        }*/
+
         private void ShowWeekly(DateTime input)
         {
 
@@ -278,6 +323,33 @@ namespace ProdCycleBoer
         {
             string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
             FormProduction(false, int.Parse(orderID));
+        }
+
+        private void ordiniToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<List<string>> orders = production.GetOrders();
+            List<string> columns = new List<string> { "ID", "Nome Ordine", "Tipo Produzione", "Data Inserimento", "Data Scadenza", "Codice Prodotto", "Codice Commessa", "Fase Attuale", "Nome Prodotto", "Misura Prodotto", "Note" };
+            Form frmView = new FrmViewTable(orders, columns, 0);
+            frmView.Show();
+        }
+
+        private void prodottiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<List<string>> products = production.GetProducts();
+            List<string> columns = new List<string> { "ID", "Nome Prodotto", "Attualmente in produzione", "Tipo prodotto"};
+            Form frmView = new FrmViewTable(products, columns, 1);
+            frmView.Show();
+
+        }
+
+        private void fasiPredefiniteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            Form frmAddPh = new FrmAddDefaultPh(prod, prodType, obj, objType);
+            frmAddPh.Show();
         }
 
         // private void tickmanager
