@@ -37,38 +37,54 @@ namespace ProdCycleBoer
         List<Label> _lblObjUsed;
         List<Button> _BtnAddObj;
         List<Button> _BtnRemoveObj;
+        List<Label> _LblNamePhase;
+        List<TextBox> _TxtBoxNamePhase;
 
         List<string> productsExt;
         List<string> productsInt;
         List<string> objsHuman;
         List<string> objsNotHuman;
-        List<string> objsNotHumanInt;
-        List<string> objsNotHumanExt;
 
         Production production;
-
+        int productID = -1;
 
         public FrmAddDefaultPh(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
         {
             InitializeComponent();
             production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
-            StartForm();
+            InitializeObjList();
+            SetCmbBoxSelProduct();
+            cmbBoxSelProd.SelectedIndex = 0;
         }
 
         private void FrmAddDefaultPh_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 6; i++)
+
+        }
+
+        private void SetCmbBoxSelProduct()
+        {
+            List<int> useless;
+            List<string> products = production.GetProducts(out useless);
+            for (int i = 0; i < products.Count; i++)
             {
-                AddPhaseMain();
-                ShowAllPhases();
+                cmbBoxSelProd.Items.Add(products[i]);
             }
         }
 
-        private void StartForm()
+        private void SetTabPagesAsPhases()
         {
-            InitializeObjList();
-            AddPhase();
+            tabControlPhases.TabPages.Clear();
+            ClearAllObjects();
+            int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
+            int nOfPhases = production.CountPhasesByType(type);
+            List<string> namePh = production.SelectWithWhereList("Name", "Phases", "Type", type.ToString());
+            for (int i = 0; i < nOfPhases; i++)
+            {
+                AddPhaseMain();
+                _TxtBoxNamePhase[i].Text = namePh[i];
+            }
             ShowAllPhases();
         }
 
@@ -123,6 +139,8 @@ namespace ProdCycleBoer
             _lblObjUsed = new List<Label>();
             _BtnAddObj = new List<Button>();
             _BtnRemoveObj = new List<Button>();
+            _TxtBoxNamePhase = new List<TextBox>();
+            _LblNamePhase = new List<Label>();
         }
 
         private void AddListToMainList()
@@ -189,6 +207,22 @@ namespace ProdCycleBoer
             }
         }
 
+        private void ClearAllObjects()
+        {
+            nOfTabPages = 0;
+            _lblPhLength.Clear();
+            _BtnAddObj.Clear();
+            _BtnRemoveObj.Clear();
+            _lblObjUsed.Clear();
+            _cmbBoxSelObj.Clear();
+            _cmbBoxSelObjType.Clear();
+            _cmbBoxSelObjTypeSelInd.Clear();
+            _cmbBoxSelObjSelInd.Clear();
+            _numUpDwSelLength.Clear();
+            _TxtBoxNamePhase.Clear();
+            _LblNamePhase.Clear();
+        }
+
         private void btnAddPhase_Click(object sender, EventArgs e)
         {
             AddPhaseMain();
@@ -228,7 +262,8 @@ namespace ProdCycleBoer
             btnTemp = new Button();
             _BtnRemoveObj.Add(btnTemp);
             lblTemp = new Label();
-
+            _TxtBoxNamePhase.Add(txtBoxTemp);
+            _LblNamePhase.Add(lblTemp);
         }
 
         private void ShowOnePhase(int phase)
@@ -240,6 +275,8 @@ namespace ProdCycleBoer
             tabControlPhases.TabPages[phase].Controls.Add(_lblObjUsed[phase]);
             tabControlPhases.TabPages[phase].Controls.Add(_lblPhLength[phase]);
             tabControlPhases.TabPages[phase].Controls.Add(_numUpDwSelLength[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_TxtBoxNamePhase[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_LblNamePhase[phase]);
 
             for (int i = 0; i < _cmbBoxSelObj[phase].Count; i++)
             {
@@ -248,6 +285,8 @@ namespace ProdCycleBoer
                 tabControlPhases.TabPages[phase].Controls.Add(_cmbBoxSelObjType[phase][i]);
             }
 
+            ShowLblNamePhase(phase);
+            ShowTxtBoxNamePhase(phase);
             ShowNumUpDwSelLength(phase);
             ShowLblPhLength(phase);
             ShowBtnAddObj(phase);
@@ -349,7 +388,7 @@ namespace ProdCycleBoer
         private void ShowLblObjUsed(int phase)
         {
             _lblObjUsed[phase].AutoSize = true;
-            _lblObjUsed[phase].Location = new System.Drawing.Point(8, 76);
+            _lblObjUsed[phase].Location = new System.Drawing.Point(6, 76);
             _lblObjUsed[phase].Name = "lblObjUsed";
             _lblObjUsed[phase].Size = new System.Drawing.Size(156, 13);
             _lblObjUsed[phase].TabIndex = 65;
@@ -400,7 +439,7 @@ namespace ProdCycleBoer
         private void ShowLblPhLength(int phase)
         {
             _lblPhLength[phase].AutoSize = true;
-            _lblPhLength[phase].Location = new System.Drawing.Point(6, 17);
+            _lblPhLength[phase].Location = new System.Drawing.Point(6, 48);
             _lblPhLength[phase].Name = "label1";
             _lblPhLength[phase].Size = new System.Drawing.Size(35, 13);
             _lblPhLength[phase].TabIndex = 1;
@@ -409,12 +448,32 @@ namespace ProdCycleBoer
 
         private void ShowNumUpDwSelLength(int phase)
         {
-            _numUpDwSelLength[phase].Location = new System.Drawing.Point(170, 15);
+            _numUpDwSelLength[phase].Location = new System.Drawing.Point(170, 48);
             _numUpDwSelLength[phase].Name = "numericUpDown1";
-            _numUpDwSelLength[phase].Size = new System.Drawing.Size(120, 20);
+            _numUpDwSelLength[phase].Size = new System.Drawing.Size(100, 20);
             _numUpDwSelLength[phase].TabIndex = 0;
 
         }
+
+        private void ShowLblNamePhase(int phase)
+        {
+            _LblNamePhase[phase].AutoSize = true;
+            _LblNamePhase[phase].Location = new System.Drawing.Point(6, 19);
+            _LblNamePhase[phase].Name = "label6";
+            _LblNamePhase[phase].Size = new System.Drawing.Size(61, 13);
+            _LblNamePhase[phase].TabIndex = 53;
+            _LblNamePhase[phase].Text = "Nome Fase:";
+        }
+
+        private void ShowTxtBoxNamePhase(int phase)
+        {
+            _TxtBoxNamePhase[phase].Location = new System.Drawing.Point(70, 16);
+            _TxtBoxNamePhase[phase].Name = "txtBoxNamePhase";
+            _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
+            _TxtBoxNamePhase[phase].TabIndex = 52;
+            _TxtBoxNamePhase[phase].Enabled = false;
+        }
+
 
         private void RemoveClickEvent(Button b)
         {
@@ -457,6 +516,45 @@ namespace ProdCycleBoer
         private void button1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbBoxSelProd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetTabPagesAsPhases();
+            productID = production.GetRowID(cmbBoxSelProd.SelectedIndex, "Products_ID", "Products");
+        }
+
+        private void Save()
+        {
+            List<string> defaultPh;
+            for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
+            {
+                for (int i = 0; i < _cmbBoxSelObj[phase].Count; i++)
+                {
+                    defaultPh = new List<string>();
+                    int objIdx = _cmbBoxSelObj[phase][i].SelectedIndex;
+                    int objType = _cmbBoxSelObjType[phase][i].SelectedIndex;
+                    int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
+                    defaultPh.Add(objID.ToString());
+                    int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
+                    int phaseID = production.GetRowID(phase, "Phases_ID", "Phases", "Type", type.ToString());
+                    defaultPh.Add(phaseID.ToString());
+                    defaultPh.Add(productID.ToString());
+                    defaultPh.Add(_numUpDwSelLength[phase].Value.ToString());
+                    production.AddDefaultPhases(defaultPh);
+                }
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

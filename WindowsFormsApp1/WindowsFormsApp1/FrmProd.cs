@@ -46,8 +46,6 @@ namespace ProdCycleBoer
         List<string> productsInt;
         List<string> objsHuman;
         List<string> objsNotHuman;
-        List<string> objsNotHumanInt;
-        List<string> objsNotHumanExt;
 
         int orderID = -1;
         bool newOrder = true;
@@ -69,7 +67,10 @@ namespace ProdCycleBoer
         private void FrmProd_Load(object sender, EventArgs e)
         {
             if (!newOrder)
-            { lblChangeProd.Text = "Modifica Ordine #" + orderID; }
+            {
+                lblChangeProd.Text = "Modifica Ordine #" + orderID;                
+                cmbBoxNameProd.Enabled = cmbBoxSelProd.Enabled = false;
+            }
             else
             { lblChangeProd.Text = "Nuovo Ordine #" + orderID; }
         }
@@ -149,7 +150,7 @@ namespace ProdCycleBoer
                     ts = TimeSpan.FromMinutes(time[k][2] * 30);
                     int sdtID = time[k][0] - time[k][2] + 1;
                     string sdtDay = prodShort[k][3];
-                    string sdtHour = production.SelectWithWhere("Real_STime", "Time", "Time_ID", sdtID.ToString());
+                    string sdtHour = production.SelectWithWhereOneRow("Real_STime", "Time", "Time_ID", sdtID.ToString());
                     if (int.Parse(prodShort[k][0]) <= 4) //8:00 --> 08:00
                     { sdtHour = "0" + sdtHour; }
                     DateTime sdt = DateTime.ParseExact(sdtDay + " " + sdtHour, "yyyy/dd/MM HH:mm", System.Globalization.CultureInfo.InvariantCulture);
@@ -239,7 +240,7 @@ namespace ProdCycleBoer
             { hour = String.Format("{0:H:mm}", _dateTimePickerFrom[ph][idx].Value); }
             else
             { hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value); }
-            string dtpTimeID = production.SelectWithWhere("Time_ID", "Time", "Real_STime", hour); 
+            string dtpTimeID = production.SelectWithWhereOneRow("Time_ID", "Time", "Real_STime", hour); 
             for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
             {
                 saveProd = new List<string>();
@@ -449,6 +450,11 @@ namespace ProdCycleBoer
         }
 
         private void btnRemPhase_Click(object sender, EventArgs e)
+        {
+            RemovePhaseMain();
+        }
+
+        private void RemovePhaseMain()
         {
             int phase = tabControlPhases.SelectedIndex;
             RemovePhase(phase);
@@ -789,7 +795,6 @@ namespace ProdCycleBoer
             _LblNamePhase[phase].Size = new System.Drawing.Size(61, 13);
             _LblNamePhase[phase].TabIndex = 53;
             _LblNamePhase[phase].Text = "Nome Fase";
-            _LblNamePhase[phase].Visible = false;
         }
 
         private void ShowTxtBoxNamePhase(int phase)
@@ -798,8 +803,9 @@ namespace ProdCycleBoer
             _TxtBoxNamePhase[phase].Name = "txtBoxNamePhase";
             _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
             _TxtBoxNamePhase[phase].TabIndex = 52;
-            _TxtBoxNamePhase[phase].Visible = false;
+            _TxtBoxNamePhase[phase].Enabled = false;
         }
+
         private void ShowBtnAddPhase(int phase)
         {
             _btnAddPhase[phase].Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -939,6 +945,24 @@ namespace ProdCycleBoer
         private void lblChangeProd_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbBoxNameProd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetTxtBoxNamePhaseText();
+        }
+
+        private void SetTxtBoxNamePhaseText()
+        {
+            int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
+            List<string> namePh = production.SelectWithWhereList("Name", "Phases", "Type", type.ToString());
+            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            {
+                if(namePh.Count > i)
+                {
+                    _TxtBoxNamePhase[i].Text = namePh[i];
+                }
+            }
         }
     }
 }

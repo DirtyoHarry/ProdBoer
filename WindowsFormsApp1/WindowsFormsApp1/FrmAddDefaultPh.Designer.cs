@@ -31,6 +31,8 @@
             this.tabControlPhases = new System.Windows.Forms.TabControl();
             this.cmbBoxSelProd = new System.Windows.Forms.ComboBox();
             this.lblNewProd = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tabControlPhases
@@ -49,6 +51,7 @@
             this.cmbBoxSelProd.Name = "cmbBoxSelProd";
             this.cmbBoxSelProd.Size = new System.Drawing.Size(288, 21);
             this.cmbBoxSelProd.TabIndex = 19;
+            this.cmbBoxSelProd.SelectedIndexChanged += new System.EventHandler(this.cmbBoxSelProd_SelectedIndexChanged);
             // 
             // lblNewProd
             // 
@@ -60,11 +63,35 @@
             this.lblNewProd.TabIndex = 60;
             this.lblNewProd.Text = "Nuove fasi predefinite";
             // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(615, 9);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(97, 55);
+            this.btnCancel.TabIndex = 62;
+            this.btnCancel.Text = "Annulla";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnSave.Location = new System.Drawing.Point(512, 10);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(97, 54);
+            this.btnSave.TabIndex = 61;
+            this.btnSave.Text = "Salva";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // FrmAddDefaultPh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(730, 597);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblNewProd);
             this.Controls.Add(this.cmbBoxSelProd);
             this.Controls.Add(this.tabControlPhases);
@@ -81,5 +108,7 @@
         private System.Windows.Forms.TabControl tabControlPhases;
         private System.Windows.Forms.ComboBox cmbBoxSelProd;
         private System.Windows.Forms.Label lblNewProd;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnSave;
     }
 }

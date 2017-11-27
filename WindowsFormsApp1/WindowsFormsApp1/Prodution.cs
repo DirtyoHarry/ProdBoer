@@ -395,7 +395,34 @@ namespace ProdCycleBoer
             return objID;
         }
 
-        public string SelectWithWhere(string selColumn, string table, string whereCol, string whereClause)
+
+        public int GetRowID(int index, string ID, string table, string whereCol, string whereClause)
+        {
+            //ha la funzione del ROW_NUMBER in SQL normale
+            int objID = -1;
+            dbC.Open();
+            string query = "SELECT " + ID + " FROM " + table + " WHERE " + whereCol + " = @whereClause LIMIT 1 OFFSET @index";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@index", index);
+            command.Parameters.AddWithValue("@whereClause", whereClause);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    objID = int.Parse(reader[ID].ToString());
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            dbC.Close();
+            return objID;
+        }
+
+        public string SelectWithWhereOneRow(string selColumn, string table, string whereCol, string whereClause)
         {
             string retString = "";
             dbC.Open();
@@ -406,6 +433,29 @@ namespace ProdCycleBoer
             try
             {
                 retString = reader[selColumn].ToString();
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            return retString;
+        }
+
+        public List<string> SelectWithWhereList(string selColumn, string table, string whereCol, string whereClause)
+        {
+            List<string> retString = new List<string>();
+            dbC.Open();
+            string query = "SELECT " + selColumn + " FROM " + table + " WHERE " + whereCol + " = @whereClause";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@whereClause", whereClause);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    retString.Add(reader[selColumn].ToString());
+                }
                 dbC.Close();
             }
             catch
@@ -616,6 +666,68 @@ namespace ProdCycleBoer
             }
             dbC.Close();
             return orders;
+        }
+
+        public int CountPhasesByType(int type)
+        {
+            int count = -1;
+            dbC.Open();
+            string query = "SELECT COUNT(*) as cnt FROM Phases WHERE Type = @type";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@type", type);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                count = int.Parse(reader["cnt"].ToString());
+            }
+            dbC.Close();
+            return count;
+        }
+
+        public int GetType(int position, string table)
+        {
+            int type = -1;
+            dbC.Open();
+            string query = "SELECT Type FROM " + table + " LIMIT 1 OFFSET @position";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@position", position);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    type = int.Parse(reader["Type"].ToString());
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            dbC.Close();
+            return type;
+        }
+
+        public bool AddDefaultPhases(List<string> AddPhases)
+        {
+            dbC.Open();
+            command = new SQLiteCommand("INSERT INTO Phase_Obj_Product (Objs_ID, Phases_ID, Products_ID, Length) VALUES (@Objs_ID, @Phases_ID , @Products_ID , @Length)", dbC);
+            command.Parameters.AddWithValue("@Objs_ID", AddPhases[0]);
+            command.Parameters.AddWithValue("@Phases_ID", AddPhases[1]);
+            command.Parameters.AddWithValue("@Products_ID", AddPhases[2]);
+            command.Parameters.AddWithValue("@Length", AddPhases[3]);
+            try
+            {
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
+            }
         }
 
     }

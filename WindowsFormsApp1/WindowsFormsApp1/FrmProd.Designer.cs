@@ -95,9 +95,9 @@
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(743, 4);
+            this.btnSave.Location = new System.Drawing.Point(772, 12);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 54);
+            this.btnSave.Size = new System.Drawing.Size(122, 54);
             this.btnSave.TabIndex = 19;
             this.btnSave.Text = "Salva";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -106,9 +106,9 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(824, 3);
+            this.btnCancel.Location = new System.Drawing.Point(772, 78);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 55);
+            this.btnCancel.Size = new System.Drawing.Size(122, 55);
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "Annulla";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -234,6 +234,7 @@
             this.cmbBoxNameProd.Name = "cmbBoxNameProd";
             this.cmbBoxNameProd.Size = new System.Drawing.Size(160, 21);
             this.cmbBoxNameProd.TabIndex = 53;
+            this.cmbBoxNameProd.SelectedIndexChanged += new System.EventHandler(this.cmbBoxNameProd_SelectedIndexChanged);
             // 
             // label1
             // 
