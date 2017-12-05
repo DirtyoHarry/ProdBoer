@@ -47,6 +47,7 @@ namespace ProdCycleBoer
 
         Production production;
         int productID = -1;
+        bool edit = false;
 
         public FrmAddDefaultPh(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
         {
@@ -158,18 +159,18 @@ namespace ProdCycleBoer
 
         private void btnAddObj_Click(object sender, EventArgs e)
         {
-            AddObj();
+            AddObj(tabControlPhases.SelectedIndex);
         }
 
-        private void AddObj()
+        private void AddObj(int phase)
         {
-            int phase = tabControlPhases.SelectedIndex;
-            int count = _cmbBoxSelObj[phase].Count;
             SaveCmbBoxSelIndex();
             AddObject(phase);
             ShowOnePhase(phase);
             Refresh();
         }
+
+
 
         private void AddObject(int phase)
         {
@@ -452,7 +453,7 @@ namespace ProdCycleBoer
             _numUpDwSelLength[phase].Name = "numericUpDown1";
             _numUpDwSelLength[phase].Size = new System.Drawing.Size(100, 20);
             _numUpDwSelLength[phase].TabIndex = 0;
-
+            _numUpDwSelLength[phase].Minimum = 1;
         }
 
         private void ShowLblNamePhase(int phase)
@@ -520,8 +521,34 @@ namespace ProdCycleBoer
 
         private void cmbBoxSelProd_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetTabPagesAsPhases();
             productID = production.GetRowID(cmbBoxSelProd.SelectedIndex, "Products_ID", "Products");
+            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out edit);
+            List<int> rowsInOneDefPh = production.RowsInOneDefaultPhases(productID);
+            SetTabPagesAsPhases(); 
+            if(edit)
+            {
+                EditDefaultPhases(defPhases, rowsInOneDefPh);
+            }
+        }
+
+        private void EditDefaultPhases(List<List<string>> defPhases, List<int> rowsInOneDefPh)
+        {
+            //Objs_ID, Phases_ID, Length
+            for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
+            {
+                int countRows = rowsInOneDefPh[phase];
+                for (int i = 0; i < countRows; i++)
+                {
+                    if (i != 0)
+                    {
+                        AddObj(phase);
+                    }
+                    int type = production.GetType(int.Parse(defPhases[phase][0]), "Objs", "Objs_ID");
+                    _cmbBoxSelObjType[phase][i].SelectedIndex = type;
+                    int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(defPhases[phase][0]) - 1);
+                    _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
+                }
+            }
         }
 
         private void Save()
@@ -555,6 +582,10 @@ namespace ProdCycleBoer
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
         }
     }
 }
