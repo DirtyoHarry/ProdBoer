@@ -57,7 +57,7 @@ namespace ProdCycleBoer
             InitializeComponent();
             production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
-            numUpDownNOrd.Maximum = ordID-1;
+            numUpDownNOrd.Maximum = ordID - 1;
             numUpDownNOrd.Enabled = newOrd;
             orderID = ordID;
             newOrder = newOrd;
@@ -68,7 +68,7 @@ namespace ProdCycleBoer
         {
             if (!newOrder)
             {
-                lblChangeProd.Text = "Modifica Ordine #" + orderID;                
+                lblChangeProd.Text = "Modifica Ordine #" + orderID;
                 cmbBoxNameProd.Enabled = cmbBoxSelProd.Enabled = false;
             }
             else
@@ -240,7 +240,7 @@ namespace ProdCycleBoer
             { hour = String.Format("{0:H:mm}", _dateTimePickerFrom[ph][idx].Value); }
             else
             { hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value); }
-            string dtpTimeID = production.SelectWithWhereOneRow("Time_ID", "Time", "Real_STime", hour); 
+            string dtpTimeID = production.SelectWithWhereOneRow("Time_ID", "Time", "Real_STime", hour);
             for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
             {
                 saveProd = new List<string>();
@@ -281,7 +281,7 @@ namespace ProdCycleBoer
             //Name, Type, Starting_Date, Expiring_Date, Barcode, Ext_Code, Phase_ID, Products_ID, Notes
             List<string> saveOrd = new List<string>();
             int type = cmbBoxSelProd.SelectedIndex;
-            saveOrd.Add(orderID.ToString()); 
+            saveOrd.Add(orderID.ToString());
             saveOrd.Add(txtBoxNameOrd.Text);
             saveOrd.Add(type.ToString());
             saveOrd.Add(String.Format("{0:yyyy-MM-dd}", dateTmPickSD.Value));
@@ -401,6 +401,7 @@ namespace ProdCycleBoer
         private void btnAddPhase_Click(object sender, EventArgs e)
         {
             AddPhaseMain();
+            SetTxtBoxNamePhaseText();
         }
 
         private void AddPhaseMain()
@@ -451,21 +452,22 @@ namespace ProdCycleBoer
 
         private void btnRemPhase_Click(object sender, EventArgs e)
         {
-            RemovePhaseMain();
+            RemovePhaseMain(false);
+            SetTxtBoxNamePhaseText();
         }
 
-        private void RemovePhaseMain()
+        private void RemovePhaseMain(bool deleteFirstTP)
         {
             int phase = tabControlPhases.SelectedIndex;
-            RemovePhase(phase);
+            RemovePhase(phase, deleteFirstTP);
             ShowAllPhases();
             tabControlPhases.SelectedIndex = phase;
         }
 
-        private void RemovePhase(int phase)
+        private void RemovePhase(int phase, bool deleteFirstTP)
         {
             //rimuovi la fase selezionata
-            if (nOfTabPages > 1)
+            if ((nOfTabPages > 1 && !deleteFirstTP) || deleteFirstTP)
             {
                 for (int i = phase; i < nOfTabPages - 1; i++)
                 {
@@ -949,7 +951,25 @@ namespace ProdCycleBoer
 
         private void cmbBoxNameProd_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int productID = production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, cmbBoxSelProd.SelectedIndex, "Products_ID", "Products");
+            LoadDefaultPhases(productID);
             SetTxtBoxNamePhaseText();
+        }
+
+        private void LoadDefaultPhases(int productID)
+        {
+            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
+            if (existDefPh)
+            {
+                string question = "Caricare le fasi predefinite? Verranno eliminate le azioni impostate sulla produzione impostate fin'ora.";
+                string title = "Fasi Predefinite";
+                DialogResult dialogResult = MessageBox.Show(question, title, MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ShowDefaultPhases(defPhases);
+                }
+            }
+
         }
 
         private void SetTxtBoxNamePhaseText()
@@ -958,11 +978,48 @@ namespace ProdCycleBoer
             List<string> namePh = production.SelectWithWhereList("Name", "Phases", "Type", type.ToString());
             for (int i = 0; i < tabControlPhases.TabCount; i++)
             {
-                if(namePh.Count > i)
+                if (namePh.Count > i)
                 {
                     _TxtBoxNamePhase[i].Text = namePh[i];
                 }
             }
         }
+
+        private void DeleteAllPhases()
+        {
+            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            { RemovePhase(i, true); }
+            ShowAllPhases();
+        }
+
+        private void ShowDefaultPhases(List<List<string>> defPhases)
+        {
+            DeleteAllPhases();
+            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            { AddPhase(); }
+
+        }
+
+        /*private void ShowDefaultPh()
+        {
+            List<string> defaultPh;
+            for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
+            {
+                for (int i = 0; i < _cmbBoxSelObj[phase].Count; i++)
+                {
+                    defaultPh = new List<string>();
+                    int objIdx = _cmbBoxSelObj[phase][i].SelectedIndex;
+                    int objType = _cmbBoxSelObjType[phase][i].SelectedIndex;
+                    int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
+                    defaultPh.Add(objID.ToString());
+                    int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
+                    int phaseID = production.GetRowID(phase, "Phases_ID", "Phases", "Type", type.ToString());
+                    defaultPh.Add(phaseID.ToString());
+                    defaultPh.Add(productID.ToString());
+                    defaultPh.Add(_numUpDwSelLength[phase].Value.ToString());
+                    production.AddDefaultPhases(defaultPh);
+                }
+            }
+        }*/
     }
 }

@@ -560,6 +560,8 @@ namespace ProdCycleBoer
             }
         }
 
+        private void Clear
+
         private void Save()
         {
             List<string> defaultPh;
