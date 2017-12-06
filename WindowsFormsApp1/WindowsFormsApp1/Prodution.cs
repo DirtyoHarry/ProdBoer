@@ -735,7 +735,7 @@ namespace ProdCycleBoer
             List<List<string>> defaultPh = new List<List<string>>();
             List<string> temp = new List<string>();
             dbC.Open();
-            string query = "SELECT Phase_Obj_Product.Objs_ID, Phase_Obj_Product.Phases_ID, Phase_Obj_Product.Length FROM Phase_Obj_Product WHERE products_ID = @productID";
+            string query = "SELECT Phase_Obj_Product.Objs_ID, Phase_Obj_Product.Phases_ID, Phase_Obj_Product.Length FROM Phase_Obj_Product WHERE products_ID = @productID ORDER BY Phases_ID";
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@productID", productID);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -746,7 +746,8 @@ namespace ProdCycleBoer
                 defaultPh[i] = new List<string>();
                 for (int j = 0; j < reader.FieldCount; j++)
                 {
-                    defaultPh[i].Add(reader[reader.GetName(j)].ToString());
+                    string row = reader[reader.GetName(j)].ToString();
+                    defaultPh[i].Add(row);
                 }
                 i++;
             }
