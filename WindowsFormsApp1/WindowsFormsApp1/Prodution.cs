@@ -140,11 +140,11 @@ namespace ProdCycleBoer
             }
         }
 
-        public bool RemoveRowsProduction(int Order_ID)
+        public bool RemoveRowsFromDB(string table, string column, int ID)
         {
             dbC.Open();
-            command = new SQLiteCommand("DELETE FROM Production WHERE Order_ID = @ID", dbC);
-            command.Parameters.AddWithValue("@ID", Order_ID);
+            command = new SQLiteCommand("DELETE FROM " + table + " WHERE " + column + " = @ID", dbC);
+            command.Parameters.AddWithValue("@ID", ID);
             try
             {
                 command.ExecuteNonQuery();
@@ -454,7 +454,8 @@ namespace ProdCycleBoer
             {
                 while (reader.Read())
                 {
-                    retString.Add(reader[selColumn].ToString());
+                    string namePH = reader[selColumn].ToString();
+                    retString.Add(namePH);
                 }
                 dbC.Close();
             }
@@ -712,7 +713,7 @@ namespace ProdCycleBoer
         public bool AddDefaultPhases(List<string> AddPhases)
         {
             dbC.Open();
-            command = new SQLiteCommand("INSERT INTO Phase_Obj_Product (Objs_ID, Phases_ID, Products_ID, Length) VALUES (@Objs_ID, @Phases_ID , @Products_ID , @Length)", dbC);
+            command = new SQLiteCommand("INSERT INTO DefaultPhases (Objs_ID, Phases_ID, Products_ID, Length) VALUES (@Objs_ID, @Phases_ID , @Products_ID , @Length)", dbC);
             command.Parameters.AddWithValue("@Objs_ID", AddPhases[0]);
             command.Parameters.AddWithValue("@Phases_ID", AddPhases[1]);
             command.Parameters.AddWithValue("@Products_ID", AddPhases[2]);
@@ -735,7 +736,7 @@ namespace ProdCycleBoer
             List<List<string>> defaultPh = new List<List<string>>();
             List<string> temp = new List<string>();
             dbC.Open();
-            string query = "SELECT Objs_ID, Phases_ID, Length FROM Phase_Obj_Product WHERE products_ID = @productID ORDER BY Phases_ID";
+            string query = "SELECT Objs_ID, Phases_ID, Length FROM DefaultPhases WHERE products_ID = @productID ORDER BY Phases_ID";
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@productID", productID);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -760,7 +761,7 @@ namespace ProdCycleBoer
         {
             List<int> countRows = new List<int>();
             dbC.Open();
-            string query = "SELECT COUNT(*) as ct FROM Phase_Obj_Product WHERE products_ID = @productID GROUP BY Phases_ID";
+            string query = "SELECT COUNT(*) as ct FROM DefaultPhases WHERE products_ID = @productID GROUP BY Phases_ID";
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@productID", productID);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -773,5 +774,7 @@ namespace ProdCycleBoer
             return countRows;
         }
     }
+
+ //   private List<List<int>> Get
 }
 

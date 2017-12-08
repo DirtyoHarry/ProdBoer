@@ -125,17 +125,14 @@ namespace ProdCycleBoer
              prod[x][2] = Phase_ID
              prod[x][3] = strftime('%Y/%d/%m', Day_ID)            
              */
-            List<List<string>> prodLong = new List<List<string>>();
             List<List<string>> prodShort = new List<List<string>>();
             int nOfPhases = production.GetNOfPhasesInProd(orderID);
             for (int phase = 0; phase < nOfPhases; phase++)
             {
                 if (phase != 0)
                 { AddPhaseMain(); }
-                prodLong = production.GetProduction(orderID, phase + 1);
                 prodShort = production.GetProductionGroupBy(orderID, phase + 1);
-                int objPerPhase = 0;
-                objPerPhase = production.GetNOfObjsInProd(orderID, phase + 1);
+                int objPerPhase = production.GetNOfObjsInProd(orderID, phase + 1);
                 List<List<int>> time = new List<List<int>>();
                 time = production.GetHoursOfObj(orderID, phase + 1);
                 for (int k = 0; k < objPerPhase; k++)
@@ -156,7 +153,6 @@ namespace ProdCycleBoer
                     DateTime sdt = DateTime.ParseExact(sdtDay + " " + sdtHour, "yyyy/dd/MM HH:mm", System.Globalization.CultureInfo.InvariantCulture);
                     _dateTimePickerFrom[phase][k].Value = sdt;
                     _dateTimePickerTo[phase][k].Value = sdt + ts;
-                    Refresh();
                 }
             }
             tabControlPhases.SelectedIndex = 0;
@@ -217,7 +213,7 @@ namespace ProdCycleBoer
                 //save in order table           
                 production.EditOrder(SaveOrder());
                 //cancel all rows of that order in production
-                production.RemoveRowsProduction(orderID);
+                production.RemoveRowsFromDB("Production", "Order_ID", orderID);
                 //save in production table
                 for (int i = 0; i < tabControlPhases.TabCount; i++)
                 {
@@ -225,6 +221,7 @@ namespace ProdCycleBoer
                     { SaveProduction(i, j); }
                 }
             }
+            MessageBox.Show("Salvataggio completato con successo");
             Close();
         }
 
@@ -349,7 +346,6 @@ namespace ProdCycleBoer
             SaveCmbBoxSelIndex();
             AddObject(phase);
             ShowOnePhase(phase);
-            Refresh();
         }
 
         private void AddObject(int phase)
@@ -407,7 +403,7 @@ namespace ProdCycleBoer
         private void AddPhaseMain()
         {
             AddPhase();
-            int phase = tabControlPhases.SelectedIndex + 1;
+            int phase = tabControlPhases.TabCount;
             AddTabPage(phase);
             ShowOnePhase(phase);
         }
@@ -956,33 +952,55 @@ namespace ProdCycleBoer
             SetTxtBoxNamePhaseText();
         }
 
-        private void LoadDefaultPhases(int productID)
-        {
-            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
-            if (existDefPh)
-            {
-                string question = "Caricare le fasi predefinite? Verranno eliminate le azioni impostate sulla produzione impostate fin'ora.";
-                string title = "Fasi Predefinite";
-                DialogResult dialogResult = MessageBox.Show(question, title, MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    ShowDefaultPhases(defPhases);
-                }
-            }
-
-        }
-
         private void SetTxtBoxNamePhaseText()
         {
-            int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
+            int type = cmbBoxSelProd.SelectedIndex;
             List<string> namePh = production.SelectWithWhereList("Name", "Phases", "Type", type.ToString());
             for (int i = 0; i < tabControlPhases.TabCount; i++)
             {
                 if (namePh.Count > i)
                 {
-                    _TxtBoxNamePhase[i].Text = namePh[i];
+                    string x = _TxtBoxNamePhase[i].Text = namePh[i];
                 }
             }
+        }
+        
+        private void LoadDefaultPhases(int productID)
+        {
+            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
+            string question = "";
+            string title = "";
+            //Objs_ID, Phases_ID, Length
+            if (existDefPh && newOrder)
+            {
+                question = "Caricare le fasi predefinite? Verranno eliminate le azioni impostate sulla produzione impostate fin'ora.";
+                title = "Caricamento Fasi Predefinite";
+            }
+            else if (!existDefPh && tabControlPhases.TabCount>1 && newOrder)
+            {
+                question = "Non esistono fasi predefinite per questo prodotto. Per crearle andare su File>Nuovo>Fasi Predefinite. Resettare le azioni impostate fino ad adesso?";
+                title = "Modificare azioni preparate";
+            }
+            DialogResult dialogResult = new DialogResult();
+            if (question != "")
+            {
+                dialogResult = MessageBox.Show(question, title, MessageBoxButtons.YesNo);
+            }
+            if (dialogResult == DialogResult.Yes && existDefPh)
+            {
+                ShowDefaultPhases(defPhases, productID);
+            }
+            else if (dialogResult == DialogResult.Yes && !existDefPh)
+            {
+                DeleteAllPhases();
+                AddPhaseMain();
+            }
+        }
+
+        private void ShowDefaultPhases(List<List<string>> defPhases, int productID)
+        {
+            DeleteAllPhases();
+            ShowDefaultPh(defPhases, productID);
         }
 
         private void DeleteAllPhases()
@@ -991,35 +1009,29 @@ namespace ProdCycleBoer
             { RemovePhase(i, true); }
             ShowAllPhases();
         }
-
-        private void ShowDefaultPhases(List<List<string>> defPhases)
+        
+        private void ShowDefaultPh(List<List<string>> defPhases, int productID)
         {
-            DeleteAllPhases();
-            for (int i = 0; i < tabControlPhases.TabCount; i++)
-            { AddPhase(); }
-
-        }
-
-        /*private void ShowDefaultPh()
-        {
-            List<string> defaultPh;
-            for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
+            List<int> rowsPerPhase = production.RowsInOneDefaultPhases(productID);
+            int ctPhases = int.Parse(defPhases[defPhases.Count-1][1]);
+            int row = 0;
+            for (int phase = 0; phase < ctPhases; phase++)
             {
-                for (int i = 0; i < _cmbBoxSelObj[phase].Count; i++)
+                AddPhaseMain();
+                int limit = rowsPerPhase[phase];
+                for (int i = 0; i < limit; i++)
                 {
-                    defaultPh = new List<string>();
-                    int objIdx = _cmbBoxSelObj[phase][i].SelectedIndex;
-                    int objType = _cmbBoxSelObjType[phase][i].SelectedIndex;
-                    int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
-                    defaultPh.Add(objID.ToString());
-                    int type = production.GetType(cmbBoxSelProd.SelectedIndex, "Products");
-                    int phaseID = production.GetRowID(phase, "Phases_ID", "Phases", "Type", type.ToString());
-                    defaultPh.Add(phaseID.ToString());
-                    defaultPh.Add(productID.ToString());
-                    defaultPh.Add(_numUpDwSelLength[phase].Value.ToString());
-                    production.AddDefaultPhases(defaultPh);
+                    if (i != 0)
+                    { AddObj(); }
+                    int type = production.GetType(int.Parse(defPhases[row][0]), "Objs", "Objs_ID");
+                    _cmbBoxSelObjType[phase][i].SelectedIndex = type;
+                    int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(defPhases[row][0])-1);
+                    int ctItems = _cmbBoxSelObj[phase][i].Items.Count;
+                    _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
+                    row++;
+                    Refresh();
                 }
             }
-        }*/
+        }
     }
 }

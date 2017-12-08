@@ -524,7 +524,7 @@ namespace ProdCycleBoer
             productID = production.GetRowID(cmbBoxSelProd.SelectedIndex, "Products_ID", "Products");
             List<List<string>> defPhOneProd = production.GetDefaultPhasesOneProd(productID, out edit);
             List<int> rowsInOneDefPh = production.RowsInOneDefaultPhases(productID);
-            
+
             SetTabPagesAsPhases();
             if (edit)
             {
@@ -536,7 +536,7 @@ namespace ProdCycleBoer
         private void EditDefaultPhases(List<List<string>> defPhOneProd, List<int> rowsInOneDefPh)
         {
             //Objs_ID, Phases_ID, Length
-            int row= 0;
+            int row = 0;
             for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
             {
                 int countRows = rowsInOneDefPh[phase];
@@ -560,7 +560,11 @@ namespace ProdCycleBoer
             }
         }
 
-        private void Clear
+        private void ClearDefaultPhases(int product_ID)
+        {
+            if (edit)
+            { production.RemoveRowsFromDB("DefaultPhases", "Products_ID", product_ID); }
+        }
 
         private void Save()
         {
@@ -586,7 +590,9 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            ClearDefaultPhases(productID);
             Save();
+            MessageBox.Show("Salvataggio completato con successo");
             Close();
         }
 
