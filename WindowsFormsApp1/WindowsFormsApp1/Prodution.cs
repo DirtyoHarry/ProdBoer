@@ -597,25 +597,22 @@ namespace ProdCycleBoer
             return ctObjs;
         }
 
-        public List<List<int>> GetHoursOfObj(int orderID, int phaseID)
+        public List<string> GetStartingAndEndingDateTime(int orderID, int phaseID, int objID)
         {
-            List<List<int>> time = new List<List<int>>();
-            List<int> temp = new List<int>();
+            List<string> time = new List<string>();
             dbC.Open();
-            string query = "SELECT Time_ID, Obj_ID, COUNT(*) as ctHours FROM PRODUCTION WHERE Order_ID = @orderID AND Phase_ID = @phaseID GROUP BY Obj_ID";
+            string query = "SELECT * FROM (SELECT Time_ID as STime, strftime('%Y/%d/%m', Day_ID) as SDay FROM PRODUCTION WHERE Order_ID = @orderID AND Phase_ID = @phaseID AND Obj_ID = @objID ORDER BY Day_ID ASC, Time_ID ASC LIMIT 1) as Starting, (SELECT (Time_ID+1) as ETime, strftime('%Y/%d/%m', Day_ID) as EDay FROM Production WHERE Order_ID = @orderID AND Phase_ID = @phaseID AND Obj_ID = @objID ORDER BY Day_ID DESC, Time_ID DESC LIMIT 1) as Ending";
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@orderID", orderID);
             command.Parameters.AddWithValue("@phaseID", phaseID);
+            command.Parameters.AddWithValue("@objID", objID);
             SQLiteDataReader reader = command.ExecuteReader();
-            int i = 0;
             while (reader.Read())
             {
-                time.Add(temp);
-                time[i] = new List<int>();
-                time[i].Add(int.Parse(reader["Time_ID"].ToString()));
-                time[i].Add(int.Parse(reader["Obj_ID"].ToString()));
-                time[i].Add(int.Parse(reader["ctHours"].ToString()));
-                i++;
+                time.Add(reader["STime"].ToString());
+                time.Add(reader["SDay"].ToString());
+                time.Add(reader["ETime"].ToString());
+                time.Add(reader["EDay"].ToString());
             }
             dbC.Close();
             return time;
