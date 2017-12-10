@@ -674,11 +674,8 @@ namespace ProdCycleBoer
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@type", type);
             SQLiteDataReader reader = command.ExecuteReader();
-            int i = 0;
             while (reader.Read())
-            {
-                count = int.Parse(reader["cnt"].ToString());
-            }
+            { count = int.Parse(reader["cnt"].ToString()); }
             dbC.Close();
             return count;
         }
@@ -762,11 +759,8 @@ namespace ProdCycleBoer
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@productID", productID);
             SQLiteDataReader reader = command.ExecuteReader();
-            int i = 0;
             while (reader.Read())
-            {
-                countRows.Add(int.Parse(reader["ct"].ToString()));
-            }
+            { countRows.Add(int.Parse(reader["ct"].ToString())); }
             dbC.Close();
             return countRows;
         }

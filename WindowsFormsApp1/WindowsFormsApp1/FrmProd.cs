@@ -441,6 +441,8 @@ namespace ProdCycleBoer
         {
             AddPhase();
             int phase = tabControlPhases.TabCount;
+            if (phase > 0)
+            { _dateTimePickerTo[phase][0].Value = _dateTimePickerFrom[phase][0].Value = _dateTimePickerTo[phase - 1][0].Value; }
             AddTabPage(phase);
             if (showPh)
             { ShowOnePhase(phase); }
