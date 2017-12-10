@@ -427,9 +427,16 @@ namespace ProdCycleBoer
                 dataGridView1.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
                
                 dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value = memory;
-              
+                List<string> rowToAdd = new List<string>();
+                for (int i = 0; i < 5; i++)
+                {
+                    rowToAdd.Add(dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[i].Value.ToString());
+                }
 
+                production.EditProduction(rowToAdd);
             }
+
+            
         }
     }
 }
