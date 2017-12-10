@@ -58,6 +58,16 @@
             this.ordineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavoratoreMacchinarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+<<<<<<< HEAD
+=======
+            this.visualizzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ordiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prodottiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fasiPredefiniteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lavMacchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fasiPredefiniteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+>>>>>>> 0f3a9558540acb4b9821468ad4e049e5e88ecc12
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -101,6 +111,48 @@
             this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
+            // 
+            // colmnID
+            // 
+            this.colmnID.HeaderText = "Orders_ID";
+            this.colmnID.Name = "colmnID";
+            this.colmnID.Visible = false;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Ora";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 130F;
+            this.Column2.HeaderText = "Lavoratore";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 145;
+            // 
+            // Macchinario
+            // 
+            this.Macchinario.FillWeight = 125F;
+            this.Macchinario.HeaderText = "Macchinario";
+            this.Macchinario.Name = "Macchinario";
+            this.Macchinario.ReadOnly = true;
+            this.Macchinario.Width = 150;
+            // 
+            // Fase
+            // 
+            this.Fase.HeaderText = "Fase";
+            this.Fase.Name = "Fase";
+            this.Fase.ReadOnly = true;
+            this.Fase.Width = 150;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Prodotto";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 200;
             // 
             // colmnID
             // 
@@ -273,7 +325,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuovoToolStripMenuItem1});
+            this.nuovoToolStripMenuItem1,
+            this.visualizzaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(852, 24);
@@ -289,8 +342,8 @@
             this.nuovoToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem});
             this.nuovoToolStripMenuItem1.Name = "nuovoToolStripMenuItem1";
-            this.nuovoToolStripMenuItem1.Size = new System.Drawing.Size(79, 20);
-            this.nuovoToolStripMenuItem1.Text = "Produzione";
+            this.nuovoToolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+            this.nuovoToolStripMenuItem1.Text = "File";
             this.nuovoToolStripMenuItem1.Click += new System.EventHandler(this.nuovoToolStripMenuItem1_Click);
             // 
             // nuovoToolStripMenuItem
@@ -298,7 +351,8 @@
             this.nuovoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ordineToolStripMenuItem,
             this.prodottoToolStripMenuItem,
-            this.lavoratoreMacchinarioToolStripMenuItem});
+            this.lavoratoreMacchinarioToolStripMenuItem,
+            this.fasiPredefiniteToolStripMenuItem1});
             this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
             this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.nuovoToolStripMenuItem.Text = "Nuovo";
@@ -324,6 +378,61 @@
             this.lavoratoreMacchinarioToolStripMenuItem.Text = "Lavoratore/Macchinario";
             this.lavoratoreMacchinarioToolStripMenuItem.Click += new System.EventHandler(this.lavoratoreMacchinarioToolStripMenuItem_Click);
             // 
+<<<<<<< HEAD
+=======
+            // visualizzaToolStripMenuItem
+            // 
+            this.visualizzaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.listaToolStripMenuItem});
+            this.visualizzaToolStripMenuItem.Name = "visualizzaToolStripMenuItem";
+            this.visualizzaToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.visualizzaToolStripMenuItem.Text = "Visualizza";
+            // 
+            // listaToolStripMenuItem
+            // 
+            this.listaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ordiniToolStripMenuItem,
+            this.prodottiToolStripMenuItem,
+            this.fasiPredefiniteToolStripMenuItem,
+            this.lavMacchToolStripMenuItem});
+            this.listaToolStripMenuItem.Name = "listaToolStripMenuItem";
+            this.listaToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.listaToolStripMenuItem.Text = "Lista";
+            // 
+            // ordiniToolStripMenuItem
+            // 
+            this.ordiniToolStripMenuItem.Name = "ordiniToolStripMenuItem";
+            this.ordiniToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.ordiniToolStripMenuItem.Text = "Ordini";
+            this.ordiniToolStripMenuItem.Click += new System.EventHandler(this.ordiniToolStripMenuItem_Click);
+            // 
+            // prodottiToolStripMenuItem
+            // 
+            this.prodottiToolStripMenuItem.Name = "prodottiToolStripMenuItem";
+            this.prodottiToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.prodottiToolStripMenuItem.Text = "Prodotti";
+            this.prodottiToolStripMenuItem.Click += new System.EventHandler(this.prodottiToolStripMenuItem_Click);
+            // 
+            // fasiPredefiniteToolStripMenuItem
+            // 
+            this.fasiPredefiniteToolStripMenuItem.Name = "fasiPredefiniteToolStripMenuItem";
+            this.fasiPredefiniteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.fasiPredefiniteToolStripMenuItem.Text = "Fasi Predefinite";
+            // 
+            // lavMacchToolStripMenuItem
+            // 
+            this.lavMacchToolStripMenuItem.Name = "lavMacchToolStripMenuItem";
+            this.lavMacchToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.lavMacchToolStripMenuItem.Text = "Lav/Macch";
+            // 
+            // fasiPredefiniteToolStripMenuItem1
+            // 
+            this.fasiPredefiniteToolStripMenuItem1.Name = "fasiPredefiniteToolStripMenuItem1";
+            this.fasiPredefiniteToolStripMenuItem1.Size = new System.Drawing.Size(201, 22);
+            this.fasiPredefiniteToolStripMenuItem1.Text = "Fasi Predefinite";
+            this.fasiPredefiniteToolStripMenuItem1.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem1_Click);
+            // 
+>>>>>>> 0f3a9558540acb4b9821468ad4e049e5e88ecc12
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,6 +490,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.ToolStripMenuItem visualizzaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ordiniToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prodottiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fasiPredefiniteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lavMacchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fasiPredefiniteToolStripMenuItem1;
     }
 }
 

@@ -90,17 +90,17 @@ namespace ProdCycleBoer
         {
             dbC.Open();
             command = new SQLiteCommand("UPDATE Orders SET Name = @name ,Type = @Type , Starting_Date = @SDate , Expiring_Date = @EDate , Barcode = @Barcode , Ext_Code = @Ext_Code , Phase_ID = @Phase, Products_ID = @Products_ID, Notes = @Notes, Number = @Number Where Orders_ID = @ID", dbC);
-            command.Parameters.AddWithValue("@name", EditOrder[0]);
-            command.Parameters.AddWithValue("@Type", EditOrder[1]);
-            command.Parameters.AddWithValue("@SDate", EditOrder[2]);
-            command.Parameters.AddWithValue("@EDate", EditOrder[3]);
-            command.Parameters.AddWithValue("@Barcode", EditOrder[4]);
-            command.Parameters.AddWithValue("@Ext_Code", EditOrder[5]);
-            command.Parameters.AddWithValue("@Phase", EditOrder[6]);
-            command.Parameters.AddWithValue("@Products_ID", EditOrder[7]);
-            command.Parameters.AddWithValue("@Notes", EditOrder[8]);
-            command.Parameters.AddWithValue("@Number", EditOrder[9]);
-            command.Parameters.AddWithValue("@ID", EditOrder[10]);
+            command.Parameters.AddWithValue("@ID", EditOrder[0]);
+            command.Parameters.AddWithValue("@name", EditOrder[1]);
+            command.Parameters.AddWithValue("@Type", EditOrder[2]);
+            command.Parameters.AddWithValue("@SDate", EditOrder[3]);
+            command.Parameters.AddWithValue("@EDate", EditOrder[4]);
+            command.Parameters.AddWithValue("@Barcode", EditOrder[5]);
+            command.Parameters.AddWithValue("@Ext_Code", EditOrder[6]);
+            command.Parameters.AddWithValue("@Phase", EditOrder[7]);
+            command.Parameters.AddWithValue("@Products_ID", EditOrder[8]);
+            command.Parameters.AddWithValue("@Notes", EditOrder[9]);
+            command.Parameters.AddWithValue("@Number", EditOrder[10]);
             try
             {
                 command.ExecuteNonQuery();
@@ -140,11 +140,11 @@ namespace ProdCycleBoer
             }
         }
 
-        public bool RemoveRowsProduction(int Order_ID)
+        public bool RemoveRowsFromDB(string table, string column, int ID)
         {
             dbC.Open();
-            command = new SQLiteCommand("DELETE FROM Production WHERE Order_ID = @ID", dbC);
-            command.Parameters.AddWithValue("@ID", Order_ID);
+            command = new SQLiteCommand("DELETE FROM " + table + " WHERE " + column + " = @ID", dbC);
+            command.Parameters.AddWithValue("@ID", ID);
             try
             {
                 command.ExecuteNonQuery();
@@ -162,18 +162,14 @@ namespace ProdCycleBoer
         {
             {
                 dbC.Open();
-
-
-                command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type) VALUES (@Name,@Surname,@Specialization,@Type)", dbC);
-
                 command = new SQLiteCommand("INSERT INTO Objs (Name,Surname,Specialization,Type,Spec_Int,Spec_Ext) VALUES (@Name,@Surname,@Specialization,@Type,@Spec_Int,@Spec_Ext)", dbC);
 
                 command.Parameters.AddWithValue("@Name", Aobject[0]);
                 command.Parameters.AddWithValue("@Surname", Aobject[1]);
                 command.Parameters.AddWithValue("@Specialization", Aobject[2]);
                 command.Parameters.AddWithValue("@Type", Aobject[3]);
-                command.Parameters.AddWithValue("@Spec_Int", "0"); // Aobject[4]
-                command.Parameters.AddWithValue("@Spec_Ext", "0"); //Aobject[5]
+                command.Parameters.AddWithValue("@Spec_Int", Aobject[4]);  
+                command.Parameters.AddWithValue("@Spec_Ext", Aobject[5]); 
 
                 try
                 {
@@ -399,7 +395,34 @@ namespace ProdCycleBoer
             return objID;
         }
 
-        public string SelectWithWhere(string selColumn, string table, string whereCol, string whereClause)
+
+        public int GetRowID(int index, string ID, string table, string whereCol, string whereClause)
+        {
+            //ha la funzione del ROW_NUMBER in SQL normale
+            int objID = -1;
+            dbC.Open();
+            string query = "SELECT " + ID + " FROM " + table + " WHERE " + whereCol + " = @whereClause LIMIT 1 OFFSET @index";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@index", index);
+            command.Parameters.AddWithValue("@whereClause", whereClause);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    objID = int.Parse(reader[ID].ToString());
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            dbC.Close();
+            return objID;
+        }
+
+        public string SelectWithWhereOneRow(string selColumn, string table, string whereCol, string whereClause)
         {
             string retString = "";
             dbC.Open();
@@ -410,6 +433,30 @@ namespace ProdCycleBoer
             try
             {
                 retString = reader[selColumn].ToString();
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            return retString;
+        }
+
+        public List<string> SelectWithWhereList(string selColumn, string table, string whereCol, string whereClause)
+        {
+            List<string> retString = new List<string>();
+            dbC.Open();
+            string query = "SELECT " + selColumn + " FROM " + table + " WHERE " + whereCol + " = @whereClause";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@whereClause", whereClause);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    string namePH = reader[selColumn].ToString();
+                    retString.Add(namePH);
+                }
                 dbC.Close();
             }
             catch
@@ -550,30 +597,181 @@ namespace ProdCycleBoer
             return ctObjs;
         }
 
-        public List<List<int>> GetHoursOfObj(int orderID, int phaseID)
+        public List<string> GetStartingAndEndingDateTime(int orderID, int phaseID, int objID)
         {
-            List<List<int>> time = new List<List<int>>();
-            List<int> temp = new List<int>();
+            List<string> time = new List<string>();
             dbC.Open();
-            string query = "SELECT Time_ID, Obj_ID, COUNT(*) as ctHours FROM PRODUCTION WHERE Order_ID = @orderID AND Phase_ID = @phaseID GROUP BY Obj_ID";
+            string query = "SELECT * FROM (SELECT Time_ID as STime, strftime('%Y/%d/%m', Day_ID) as SDay FROM PRODUCTION WHERE Order_ID = @orderID AND Phase_ID = @phaseID AND Obj_ID = @objID ORDER BY Day_ID ASC, Time_ID ASC LIMIT 1) as Starting, (SELECT (Time_ID+1) as ETime, strftime('%Y/%d/%m', Day_ID) as EDay FROM Production WHERE Order_ID = @orderID AND Phase_ID = @phaseID AND Obj_ID = @objID ORDER BY Day_ID DESC, Time_ID DESC LIMIT 1) as Ending";
             command = new SQLiteCommand(query, dbC);
             command.Parameters.AddWithValue("@orderID", orderID);
             command.Parameters.AddWithValue("@phaseID", phaseID);
+            command.Parameters.AddWithValue("@objID", objID);
             SQLiteDataReader reader = command.ExecuteReader();
-            int i = 0;
             while (reader.Read())
             {
-                time.Add(temp);
-                time[i] = new List<int>();
-                time[i].Add(int.Parse(reader["Time_ID"].ToString()));
-                time[i].Add(int.Parse(reader["Obj_ID"].ToString()));
-                time[i].Add(int.Parse(reader["ctHours"].ToString()));
-                i++;
+                time.Add(reader["STime"].ToString());
+                time.Add(reader["SDay"].ToString());
+                time.Add(reader["ETime"].ToString());
+                time.Add(reader["EDay"].ToString());
             }
             dbC.Close();
             return time;
         }
 
+        public List<List<string>> GetOrders()
+        {
+            List<List<string>> orders = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string query = "SELECT Orders_ID, Orders.Name, CASE Orders.Type WHEN 0 THEN 'esterno' ELSE 'interno' END as Type, strftime('%Y/%d/%m', Starting_Date) as Starting_Date, strftime('%Y/%d/%m', Expiring_Date) as Expiring_Date, Barcode, Ext_Code, Phase_ID, Products.Name as nameProd, Measure, Notes FROM Orders JOIN Products ON Products.Products_ID = Orders.Products_ID";
+            command = new SQLiteCommand(query, dbC);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                orders.Add(temp);
+                orders[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    orders[i].Add(reader[reader.GetName(j)].ToString());
+                }
+                i++;
+            }
+            dbC.Close();
+            return orders;
+        }
+
+        public List<List<string>> GetProducts()
+        {
+            List<List<string>> orders = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string date = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+            string query = "SELECT Products.Products_ID, Products.Name, CASE Orders.Products_ID WHEN Orders.Products_ID IS NOT NULL AND strftime('%Y/%d/%m', Production.Day_ID) >= strftime('%Y/%d/%m', @date) THEN 'si' ELSE 'no' END as InProduzione, CASE Products.Type WHEN 0 THEN 'esterno' ELSE 'interno' END as Type FROM Products LEFT JOIN Orders ON(Products.Products_ID = Orders.Products_ID) LEFT JOIN Production ON(Orders.Orders_ID = Production.Order_ID) GROUP BY Products.Products_ID";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@date", date);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                orders.Add(temp);
+                orders[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    orders[i].Add(reader[reader.GetName(j)].ToString());
+                }
+                i++;
+            }
+            dbC.Close();
+            return orders;
+        }
+
+        public int CountPhasesByType(int type)
+        {
+            int count = -1;
+            dbC.Open();
+            string query = "SELECT COUNT(*) as cnt FROM Phases WHERE Type = @type";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@type", type);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                count = int.Parse(reader["cnt"].ToString());
+            }
+            dbC.Close();
+            return count;
+        }
+
+        public int GetType(int position, string table)
+        {
+            int type = -1;
+            dbC.Open();
+            string query = "SELECT Type FROM " + table + " LIMIT 1 OFFSET @position";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@position", position);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    type = int.Parse(reader["Type"].ToString());
+                }
+                dbC.Close();
+            }
+            catch
+            {
+                dbC.Close();
+            }
+            dbC.Close();
+            return type;
+        }
+
+        public bool AddDefaultPhases(List<string> AddPhases)
+        {
+            dbC.Open();
+            command = new SQLiteCommand("INSERT INTO DefaultPhases (Objs_ID, Phases_ID, Products_ID, Length) VALUES (@Objs_ID, @Phases_ID , @Products_ID , @Length)", dbC);
+            command.Parameters.AddWithValue("@Objs_ID", AddPhases[0]);
+            command.Parameters.AddWithValue("@Phases_ID", AddPhases[1]);
+            command.Parameters.AddWithValue("@Products_ID", AddPhases[2]);
+            command.Parameters.AddWithValue("@Length", AddPhases[3]);
+            try
+            {
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
+            }
+        }
+
+        public List<List<string>> GetDefaultPhasesOneProd(int productID, out bool existDefPh)
+        {
+            List<List<string>> defaultPh = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string query = "SELECT Objs_ID, Phases_ID, Length FROM DefaultPhases WHERE products_ID = @productID ORDER BY Phases_ID";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@productID", productID);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                defaultPh.Add(temp);
+                defaultPh[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    string row = reader[reader.GetName(j)].ToString();
+                    defaultPh[i].Add(row);
+                }
+                i++;
+            }
+            existDefPh = defaultPh.Count > 0;
+            dbC.Close();
+            return defaultPh;
+        }
+
+        public List<int> RowsInOneDefaultPhases(int productID)
+        {
+            List<int> countRows = new List<int>();
+            dbC.Open();
+            string query = "SELECT COUNT(*) as ct FROM DefaultPhases WHERE products_ID = @productID GROUP BY Phases_ID";
+            command = new SQLiteCommand(query, dbC);
+            command.Parameters.AddWithValue("@productID", productID);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                countRows.Add(int.Parse(reader["ct"].ToString()));
+            }
+            dbC.Close();
+            return countRows;
+        }
     }
+
+ //   private List<List<int>> Get
 }
 
