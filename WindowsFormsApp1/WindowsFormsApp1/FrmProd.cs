@@ -96,6 +96,7 @@ namespace ProdCycleBoer
         {
             ShowOrder();
             ShowProduction();
+            SetTxtBoxNamePhaseText();
         }
 
         private void ShowOrder()
