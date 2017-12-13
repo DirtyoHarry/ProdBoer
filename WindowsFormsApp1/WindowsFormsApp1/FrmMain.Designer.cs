@@ -58,15 +58,15 @@
             this.ordineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavoratoreMacchinarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
+            this.fasiPredefiniteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.visualizzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fasiPredefiniteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavMacchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fasiPredefiniteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-
+            this.modificaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ordineSelezionatoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -110,48 +110,6 @@
             this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
-            // 
-            // colmnID
-            // 
-            this.colmnID.HeaderText = "Orders_ID";
-            this.colmnID.Name = "colmnID";
-            this.colmnID.Visible = false;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Ora";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.FillWeight = 130F;
-            this.Column2.HeaderText = "Lavoratore";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 145;
-            // 
-            // Macchinario
-            // 
-            this.Macchinario.FillWeight = 125F;
-            this.Macchinario.HeaderText = "Macchinario";
-            this.Macchinario.Name = "Macchinario";
-            this.Macchinario.ReadOnly = true;
-            this.Macchinario.Width = 150;
-            // 
-            // Fase
-            // 
-            this.Fase.HeaderText = "Fase";
-            this.Fase.Name = "Fase";
-            this.Fase.ReadOnly = true;
-            this.Fase.Width = 150;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Prodotto";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 200;
             // 
             // colmnID
             // 
@@ -325,6 +283,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuovoToolStripMenuItem1,
+            this.modificaToolStripMenuItem,
             this.visualizzaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -377,7 +336,13 @@
             this.lavoratoreMacchinarioToolStripMenuItem.Text = "Lavoratore/Macchinario";
             this.lavoratoreMacchinarioToolStripMenuItem.Click += new System.EventHandler(this.lavoratoreMacchinarioToolStripMenuItem_Click);
             // 
-
+            // fasiPredefiniteToolStripMenuItem1
+            // 
+            this.fasiPredefiniteToolStripMenuItem1.Name = "fasiPredefiniteToolStripMenuItem1";
+            this.fasiPredefiniteToolStripMenuItem1.Size = new System.Drawing.Size(201, 22);
+            this.fasiPredefiniteToolStripMenuItem1.Text = "Fasi Predefinite";
+            this.fasiPredefiniteToolStripMenuItem1.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem1_Click);
+            // 
             // visualizzaToolStripMenuItem
             // 
             this.visualizzaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -394,7 +359,7 @@
             this.fasiPredefiniteToolStripMenuItem,
             this.lavMacchToolStripMenuItem});
             this.listaToolStripMenuItem.Name = "listaToolStripMenuItem";
-            this.listaToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.listaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.listaToolStripMenuItem.Text = "Lista";
             // 
             // ordiniToolStripMenuItem
@@ -423,14 +388,21 @@
             this.lavMacchToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.lavMacchToolStripMenuItem.Text = "Lav/Macch";
             // 
-            // fasiPredefiniteToolStripMenuItem1
+            // modificaToolStripMenuItem
             // 
-            this.fasiPredefiniteToolStripMenuItem1.Name = "fasiPredefiniteToolStripMenuItem1";
-            this.fasiPredefiniteToolStripMenuItem1.Size = new System.Drawing.Size(201, 22);
-            this.fasiPredefiniteToolStripMenuItem1.Text = "Fasi Predefinite";
-            this.fasiPredefiniteToolStripMenuItem1.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem1_Click);
+            this.modificaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ordineSelezionatoToolStripMenuItem});
+            this.modificaToolStripMenuItem.Name = "modificaToolStripMenuItem";
+            this.modificaToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.modificaToolStripMenuItem.Text = "Modifica";
             // 
-
+            // ordineSelezionatoToolStripMenuItem
+            // 
+            this.ordineSelezionatoToolStripMenuItem.Name = "ordineSelezionatoToolStripMenuItem";
+            this.ordineSelezionatoToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.ordineSelezionatoToolStripMenuItem.Text = "Ordine Selezionato";
+            this.ordineSelezionatoToolStripMenuItem.Click += new System.EventHandler(this.ordineSelezionatoToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,6 +467,8 @@
         private System.Windows.Forms.ToolStripMenuItem fasiPredefiniteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lavMacchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fasiPredefiniteToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem modificaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ordineSelezionatoToolStripMenuItem;
     }
 }
 

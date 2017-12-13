@@ -319,8 +319,6 @@ namespace ProdCycleBoer
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
-            FormProduction(false, int.Parse(orderID));
         }
 
         private void ordiniToolStripMenuItem_Click(object sender, EventArgs e)
@@ -437,6 +435,12 @@ namespace ProdCycleBoer
             }
 
             
+        }
+
+        private void ordineSelezionatoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
+            FormProduction(false, int.Parse(orderID));
         }
     }
 }
