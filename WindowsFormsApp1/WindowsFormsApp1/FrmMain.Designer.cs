@@ -58,6 +58,7 @@
             this.ordineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavoratoreMacchinarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+
             this.visualizzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +66,7 @@
             this.fasiPredefiniteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavMacchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fasiPredefiniteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -90,6 +92,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowDrop = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colmnID,
@@ -98,11 +101,57 @@
             this.Macchinario,
             this.Fase,
             this.Column3});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 66);
+            this.dataGridView1.Location = new System.Drawing.Point(-4, 61);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(814, 438);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
+            this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
+            this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
+            this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
+            // 
+            // colmnID
+            // 
+            this.colmnID.HeaderText = "Orders_ID";
+            this.colmnID.Name = "colmnID";
+            this.colmnID.Visible = false;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Ora";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 130F;
+            this.Column2.HeaderText = "Lavoratore";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 145;
+            // 
+            // Macchinario
+            // 
+            this.Macchinario.FillWeight = 125F;
+            this.Macchinario.HeaderText = "Macchinario";
+            this.Macchinario.Name = "Macchinario";
+            this.Macchinario.ReadOnly = true;
+            this.Macchinario.Width = 150;
+            // 
+            // Fase
+            // 
+            this.Fase.HeaderText = "Fase";
+            this.Fase.Name = "Fase";
+            this.Fase.ReadOnly = true;
+            this.Fase.Width = 150;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Prodotto";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 200;
             // 
             // colmnID
             // 
@@ -162,7 +211,7 @@
             this.dataGridView3.Size = new System.Drawing.Size(814, 443);
             this.dataGridView3.TabIndex = 1;
             this.dataGridView3.Visible = false;
-            this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick);
+            this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellDoubleClick);
             this.dataGridView3.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellDoubleClick);
             // 
             // Column4
@@ -282,6 +331,10 @@
             this.menuStrip1.Size = new System.Drawing.Size(852, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
+            this.menuStrip1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
+            this.menuStrip1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
+            this.menuStrip1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
             // 
             // nuovoToolStripMenuItem1
             // 
@@ -300,7 +353,7 @@
             this.lavoratoreMacchinarioToolStripMenuItem,
             this.fasiPredefiniteToolStripMenuItem1});
             this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
-            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.nuovoToolStripMenuItem.Text = "Nuovo";
             // 
             // ordineToolStripMenuItem
@@ -324,6 +377,7 @@
             this.lavoratoreMacchinarioToolStripMenuItem.Text = "Lavoratore/Macchinario";
             this.lavoratoreMacchinarioToolStripMenuItem.Click += new System.EventHandler(this.lavoratoreMacchinarioToolStripMenuItem_Click);
             // 
+
             // visualizzaToolStripMenuItem
             // 
             this.visualizzaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -376,6 +430,7 @@
             this.fasiPredefiniteToolStripMenuItem1.Text = "Fasi Predefinite";
             this.fasiPredefiniteToolStripMenuItem1.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem1_Click);
             // 
+
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
