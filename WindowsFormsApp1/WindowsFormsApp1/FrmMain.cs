@@ -440,7 +440,8 @@ namespace ProdCycleBoer
         private void ordineSelezionatoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
-            FormProduction(false, int.Parse(orderID));
+            if (orderID != "")
+            { FormProduction(false, int.Parse(orderID)); }
         }
     }
 }

@@ -138,7 +138,7 @@ namespace ProdCycleBoer
                 {
                     int objID = int.Parse(prodShort[k][1]);
                     if (k != 0)
-                    { AddObj(); }
+                    { AddObj(tabControlPhases.SelectedIndex); }
                     int type = production.GetType(objID, "Objs", "Objs_ID");
                     _cmbBoxSelObjType[phase][k].SelectedIndex = type;
                     int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(prodShort[k][1]) - 1);
@@ -217,7 +217,7 @@ namespace ProdCycleBoer
             else
             {
                 if (error.Count == 0)
-                { 
+                {
                     production.EditOrder(order);
                     //cancel all rows of that order in production
                     production.RemoveRowsFromDB("Production", "Order_ID", orderID);
@@ -254,7 +254,8 @@ namespace ProdCycleBoer
             int totTime = (Int16)(Math.Round(ts.TotalHours * 2));
             int restart = 1;
             string hour = _dateTimePickerFrom[ph][idx].Value.ToString();
-            if (_dateTimePickerFrom[ph][idx].Value <= Convert.ToDateTime("09:30")) //08.00 --> 8.00
+            string dt = _dateTimePickerFrom[ph][idx].Value.ToString("dd-MM-yyyy") + " 09:59";
+            if (Convert.ToDateTime(hour) < Convert.ToDateTime(dt)) //08.00 --> 8.00
             { hour = String.Format("{0:H:mm}", _dateTimePickerFrom[ph][idx].Value); }
             else
             { hour = String.Format("{0:HH:mm}", _dateTimePickerFrom[ph][idx].Value); }
@@ -368,12 +369,11 @@ namespace ProdCycleBoer
 
         private void btnAddObj_Click(object sender, EventArgs e)
         {
-            AddObj();
+            AddObj(tabControlPhases.SelectedIndex);
         }
 
-        private void AddObj()
+        private void AddObj(int phase)
         {
-            int phase = tabControlPhases.SelectedIndex;
             int count = _dateTimePickerFrom[phase].Count;
             SaveCmbBoxSelIndex();
             AddObject(phase);
@@ -381,8 +381,8 @@ namespace ProdCycleBoer
             if (_dateTimePickerFrom[phase].Count > 1)
             {
                 int cntObjs = _dateTimePickerFrom[phase].Count - 1;
-                _dateTimePickerFrom[phase][cntObjs].Value = _dateTimePickerFrom[phase][cntObjs-1].Value;
-                _dateTimePickerTo[phase][cntObjs].Value = _dateTimePickerTo[phase][cntObjs-1].Value;
+                _dateTimePickerFrom[phase][cntObjs].Value = _dateTimePickerFrom[phase][cntObjs - 1].Value;
+                _dateTimePickerTo[phase][cntObjs].Value = _dateTimePickerTo[phase][cntObjs - 1].Value;
             }
         }
 
@@ -405,32 +405,39 @@ namespace ProdCycleBoer
             _dateTimePickerTo[phase].Add(dateTimePickerTemp);
             _cmbBoxSelObjTypeSelInd[phase].Add(-1);
             _cmbBoxSelObjSelInd[phase].Add(-1);
+            _cmbBoxSelObjType[phase][_cmbBoxSelObjType[phase].Count - 1].Items.Clear();
+            _cmbBoxSelObjType[phase][_cmbBoxSelObjType[phase].Count - 1].Items.AddRange(new object[] { "Lavoratore", "Macchinario" });
+            int cnt = _cmbBoxSelObjType[phase][_cmbBoxSelObjType[phase].Count - 1].Items.Count;
         }
 
         private void btnRemObj_Click(object sender, EventArgs e)
         {
             int phase = tabControlPhases.SelectedIndex;
             int index = _dateTimePickerTo[phase].Count - 1;
+            RemoveObj(phase, index);
+        }
+
+        private void RemoveObj(int phase, int index)
+        {
             SaveCmbBoxSelIndex();
             RemoveObject(phase, index);
             ShowOnePhase(phase);
+
         }
 
         private void RemoveObject(int phase, int index)
         {
             //rimuove un obj (lavoratore o macchinario) di una fase
-            if (_dateTimePickerTo[phase].Count > 1)
-            {
-                _dateTimePickerTo[phase].RemoveAt(index);
-                _dateTimePickerFrom[phase].RemoveAt(index);
-                _lblTo[phase].RemoveAt(index);
-                _lblFrom[phase].RemoveAt(index);
-                _cmbBoxSelObj[phase].RemoveAt(index);
-                _cmbBoxSelObjType[phase].RemoveAt(index);
-                _cmbBoxSelObjTypeSelInd[phase].RemoveAt(index); //salva selected index
-                _cmbBoxSelObjSelInd[phase].RemoveAt(index); //salva selected index 
-            }
+            _dateTimePickerTo[phase].RemoveAt(index);
+            _dateTimePickerFrom[phase].RemoveAt(index);
+            _lblTo[phase].RemoveAt(index);
+            _lblFrom[phase].RemoveAt(index);
+            _cmbBoxSelObj[phase].RemoveAt(index);
+            _cmbBoxSelObjType[phase].RemoveAt(index);
+            _cmbBoxSelObjTypeSelInd[phase].RemoveAt(index); //salva selected index
+            _cmbBoxSelObjSelInd[phase].RemoveAt(index); //salva selected index 
         }
+
 
         private void btnAddPhase_Click(object sender, EventArgs e)
         {
@@ -489,13 +496,12 @@ namespace ProdCycleBoer
 
         private void btnRemPhase_Click(object sender, EventArgs e)
         {
-            RemovePhaseMain(false);
+            RemovePh(tabControlPhases.SelectedIndex, false);
             SetTxtBoxNamePhaseText();
         }
 
-        private void RemovePhaseMain(bool deleteFirstTP)
+        private void RemovePh(int phase, bool deleteFirstTP)
         {
-            int phase = tabControlPhases.SelectedIndex;
             RemovePhase(phase, deleteFirstTP);
             ShowAllPhases();
             tabControlPhases.SelectedIndex = phase;
@@ -1008,7 +1014,7 @@ namespace ProdCycleBoer
                 }
             }
         }
-        
+
         private void LoadDefaultPhases(int productID)
         {
             List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
@@ -1020,7 +1026,7 @@ namespace ProdCycleBoer
                 question = "Caricare le fasi predefinite? Verranno eliminate le azioni impostate sulla produzione impostate fin'ora.";
                 title = "Caricamento Fasi Predefinite";
             }
-            else if (!existDefPh && tabControlPhases.TabCount>1 && newOrder)
+            else if (!existDefPh && tabControlPhases.TabCount > 1 && newOrder)
             {
                 question = "Non esistono fasi predefinite per questo prodotto. Per crearle andare su File>Nuovo>Fasi Predefinite. Resettare le azioni impostate fino ad adesso?";
                 title = "Modificare azioni preparate";
@@ -1053,11 +1059,11 @@ namespace ProdCycleBoer
             { RemovePhase(i, true); }
             ShowAllPhases();
         }
-        
+
         private void ShowDefaultPh(List<List<string>> defPhases, int productID)
         {
             List<int> rowsPerPhase = production.RowsInOneDefaultPhases(productID);
-            int ctPhases = int.Parse(defPhases[defPhases.Count-1][1]);
+            int ctPhases = int.Parse(defPhases[defPhases.Count - 1][1]);
             int row = 0;
             for (int phase = 0; phase < ctPhases; phase++)
             {
@@ -1065,15 +1071,15 @@ namespace ProdCycleBoer
                 int limit = rowsPerPhase[phase];
                 for (int i = 0; i < limit; i++)
                 {
-                    if (i != 0)
-                    { AddObj(); }
+                    if (i == 0)
+                    { RemoveObject(phase, 0); }
+                    AddObj(phase);
                     int type = production.GetType(int.Parse(defPhases[row][0]), "Objs", "Objs_ID");
                     _cmbBoxSelObjType[phase][i].SelectedIndex = type;
-                    int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(defPhases[row][0])-1);
-                    int ctItems = _cmbBoxSelObj[phase][i].Items.Count;
+                    int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", int.Parse(defPhases[row][0]) - 1);
                     _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
                     row++;
-                }                
+                }
             }
         }
     }
