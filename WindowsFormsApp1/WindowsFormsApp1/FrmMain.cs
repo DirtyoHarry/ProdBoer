@@ -198,8 +198,8 @@ namespace ProdCycleBoer
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-
-
+            // no smaller than design time size
+            this.MinimumSize = new System.Drawing.Size(this.Width, this.Height);
 
             // this.reportViewer1.RefreshReport();
         }
@@ -389,9 +389,7 @@ namespace ProdCycleBoer
 
                 // Create a rectangle using the DragSize, with the mouse position being
                 // at the center of the rectangle.
-                dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2),
-                                                               e.Y - (dragSize.Height / 2)),
-                                    dragSize);
+                dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
             }
             else
                 // Reset the rectangle if the mouse is not over an item in the ListBox.
@@ -442,6 +440,16 @@ namespace ProdCycleBoer
             string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
             if (orderID != "")
             { FormProduction(false, int.Parse(orderID)); }
+        }
+
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeForm();
+        }
+
+        private void ResizeForm()
+        {
+
         }
     }
 }

@@ -760,7 +760,9 @@ namespace ProdCycleBoer
             command.Parameters.AddWithValue("@productID", productID);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
-            { countRows.Add(int.Parse(reader["ct"].ToString())); }
+            {
+                int x = int.Parse(reader["ct"].ToString());
+                countRows.Add(x); }
             dbC.Close();
             return countRows;
         }

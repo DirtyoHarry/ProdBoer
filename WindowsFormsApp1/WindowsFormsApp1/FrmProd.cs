@@ -414,28 +414,34 @@ namespace ProdCycleBoer
         {
             int phase = tabControlPhases.SelectedIndex;
             int index = _dateTimePickerTo[phase].Count - 1;
-            RemoveObj(phase, index);
+            RemoveObj(phase, index, false);
         }
 
-        private void RemoveObj(int phase, int index)
+        private void RemoveObj(int phase, int index, bool allow)
         {
             SaveCmbBoxSelIndex();
-            RemoveObject(phase, index);
+            RemoveObject(phase, index, allow);
             ShowOnePhase(phase);
 
         }
 
-        private void RemoveObject(int phase, int index)
+        private void RemoveObject(int phase, int index, bool allow)
         {
-            //rimuove un obj (lavoratore o macchinario) di una fase
-            _dateTimePickerTo[phase].RemoveAt(index);
-            _dateTimePickerFrom[phase].RemoveAt(index);
-            _lblTo[phase].RemoveAt(index);
-            _lblFrom[phase].RemoveAt(index);
-            _cmbBoxSelObj[phase].RemoveAt(index);
-            _cmbBoxSelObjType[phase].RemoveAt(index);
-            _cmbBoxSelObjTypeSelInd[phase].RemoveAt(index); //salva selected index
-            _cmbBoxSelObjSelInd[phase].RemoveAt(index); //salva selected index 
+            if (_dateTimePickerTo[phase].Count > 0)
+            {
+                if (_dateTimePickerTo[phase].Count > 1 || allow)
+                {
+                    //rimuove un obj (lavoratore o macchinario) di una fase
+                    _dateTimePickerTo[phase].RemoveAt(index);
+                    _dateTimePickerFrom[phase].RemoveAt(index);
+                    _lblTo[phase].RemoveAt(index);
+                    _lblFrom[phase].RemoveAt(index);
+                    _cmbBoxSelObj[phase].RemoveAt(index);
+                    _cmbBoxSelObjType[phase].RemoveAt(index);
+                    _cmbBoxSelObjTypeSelInd[phase].RemoveAt(index); //salva selected index
+                    _cmbBoxSelObjSelInd[phase].RemoveAt(index); //salva selected index 
+                }
+            }
         }
 
 
@@ -544,7 +550,7 @@ namespace ProdCycleBoer
             {
                 for (int j = (nOfObjDiff * -1); j > 0; j--)
                 {
-                    RemoveObject(phase, j);
+                    RemoveObject(phase, j, false);
                 }
             }
             for (int j = 0; j < _dateTimePickerTo[phase + 1].Count; j++)
@@ -1072,7 +1078,7 @@ namespace ProdCycleBoer
                 for (int i = 0; i < limit; i++)
                 {
                     if (i == 0)
-                    { RemoveObject(phase, 0); }
+                    { RemoveObject(phase, 0, true); }
                     AddObj(phase);
                     int type = production.GetType(int.Parse(defPhases[row][0]), "Objs", "Objs_ID");
                     _cmbBoxSelObjType[phase][i].SelectedIndex = type;

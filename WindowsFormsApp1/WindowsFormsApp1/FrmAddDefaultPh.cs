@@ -445,7 +445,7 @@ namespace ProdCycleBoer
             _lblPhLength[phase].Name = "label1";
             _lblPhLength[phase].Size = new System.Drawing.Size(35, 13);
             _lblPhLength[phase].TabIndex = 1;
-            _lblPhLength[phase].Text = "Durata della fase (in mezz'ore):";
+            _lblPhLength[phase].Text = "Durata della fase (in ore):";
         }
 
         private void ShowNumUpDwSelLength(int phase)
@@ -454,7 +454,9 @@ namespace ProdCycleBoer
             _numUpDwSelLength[phase].Name = "numericUpDown1";
             _numUpDwSelLength[phase].Size = new System.Drawing.Size(100, 20);
             _numUpDwSelLength[phase].TabIndex = 0;
-            _numUpDwSelLength[phase].Minimum = 1;
+            _numUpDwSelLength[phase].Minimum = (decimal)0.5;
+            _numUpDwSelLength[phase].DecimalPlaces = 1;
+            _numUpDwSelLength[phase].Increment = (decimal)0.5;
         }
 
         private void ShowLblNamePhase(int phase)
@@ -537,15 +539,13 @@ namespace ProdCycleBoer
         {
             //Objs_ID, Phases_ID, Length
             int row = 0;
-            for (int phase = 0; phase < tabControlPhases.TabCount; phase++)
+            for (int phase = 0; phase < rowsInOneDefPh.Count; phase++)
             {
                 int countRows = rowsInOneDefPh[phase];
                 for (int i = 0; i < countRows; i++)
                 {
                     if (i != 0)
-                    {
-                        AddObj(phase);
-                    }
+                    { AddObj(phase); }
                     int type = production.GetType(int.Parse(defPhOneProd[row][0]), "Objs", "Objs_ID");
                     _cmbBoxSelObjType[phase][i].SelectedIndex = type;
                     SetCmbBoxSelObj(phase);
@@ -553,7 +553,8 @@ namespace ProdCycleBoer
                     int selObj = production.GetObjAndProdRow("Objs_ID", type, "Objs", rowID);
                     int count = _cmbBoxSelObj[phase][i].Items.Count;
                     _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
-                    int phLength = int.Parse(defPhOneProd[row][2]);
+                    decimal lgt = decimal.Parse(defPhOneProd[row][2]);
+                    decimal phLength = Decimal.Divide(lgt, 2);
                     _numUpDwSelLength[phase].Value = phLength;
                     row++;
                 }
@@ -582,7 +583,9 @@ namespace ProdCycleBoer
                     int phaseID = production.GetRowID(phase, "Phases_ID", "Phases", "Type", type.ToString());
                     defaultPh.Add(phaseID.ToString());
                     defaultPh.Add(productID.ToString());
-                    defaultPh.Add(_numUpDwSelLength[phase].Value.ToString());
+                    decimal length = _numUpDwSelLength[phase].Value * 2;
+                    int notDecLgt = (int)length;
+                    defaultPh.Add(notDecLgt.ToString());
                     production.AddDefaultPhases(defaultPh);
                 }
             }
