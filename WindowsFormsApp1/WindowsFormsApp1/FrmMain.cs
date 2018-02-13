@@ -52,14 +52,14 @@ namespace ProdCycleBoer
 
             SQLiteDataReader reader = command.ExecuteReader();
 
-            for (int i = 0; i < reader.FieldCount- 1; i++) //hide ID
+            for (int i = 0; i < reader.FieldCount - 1; i++) //hide ID
             {
                 dataGridView1.Columns[i].HeaderText = reader.GetName(i);
             }
 
             while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
-                dataGridView1.Rows.Add(reader["Ordine"],reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"], reader["Prodotto"], reader["Tempo"]);
+                dataGridView1.Rows.Add(reader["Ordine"], reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"], reader["Prodotto"], reader["Tempo"]);
                 Refresh();
             }
             dbC.Close();
@@ -217,24 +217,33 @@ namespace ProdCycleBoer
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 0)
+            if (comboBox1.SelectedIndex == 0) //vista giornaliera
             {
+                dataGridView1.Dock = DockStyle.Bottom;
+                dataGridView3.Dock = DockStyle.None;
+                dataGridView4.Dock = DockStyle.None;
                 dataGridView1.Visible = true;
                 dataGridView3.Visible = false;
                 dataGridView4.Visible = false;
             }
-
-            if (comboBox1.SelectedIndex == 1)
+            else if (comboBox1.SelectedIndex == 1) //vista settimanale
             {
+                dataGridView1.Dock = DockStyle.None;
+                dataGridView3.Dock = DockStyle.Bottom;
+                dataGridView4.Dock = DockStyle.None;
                 dataGridView1.Visible = false;
                 dataGridView3.Visible = true;
-                dataGridView4.Visible = true;
+                dataGridView4.Visible = false;
             }
-            if (comboBox1.SelectedIndex == 2)
+            /*else if (comboBox1.SelectedIndex == 2) //vista mensile
             {
+                dataGridView1.Dock = DockStyle.None;
+                dataGridView3.Dock = DockStyle.None;
+                dataGridView4.Dock = DockStyle.Bottome;
+                dataGridView1.Visible = false;
                 dataGridView3.Visible = false;
                 dataGridView4.Visible = true;
-            }
+            }*/
         }
 
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -332,7 +341,7 @@ namespace ProdCycleBoer
         private void prodottiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<List<string>> products = production.GetProducts();
-            List<string> columns = new List<string> { "ID", "Nome Prodotto", "Attualmente in produzione", "Tipo prodotto"};
+            List<string> columns = new List<string> { "ID", "Nome Prodotto", "Attualmente in produzione", "Tipo prodotto" };
             Form frmView = new FrmViewTable(products, columns, 1);
             frmView.Show();
 
@@ -414,14 +423,14 @@ namespace ProdCycleBoer
             // If the drag operation was a move then remove and insert the row.
             if (e.Effect == DragDropEffects.Move)
             {
-                
+
                 DataGridViewRow rowToMove = e.Data.GetData(
                     typeof(DataGridViewRow)) as DataGridViewRow;
 
                 string memory = dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value.ToString();
                 dataGridView1.Rows.RemoveAt(rowIndexFromMouseDown);
                 dataGridView1.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
-               
+
                 dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value = memory;
                 List<string> rowToAdd = new List<string>();
                 for (int i = 0; i < 5; i++)
@@ -431,8 +440,6 @@ namespace ProdCycleBoer
 
                 production.EditProduction(rowToAdd);
             }
-
-            
         }
 
         private void ordineSelezionatoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -442,14 +449,12 @@ namespace ProdCycleBoer
             { FormProduction(false, int.Parse(orderID)); }
         }
 
-        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        private void FrmMain_Resize(object sender, EventArgs e)
         {
-            ResizeForm();
-        }
-
-        private void ResizeForm()
-        {
-
+            dataGridView1.Size = new Size(dataGridView1.Size.Width, this.Height - 125);
+            dataGridView1.Location = new Point(dataGridView1.Location.X, 80);
+            dataGridView3.Size = new Size(dataGridView3.Size.Width, this.Height - 125);
+            dataGridView4.Location = new Point(dataGridView3.Location.X, 80);
         }
     }
 }
