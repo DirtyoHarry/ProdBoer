@@ -12,7 +12,7 @@ namespace ProdCycleBoer
 {
     public partial class FrmViewTable : Form
     {
-        enum type { order, products, phases, obj }
+        enum type { order, products, obj }
         type _type;
         List<List<string>> _data;
         List<string> _columns;
@@ -32,13 +32,16 @@ namespace ProdCycleBoer
             if (_type == FrmViewTable.type.order)
             {
                 lblList.Text = lblList.Text + "degli ordini";
-                cmbBox1.Visible = false;
             }
-            if (_type == FrmViewTable.type.products)
+            else if (_type == FrmViewTable.type.products)
             {
                 lblList.Text = lblList.Text + "dei prodotti";
-                cmbBox1.Visible = false;
             }
+            else if (_type == FrmViewTable.type.obj)
+            {
+                lblList.Text = lblList.Text + "dei lavoratori e macchinari";
+            }
+
         }
 
         private void ShowDataGridView()
@@ -64,6 +67,12 @@ namespace ProdCycleBoer
         private void FrmViewTable_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void FrmViewTable_Resize(object sender, EventArgs e)
+        {
+            dataGridView1.Size = new Size(dataGridView1.Size.Width, this.Height - 100);
+            dataGridView1.Location = new Point(dataGridView1.Location.X, 70);
         }
     }
 }

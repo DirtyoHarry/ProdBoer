@@ -41,6 +41,7 @@ namespace ProdCycleBoer
         List<Button> _btnRemPhase;
         List<Button> _BtnAddObj;
         List<Button> _BtnRemoveObj;
+        List<Label> _lblPhLength;
 
         List<string> productsExt;
         List<string> productsInt;
@@ -49,6 +50,7 @@ namespace ProdCycleBoer
 
         int orderID = -1;
         bool newOrder = true;
+        bool loadedDefPh = false;
 
         Production production;
 
@@ -239,8 +241,12 @@ namespace ProdCycleBoer
                 { text = text + (i + 1) + ") " + error[i] + Environment.NewLine; }
             }
             MessageBox.Show(text, title);
+            this.DialogResult = DialogResult.None;
             if (error.Count == 0)
-            { Close(); }
+            {
+                this.DialogResult = DialogResult.OK;
+                Close();
+            }
         }
 
         private void SaveProduction(int ph, int idx, List<string> error, List<List<string>> productions)
@@ -344,6 +350,7 @@ namespace ProdCycleBoer
             _btnRemPhase = new List<Button>();
             _BtnAddObj = new List<Button>();
             _BtnRemoveObj = new List<Button>();
+            _lblPhLength = new List<Label>();
         }
 
         private void AddListToMainList()
@@ -471,6 +478,7 @@ namespace ProdCycleBoer
             Label lblTemp = new Label();
             ComboBox cmbBoxTemp = new ComboBox();
             TextBox txtBoxTemp = new TextBox();
+            NumericUpDown numUPTemp = new NumericUpDown();
 
             AddListToMainList();
             _dateTimePickerToPhaseX.Add(dateTimePickerTemp);
@@ -497,6 +505,8 @@ namespace ProdCycleBoer
             _btnAddPhase.Add(btnTemp);
             btnTemp = new Button();
             _btnRemPhase.Add(btnTemp);
+            lblTemp = new Label();
+            _lblPhLength.Add(lblTemp);
 
         }
 
@@ -527,6 +537,7 @@ namespace ProdCycleBoer
                     _btnAddPhase[i] = _btnAddPhase[i + 1];
                     _btnRemPhase[i] = _btnRemPhase[i + 1];
                     _lblObjUsed[i] = _lblObjUsed[i + 1];
+                    _lblPhLength[i] = _lblPhLength[i + 1];
                     ChangeNOfObj(i);
                 }
                 nOfTabPages--;
@@ -577,6 +588,7 @@ namespace ProdCycleBoer
             _lblTo.RemoveAt(phase);
             _lblFrom.RemoveAt(phase);
             _lblObjUsed.RemoveAt(phase);
+            _lblPhLength.RemoveAt(phase);
             _cmbBoxSelObj.RemoveAt(phase);
             _cmbBoxSelObjType.RemoveAt(phase);
             _LblNamePhase.RemoveAt(phase);
@@ -598,6 +610,7 @@ namespace ProdCycleBoer
             tabControlPhases.TabPages[phase].Controls.Add(_btnAddPhase[phase]);
             tabControlPhases.TabPages[phase].Controls.Add(_btnRemPhase[phase]);
             tabControlPhases.TabPages[phase].Controls.Add(_lblObjUsed[phase]);
+            tabControlPhases.TabPages[phase].Controls.Add(_lblPhLength[phase]);
 
             for (int i = 0; i < _dateTimePickerTo[phase].Count; i++)
             {
@@ -617,6 +630,7 @@ namespace ProdCycleBoer
             ShowTxtBoxNamePhase(phase);
             ShowBtnAddPhase(phase);
             ShowBtnRemovePhase(phase);
+            ShowLblPhLength(phase);
 
             ShowCmbBoxSelObjType(phase, _cmbBoxSelObjTypeSelInd[phase]);
             ShowCmbBoxSelObj(phase, _cmbBoxSelObjSelInd[phase]);
@@ -791,11 +805,22 @@ namespace ProdCycleBoer
         private void ShowLblObjUsed(int phase)
         {
             _lblObjUsed[phase].AutoSize = true;
-            _lblObjUsed[phase].Location = new System.Drawing.Point(8, 76);
+            _lblObjUsed[phase].Location = new System.Drawing.Point(10, 76);
             _lblObjUsed[phase].Name = "lblObjUsed";
             _lblObjUsed[phase].Size = new System.Drawing.Size(156, 13);
             _lblObjUsed[phase].TabIndex = 65;
             _lblObjUsed[phase].Text = "Lavoratori e macchinari utilizzati:";
+        }
+
+        private void ShowLblPhLength(int phase)
+        {
+            _lblPhLength[phase].AutoSize = true;
+            _lblPhLength[phase].Location = new System.Drawing.Point(10, 50);
+            _lblPhLength[phase].Name = "label1";
+            _lblPhLength[phase].Size = new System.Drawing.Size(35, 13);
+            _lblPhLength[phase].TabIndex = 1;
+            _lblPhLength[phase].Text = "Durata della fase prevista: ";
+            _lblPhLength[phase].Visible = loadedDefPh;
         }
 
         private void ShowCmbBoxSelObj(int phase, List<int> selIndex)
@@ -841,7 +866,7 @@ namespace ProdCycleBoer
         private void ShowLblNamePhase(int phase)
         {
             _LblNamePhase[phase].AutoSize = true;
-            _LblNamePhase[phase].Location = new System.Drawing.Point(3, 19);
+            _LblNamePhase[phase].Location = new System.Drawing.Point(10, 19);
             _LblNamePhase[phase].Name = "label6";
             _LblNamePhase[phase].Size = new System.Drawing.Size(61, 13);
             _LblNamePhase[phase].TabIndex = 53;
@@ -991,9 +1016,13 @@ namespace ProdCycleBoer
         {
             string title = "Annulla";
             string question = "Sei sicuro di voler annullare? Le modifiche non verranno salvate";
+            this.DialogResult = DialogResult.None;
             DialogResult dialogResult = MessageBox.Show(question, title, MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
-            { Close(); }
+            {
+                Close();
+                this.DialogResult = DialogResult.Cancel;
+            }
         }
 
         private void lblChangeProd_Click(object sender, EventArgs e)
@@ -1024,9 +1053,9 @@ namespace ProdCycleBoer
         private void LoadDefaultPhases(int productID)
         {
             List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
+            //defPhases columns --> Objs_ID, Phases_ID, Length
             string question = "";
             string title = "";
-            //Objs_ID, Phases_ID, Length
             if (existDefPh && newOrder)
             {
                 question = "Caricare le fasi predefinite? Verranno eliminate le azioni impostate sulla produzione impostate fin'ora.";
@@ -1044,6 +1073,7 @@ namespace ProdCycleBoer
             }
             if (dialogResult == DialogResult.Yes && existDefPh)
             {
+                loadedDefPh = true;
                 ShowDefaultPhases(defPhases, productID);
             }
             else if (dialogResult == DialogResult.Yes && !existDefPh)
@@ -1068,9 +1098,11 @@ namespace ProdCycleBoer
 
         private void ShowDefaultPh(List<List<string>> defPhases, int productID)
         {
+            //defPhases columns --> Objs_ID, Phases_ID, Length
             List<int> rowsPerPhase = production.RowsInOneDefaultPhases(productID);
             int ctPhases = rowsPerPhase.Count;
             int row = 0;
+            int newPh = 0;
             for (int phase = 0; phase < ctPhases; phase++)
             {
                 AddPhaseMain(false);
@@ -1086,7 +1118,25 @@ namespace ProdCycleBoer
                     _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
                     row++;
                 }
+                _lblPhLength[phase].Text = _lblPhLength[phase].Text + SetNicePhaseLength(int.Parse(defPhases[newPh][2]));
+                newPh += rowsPerPhase[phase];
             }
+        }
+
+        private string SetNicePhaseLength(int midHours)
+        {
+            string time = "";
+            int h = 0;
+            int mid = 1;
+            if (midHours > 1)
+            {
+                h = midHours / 2;
+                mid = midHours % 2;
+            }
+            if (mid == 1)
+            { mid = 30; }
+            time = h + " ore e " + mid + " minuti";
+            return time;
         }
     }
 }

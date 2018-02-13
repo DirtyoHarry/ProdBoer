@@ -666,6 +666,29 @@ namespace ProdCycleBoer
             return orders;
         }
 
+        public List<List<string>> GetObjs()
+        {
+            List<List<string>> objs = new List<List<string>>();
+            List<string> temp = new List<string>();
+            dbC.Open();
+            string query = "SELECT Objs.Objs_ID, Objs.Name, Objs.Surname, CASE Objs.Type WHEN 0 THEN 'lavoratore' ELSE 'macchinario' END as 'lav/macch', CASE Objs.Spec_Int WHEN 0 THEN 'non capace' WHEN 1 THEN 'poco capace' ELSE 'molto capace' END as 'lavorare interno', CASE Objs.Spec_Ext WHEN 0 THEN 'non capace' WHEN 1 THEN 'poco capace' ELSE 'molto capace' END as 'lavorare esterno', Objs.Specialization FROM Objs";
+            command = new SQLiteCommand(query, dbC);
+            SQLiteDataReader reader = command.ExecuteReader();
+            int i = 0;
+            while (reader.Read())
+            {
+                objs.Add(temp);
+                objs[i] = new List<string>();
+                for (int j = 0; j < reader.FieldCount; j++)
+                {
+                    objs[i].Add(reader[reader.GetName(j)].ToString());
+                }
+                i++;
+            }
+            dbC.Close();
+            return objs;
+        }
+
         public int CountPhasesByType(int type)
         {
             int count = -1;

@@ -325,7 +325,14 @@ namespace ProdCycleBoer
             List<string> columns = new List<string> { "ID", "Nome Prodotto", "Attualmente in produzione", "Tipo prodotto" };
             Form frmView = new FrmViewTable(products, columns, 1);
             frmView.Show();
+        }
 
+        private void lavMacchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<List<string>> objs = production.GetObjs();
+            List<string> columns = new List<string> { "ID", "Nome", "Cognome", "Lavor/macch", "Lavora all'interno", "Lavora all'esterno", "Specializzazione" };
+            Form frmView = new FrmViewTable(objs, columns, 2);
+            frmView.Show();
         }
 
         private void fasiPredefiniteToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -334,7 +341,7 @@ namespace ProdCycleBoer
             List<string> prod = production.GetProducts(out prodType);
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
-            Form frmAddPh = new FrmAddDefaultPh(prod, prodType, obj, objType);
+            Form frmAddPh = new FrmAddDefaultPh(prod, prodType, obj, objType, false);
             frmAddPh.Show();
         }
 
@@ -428,6 +435,8 @@ namespace ProdCycleBoer
             string orderID = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString();
             if (orderID != "")
             { FormProduction(false, int.Parse(orderID)); }
+            else
+            { MessageBox.Show("Non hai selezionato nessun ordine"); }
         }
 
         private void FrmMain_Resize(object sender, EventArgs e)
@@ -474,5 +483,19 @@ namespace ProdCycleBoer
             //ShowMonthly(dateTimePicker1.Value.Date);
         }
 
+        private void fasiPredefiniteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fasiPredefiniteToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            List<int> prodType = new List<int>();
+            List<string> prod = production.GetProducts(out prodType);
+            List<int> objType = new List<int>();
+            List<string> obj = production.GetObjs(out objType);
+            Form frmAddPh = new FrmAddDefaultPh(prod, prodType, obj, objType, true);
+            frmAddPh.Show();
+        }
     }
 }

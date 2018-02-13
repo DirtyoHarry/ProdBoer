@@ -48,15 +48,20 @@ namespace ProdCycleBoer
         Production production;
         int productID = -1;
         bool edit = false;
-
-        public FrmAddDefaultPh(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType)
+        bool readOnly = false;
+        bool openingForm = false;
+        public FrmAddDefaultPh(List<string> _products, List<int> _prodType, List<string> _objs, List<int> _objsType, bool _readOnly)
         {
             InitializeComponent();
+            openingForm = true;
             production = new Production();
+            readOnly = _readOnly;
+            btnSave.Visible = btnCancel.Visible = !readOnly;
             SetProdObjLists(_products, _prodType, _objs, _objsType);
             InitializeObjList();
             SetCmbBoxSelProduct();
             cmbBoxSelProd.SelectedIndex = 0;
+            openingForm = false;
         }
 
         private void FrmAddDefaultPh_Load(object sender, EventArgs e)
@@ -369,6 +374,7 @@ namespace ProdCycleBoer
             _BtnAddObj[phase].UseVisualStyleBackColor = true;
             RemoveClickEvent(_BtnAddObj[phase]);
             _BtnAddObj[phase].Click += new System.EventHandler(this.btnAddObj_Click);
+            _BtnAddObj[phase].Visible = !readOnly;
         }
 
         private void ShowBtnRemoveObj(int phase)
@@ -383,6 +389,7 @@ namespace ProdCycleBoer
             _BtnRemoveObj[phase].UseVisualStyleBackColor = true;
             RemoveClickEvent(_BtnRemoveObj[phase]);
             _BtnRemoveObj[phase].Click += new System.EventHandler(this.btnRemObj_Click);
+            _BtnRemoveObj[phase].Visible = !readOnly;
         }
 
 
@@ -407,6 +414,7 @@ namespace ProdCycleBoer
                 _cmbBoxSelObj[phase][j].Name = "cmbBoxSelObj";
                 _cmbBoxSelObj[phase][j].Size = new System.Drawing.Size(250, 21);
                 _cmbBoxSelObj[phase][j].TabIndex = 56;
+                _cmbBoxSelObj[phase][j].Enabled = !readOnly;
                 if (_cmbBoxSelObj[phase][j].Items.Count < selIndex[j])
                 { _cmbBoxSelObj[phase][j].SelectedIndex = selIndex[j]; }
                 y1 = y1 + dy;
@@ -428,6 +436,7 @@ namespace ProdCycleBoer
                 _cmbBoxSelObjType[phase][j].Size = new System.Drawing.Size(100, 21);
                 _cmbBoxSelObjType[phase][j].TabIndex = 55;
                 _cmbBoxSelObjType[phase][j].SelectedIndex = selIndex[j];
+                _cmbBoxSelObjType[phase][j].Enabled = !readOnly;
                 y1 = y1 + dy;
                 ComboBox cmb = new ComboBox();
                 cmb = _cmbBoxSelObjType[phase][j];
@@ -456,6 +465,7 @@ namespace ProdCycleBoer
             _numUpDwSelLength[phase].Minimum = (decimal)0.5;
             _numUpDwSelLength[phase].DecimalPlaces = 1;
             _numUpDwSelLength[phase].Increment = (decimal)0.5;
+            _numUpDwSelLength[phase].ReadOnly = readOnly;
         }
 
         private void ShowLblNamePhase(int phase)
@@ -474,7 +484,7 @@ namespace ProdCycleBoer
             _TxtBoxNamePhase[phase].Name = "txtBoxNamePhase";
             _TxtBoxNamePhase[phase].Size = new System.Drawing.Size(200, 20);
             _TxtBoxNamePhase[phase].TabIndex = 52;
-            _TxtBoxNamePhase[phase].Enabled = false;
+            _TxtBoxNamePhase[phase].ReadOnly = readOnly;
         }
 
 
@@ -530,7 +540,8 @@ namespace ProdCycleBoer
             if (edit)
             {
                 EditDefaultPhases(defPhOneProd, rowsInOneDefPh);
-                MessageBox.Show("ATTENZIONE: esistono già delle fasi predefinite per questo prodotto, verranno modificate quelle già presenti", "Modifica fasi predefinite");
+                if (!readOnly && !openingForm)
+                { MessageBox.Show("ATTENZIONE: esistono già delle fasi predefinite per questo prodotto, verranno modificate quelle già presenti", "Modifica fasi predefinite"); }
             }
         }
 
