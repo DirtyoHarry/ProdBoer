@@ -17,6 +17,7 @@ namespace ProdCycleBoer
     {
         SQLiteConnection dbC;
         SQLiteCommand command;
+        bool chosenDate = false;
 
         Production production = new Production();
 
@@ -176,19 +177,6 @@ namespace ProdCycleBoer
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            List<int> prodType = new List<int>();
-            List<string> prod = production.GetProducts(out prodType);
-            List<int> objType = new List<int>();
-            List<string> obj = production.GetObjs(out objType);
-            int countOrd = production.CountRows("Orders");
-            FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, true, countOrd + 1);
-            frm.Show();
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -269,16 +257,6 @@ namespace ProdCycleBoer
 
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            dbC.Close();
-            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
-            ShowWeekly(dateTimePicker1.Value.Date);
-            //ShowMonthly(dateTimePicker1.Value.Date);         
-
-
-        }
-
         private void btnAddObj_Click(object sender, EventArgs e)
         {
 
@@ -302,8 +280,11 @@ namespace ProdCycleBoer
             List<int> objType = new List<int>();
             List<string> obj = production.GetObjs(out objType);
             FrmNewOrd frm = new FrmNewOrd(prod, prodType, obj, objType, newOrd, orderID);
-            frm.Show();
-            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+            frm.ShowDialog();
+            if (frm.DialogResult == DialogResult.OK)
+            {
+                ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+            }
         }
 
         private void prodottoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -455,6 +436,43 @@ namespace ProdCycleBoer
             dataGridView1.Location = new Point(dataGridView1.Location.X, 80);
             dataGridView3.Size = new Size(dataGridView3.Size.Width, this.Height - 125);
             dataGridView4.Location = new Point(dataGridView3.Location.X, 80);
+
         }
+
+        private bool _calendarDroppedDown = false;
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            dbC.Close();
+            if (!_calendarDroppedDown)
+            {
+                RefreshDataGridView();
+            }
+        }
+
+        //called when calendar drops down
+        private void dateTimePicker1_DropDown(object sender, EventArgs e)
+        {
+            _calendarDroppedDown = true;
+        }
+
+        //called when calendar closes
+        private void dateTimePicker1_CloseUp(object sender, EventArgs e)
+        {
+            if (_calendarDroppedDown)
+            {
+                RefreshDataGridView();
+            }
+            _calendarDroppedDown = false;
+        }
+
+        //This method is called when ValueChanged is fired
+        public void RefreshDataGridView()
+        {
+            ShowDaily(dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+            ShowWeekly(dateTimePicker1.Value.Date);
+            //ShowMonthly(dateTimePicker1.Value.Date);
+        }
+
     }
 }
