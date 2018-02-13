@@ -1069,7 +1069,7 @@ namespace ProdCycleBoer
         private void ShowDefaultPh(List<List<string>> defPhases, int productID)
         {
             List<int> rowsPerPhase = production.RowsInOneDefaultPhases(productID);
-            int ctPhases = int.Parse(defPhases[defPhases.Count - 1][1]);
+            int ctPhases = rowsPerPhase.Count;
             int row = 0;
             for (int phase = 0; phase < ctPhases; phase++)
             {

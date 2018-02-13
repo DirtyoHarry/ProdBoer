@@ -40,7 +40,7 @@
             this.tabControlPhases.Location = new System.Drawing.Point(12, 79);
             this.tabControlPhases.Name = "tabControlPhases";
             this.tabControlPhases.SelectedIndex = 0;
-            this.tabControlPhases.Size = new System.Drawing.Size(700, 500);
+            this.tabControlPhases.Size = new System.Drawing.Size(700, 387);
             this.tabControlPhases.TabIndex = 18;
             // 
             // cmbBoxSelProd
@@ -65,38 +65,44 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(615, 9);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 55);
             this.btnCancel.TabIndex = 62;
             this.btnCancel.Text = "Annulla";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnSave.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnSave.Location = new System.Drawing.Point(512, 10);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 54);
             this.btnSave.TabIndex = 61;
             this.btnSave.Text = "Salva";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // FrmAddDefaultPh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 597);
+            this.ClientSize = new System.Drawing.Size(730, 478);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblNewProd);
             this.Controls.Add(this.cmbBoxSelProd);
             this.Controls.Add(this.tabControlPhases);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmAddDefaultPh";
-            this.Text = "FrmAddDefaultPh";
+            this.Text = "Inserimento fasi predefinite";
             this.Load += new System.EventHandler(this.FrmAddDefaultPh_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

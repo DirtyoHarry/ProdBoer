@@ -94,24 +94,26 @@
             // 
             // btnSave
             // 
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSave.Location = new System.Drawing.Point(772, 12);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(122, 54);
             this.btnSave.TabIndex = 19;
             this.btnSave.Text = "Salva";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(772, 78);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(122, 55);
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "Annulla";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // cmbBoxSelProd
@@ -293,8 +295,11 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControlPhases);
             this.Controls.Add(this.lblChangeProd);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmNewOrd";
-            this.Text = "Aggiungi Ordine";
+            this.Text = "Inserimento/Modifica Ordine";
             this.Load += new System.EventHandler(this.FrmProd_Load);
             this.Shown += new System.EventHandler(this.FrmNewOrd_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).EndInit();

@@ -348,7 +348,6 @@ namespace ProdCycleBoer
             tabControlPhases.Name = "tabControlAddPh";
             tabControlPhases.SelectedIndex = 0;
             tabControlPhases.TabIndex = 17;
-            tabControlPhases.Size = new System.Drawing.Size(700, 500);
 
             newTabPage.Location = new System.Drawing.Point(4, 22);
             newTabPage.Name = "tabPage" + (phase + 1);
