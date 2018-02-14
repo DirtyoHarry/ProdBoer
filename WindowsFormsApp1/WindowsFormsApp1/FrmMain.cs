@@ -444,7 +444,7 @@ namespace ProdCycleBoer
             dataGridView1.Size = new Size(dataGridView1.Size.Width, this.Height - 125);
             dataGridView1.Location = new Point(dataGridView1.Location.X, 80);
             dataGridView3.Size = new Size(dataGridView3.Size.Width, this.Height - 125);
-            dataGridView4.Location = new Point(dataGridView3.Location.X, 80);
+            dataGridView3.Location = new Point(dataGridView3.Location.X, 80);
 
         }
 

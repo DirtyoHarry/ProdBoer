@@ -198,6 +198,9 @@
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.lblNewProd);
             this.Controls.Add(this.cmbBoxSelObj);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmAddObj";
             this.Text = "FrmAddObj";
             this.ResumeLayout(false);

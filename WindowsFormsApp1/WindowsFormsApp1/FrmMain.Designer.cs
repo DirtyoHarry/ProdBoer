@@ -47,6 +47,7 @@
             this.ordiniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodottiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lavMacchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fasiPredefiniteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
@@ -64,7 +65,6 @@
             this.Macchinario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fasiPredefiniteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -139,7 +139,7 @@
             this.lavoratoreMacchinarioToolStripMenuItem,
             this.fasiPredefiniteToolStripMenuItem1});
             this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
-            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.nuovoToolStripMenuItem.Text = "Nuovo";
             // 
             // ordineToolStripMenuItem
@@ -201,7 +201,7 @@
             this.lavMacchToolStripMenuItem,
             this.fasiPredefiniteToolStripMenuItem});
             this.listaToolStripMenuItem.Name = "listaToolStripMenuItem";
-            this.listaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.listaToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.listaToolStripMenuItem.Text = "Lista";
             // 
             // ordiniToolStripMenuItem
@@ -224,6 +224,13 @@
             this.lavMacchToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.lavMacchToolStripMenuItem.Text = "Lav/Macch";
             this.lavMacchToolStripMenuItem.Click += new System.EventHandler(this.lavMacchToolStripMenuItem_Click);
+            // 
+            // fasiPredefiniteToolStripMenuItem
+            // 
+            this.fasiPredefiniteToolStripMenuItem.Name = "fasiPredefiniteToolStripMenuItem";
+            this.fasiPredefiniteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.fasiPredefiniteToolStripMenuItem.Text = "Fasi Predefinite";
+            this.fasiPredefiniteToolStripMenuItem.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem_Click_1);
             // 
             // dateTimePicker1
             // 
@@ -260,9 +267,9 @@
             this.Column8,
             this.Column9,
             this.Column10});
-            this.dataGridView3.Location = new System.Drawing.Point(0, 106);
+            this.dataGridView3.Location = new System.Drawing.Point(0, 226);
             this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(980, 613);
+            this.dataGridView3.Size = new System.Drawing.Size(980, 493);
             this.dataGridView3.TabIndex = 1;
             this.dataGridView3.Visible = false;
             this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellDoubleClick);
@@ -374,13 +381,6 @@
             this.Column3.HeaderText = "Prodotto";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
-            // 
-            // fasiPredefiniteToolStripMenuItem
-            // 
-            this.fasiPredefiniteToolStripMenuItem.Name = "fasiPredefiniteToolStripMenuItem";
-            this.fasiPredefiniteToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.fasiPredefiniteToolStripMenuItem.Text = "Fasi Predefinite";
-            this.fasiPredefiniteToolStripMenuItem.Click += new System.EventHandler(this.fasiPredefiniteToolStripMenuItem_Click_1);
             // 
             // FrmMain
             // 

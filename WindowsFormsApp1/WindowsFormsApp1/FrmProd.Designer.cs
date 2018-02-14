@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblChangeProd = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.lblNameProd = new System.Windows.Forms.Label();
             this.txtBoxCodProd = new System.Windows.Forms.TextBox();
             this.lblCodProd = new System.Windows.Forms.Label();
@@ -53,16 +53,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNOrd)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblChangeProd
+            // lblTitle
             // 
-            this.lblChangeProd.AutoSize = true;
-            this.lblChangeProd.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChangeProd.Location = new System.Drawing.Point(4, 4);
-            this.lblChangeProd.Name = "lblChangeProd";
-            this.lblChangeProd.Size = new System.Drawing.Size(181, 31);
-            this.lblChangeProd.TabIndex = 6;
-            this.lblChangeProd.Text = "Nuovo Ordine";
-            this.lblChangeProd.Click += new System.EventHandler(this.lblChangeProd_Click);
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(4, 4);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(181, 31);
+            this.lblTitle.TabIndex = 6;
+            this.lblTitle.Text = "Nuovo Ordine";
+            this.lblTitle.Click += new System.EventHandler(this.lblChangeProd_Click);
             // 
             // lblNameProd
             // 
@@ -259,6 +259,11 @@
             // numUpDownNOrd
             // 
             this.numUpDownNOrd.Location = new System.Drawing.Point(396, 37);
+            this.numUpDownNOrd.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numUpDownNOrd.Name = "numUpDownNOrd";
             this.numUpDownNOrd.Size = new System.Drawing.Size(160, 20);
             this.numUpDownNOrd.TabIndex = 56;
@@ -294,7 +299,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControlPhases);
-            this.Controls.Add(this.lblChangeProd);
+            this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -309,7 +314,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblChangeProd;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmbBoxSelProd;

@@ -34,6 +34,9 @@ namespace ProdCycleBoer
         List<List<int>> _cmbBoxSelObjSelInd; //salva selected index       
         List<int> _cmbBoxSelObjSelIndPhaseX;
 
+        List<bool> swapTabPages;
+        int lastTPSelected = -1;
+
         List<Label> _LblNamePhase;
         List<TextBox> _TxtBoxNamePhase;
         List<Label> _lblObjUsed;
@@ -47,6 +50,7 @@ namespace ProdCycleBoer
         List<string> productsInt;
         List<string> objsHuman;
         List<string> objsNotHuman;
+        List<string> phLength = new List<string>();
 
         int orderID = -1;
         bool newOrder = true;
@@ -59,7 +63,7 @@ namespace ProdCycleBoer
             InitializeComponent();
             production = new Production();
             SetProdObjLists(_products, _prodType, _objs, _objsType);
-            numUpDownNOrd.Maximum = ordID - 1;
+            numUpDownNOrd.Maximum = ordID + 1;
             numUpDownNOrd.Enabled = newOrd;
             orderID = ordID;
             newOrder = newOrd;
@@ -68,13 +72,32 @@ namespace ProdCycleBoer
 
         private void FrmProd_Load(object sender, EventArgs e)
         {
+            tabControlPhases.Selecting += new TabControlCancelEventHandler(tabControlPhases_Selecting);
             if (!newOrder)
             {
-                lblChangeProd.Text = "Modifica Ordine #" + orderID;
+                this.Text = "Modifica ordine";
+                lblTitle.Text = "Modifica Ordine #" + (orderID + 1);
                 cmbBoxNameProd.Enabled = cmbBoxSelProd.Enabled = false;
             }
             else
-            { lblChangeProd.Text = "Nuovo Ordine #" + orderID; }
+            {
+                lblTitle.Text = "Nuovo Ordine #" + (orderID + 1);
+                this.Text = "Inserimento nuovo ordine";
+            }
+        }
+
+        private void tabControlPhases_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            //fix date time picker
+            if(tabControlPhases.SelectedIndex < tabControlPhases.TabCount && tabControlPhases.SelectedIndex != tabControlPhases.TabCount && tabControlPhases.SelectedIndex == lastTPSelected+1 && lastTPSelected >= 0 && swapTabPages[lastTPSelected] == false)
+            {
+                swapTabPages[lastTPSelected] = true;
+                for (int i = 0; i < _dateTimePickerFrom[tabControlPhases.SelectedIndex].Count; i++)
+                {
+                    _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerTo[tabControlPhases.SelectedIndex-1][0].Value;
+                }
+            }
+            lastTPSelected = tabControlPhases.SelectedIndex;
         }
 
         private void StartForm()
@@ -91,7 +114,7 @@ namespace ProdCycleBoer
             {
                 EditOrder();
             }
-
+            InitializeSwapTabPages(tabControlPhases.TabCount);
         }
 
         private void EditOrder()
@@ -116,8 +139,8 @@ namespace ProdCycleBoer
             int selProd = production.GetObjAndProdRow("Products_ID", int.Parse(order[1]), "Products", int.Parse(order[7])) - 1;
             cmbBoxNameProd.SelectedIndex = selProd;
             txtBoxNotes.Text = order[8];
-            numUpDownNOrd.Maximum = int.Parse(order[9]);
-            numUpDownNOrd.Value = int.Parse(order[9]);
+            numUpDownNOrd.Maximum = int.Parse(order[9]) + 1;
+            numUpDownNOrd.Value = int.Parse(order[9]) + 1;
         }
 
         private void ShowProduction()
@@ -327,7 +350,7 @@ namespace ProdCycleBoer
             saveOrd.Add("1");
             saveOrd.Add(productID.ToString());
             saveOrd.Add(txtBoxNotes.Text);
-            saveOrd.Add(numUpDownNOrd.Value.ToString());
+            saveOrd.Add((numUpDownNOrd.Value - 1).ToString());
             return saveOrd;
         }
 
@@ -467,6 +490,7 @@ namespace ProdCycleBoer
             AddTabPage(phase);
             if (showPh)
             { ShowOnePhase(phase); }
+            InitializeSwapTabPages(tabControlPhases.TabCount);
         }
 
         private void AddPhase()
@@ -521,6 +545,7 @@ namespace ProdCycleBoer
             RemovePhase(phase, deleteFirstTP);
             ShowAllPhases();
             tabControlPhases.SelectedIndex = phase;
+            InitializeSwapTabPages(tabControlPhases.TabCount);
         }
 
         private void RemovePhase(int phase, bool deleteFirstTP)
@@ -821,6 +846,8 @@ namespace ProdCycleBoer
             _lblPhLength[phase].TabIndex = 1;
             _lblPhLength[phase].Text = "Durata della fase prevista: ";
             _lblPhLength[phase].Visible = loadedDefPh;
+            if (phLength.Count > phase)
+            { _lblPhLength[phase].Text += phLength[phase]; }
         }
 
         private void ShowCmbBoxSelObj(int phase, List<int> selIndex)
@@ -1075,6 +1102,7 @@ namespace ProdCycleBoer
             {
                 loadedDefPh = true;
                 ShowDefaultPhases(defPhases, productID);
+                InitializeSwapTabPages(tabControlPhases.TabCount);
             }
             else if (dialogResult == DialogResult.Yes && !existDefPh)
             {
@@ -1103,10 +1131,12 @@ namespace ProdCycleBoer
             int ctPhases = rowsPerPhase.Count;
             int row = 0;
             int newPh = 0;
+            phLength = new List<string>();
             for (int phase = 0; phase < ctPhases; phase++)
             {
                 AddPhaseMain(false);
                 int limit = rowsPerPhase[phase];
+                phLength.Add(SetNicePhaseLength(int.Parse(defPhases[newPh][2])));
                 for (int i = 0; i < limit; i++)
                 {
                     if (i == 0)
@@ -1118,8 +1148,16 @@ namespace ProdCycleBoer
                     _cmbBoxSelObj[phase][i].SelectedIndex = selObj;
                     row++;
                 }
-                _lblPhLength[phase].Text = _lblPhLength[phase].Text + SetNicePhaseLength(int.Parse(defPhases[newPh][2]));
                 newPh += rowsPerPhase[phase];
+            }
+        }
+
+        private void InitializeSwapTabPages(int nOfPhases)
+        {
+            swapTabPages = new List<bool>();
+            for (int i = 0; i < nOfPhases; i++)
+            {
+                swapTabPages.Add(false);
             }
         }
 

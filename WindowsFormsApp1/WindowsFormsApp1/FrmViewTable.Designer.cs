@@ -61,6 +61,7 @@
             this.ClientSize = new System.Drawing.Size(1324, 876);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblList);
+            this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "FrmViewTable";
             this.Text = "FrmViewTable";
             this.Load += new System.EventHandler(this.FrmViewTable_Load);
