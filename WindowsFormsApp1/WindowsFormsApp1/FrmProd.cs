@@ -51,6 +51,7 @@ namespace ProdCycleBoer
         List<string> objsHuman;
         List<string> objsNotHuman;
         List<string> phLength = new List<string>();
+        List<TimeSpan> _phLength;
 
         int orderID = -1;
         bool newOrder = true;
@@ -94,7 +95,8 @@ namespace ProdCycleBoer
                 swapTabPages[lastTPSelected] = true;
                 for (int i = 0; i < _dateTimePickerFrom[tabControlPhases.SelectedIndex].Count; i++)
                 {
-                    _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerTo[tabControlPhases.SelectedIndex-1][0].Value;
+                    _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerTo[tabControlPhases.SelectedIndex-1][0].Value;
+                    _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value +_phLength[tabControlPhases.SelectedIndex];
                 }
             }
             lastTPSelected = tabControlPhases.SelectedIndex;
@@ -1132,6 +1134,7 @@ namespace ProdCycleBoer
             int row = 0;
             int newPh = 0;
             phLength = new List<string>();
+            _phLength = new List<TimeSpan>();
             for (int phase = 0; phase < ctPhases; phase++)
             {
                 AddPhaseMain(false);
@@ -1166,6 +1169,7 @@ namespace ProdCycleBoer
             string time = "";
             int h = 0;
             int mid = 1;
+            TimeSpan ts = new TimeSpan();
             if (midHours > 1)
             {
                 h = midHours / 2;
@@ -1173,6 +1177,8 @@ namespace ProdCycleBoer
             }
             if (mid == 1)
             { mid = 30; }
+            TimeSpan.TryParse(h + ":" + mid, out ts);
+            _phLength.Add(ts);
             time = h + " ore e " + mid + " minuti";
             return time;
         }
