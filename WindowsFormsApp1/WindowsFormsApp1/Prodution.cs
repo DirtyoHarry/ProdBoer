@@ -114,7 +114,25 @@ namespace ProdCycleBoer
                 return false;
             }
         }
+        public bool EditDragNDrop(List<string> EditProd)
+        {
+            dbC.Open();
+            command = new SQLiteCommand("UPDATE Production SET Time_ID = @time Where Production_ID = @ID", dbC);
+            command.Parameters.AddWithValue("@time", EditProd[1]);
+            command.Parameters.AddWithValue("@ID", EditProd[0]);
+            try
+            {
+                command.ExecuteNonQuery();
+                dbC.Close();
+                return true;
 
+            }
+            catch
+            {
+                dbC.Close();
+                return false;
+            }
+        }
 
         public bool EditProduction(List<string> EditProd)
         {
@@ -766,6 +784,9 @@ namespace ProdCycleBoer
             dbC.Close();
             return countRows;
         }
+
+
+
     }
 
  //   private List<List<int>> Get

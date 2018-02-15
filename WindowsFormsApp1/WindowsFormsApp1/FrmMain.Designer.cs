@@ -60,6 +60,8 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colmnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimeInTick = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Macchinario = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -323,6 +325,8 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colmnID,
+            this.ProductionID,
+            this.TimeInTick,
             this.Column1,
             this.Column2,
             this.Macchinario,
@@ -344,6 +348,16 @@
             this.colmnID.HeaderText = "Orders_ID";
             this.colmnID.Name = "colmnID";
             this.colmnID.Visible = false;
+            // 
+            // ProductionID
+            // 
+            this.ProductionID.HeaderText = "ProductionID";
+            this.ProductionID.Name = "ProductionID";
+            // 
+            // TimeInTick
+            // 
+            this.TimeInTick.HeaderText = "TimeInTick";
+            this.TimeInTick.Name = "TimeInTick";
             // 
             // Column1
             // 
@@ -441,6 +455,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colmnID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductionID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimeInTick;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Macchinario;

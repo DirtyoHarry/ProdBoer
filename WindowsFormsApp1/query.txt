@@ -1,5 +1,10 @@
-SELECT COUNT(*) FROM Production
-WHERE Production.Order_ID = 12
-AND Production.Obj_ID = 5
-AND Production.Phase_ID = 1
-AND Production.Day_ID = strftime('%Y/%d/%m', '2017-11-19')
+SELECT  Orario.Ordine ,Orario.ID, Orario.Tick, Orario.Ora , Orario.Lavoratore , Orario.Fase, Orario.Ordine, Orario.Prodotto, Orario.Tempo  From( Select Production.Order_ID as 'Ordine', Production.Production_ID as 'ID', Production.Time_ID as 'Tick', (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine', (Products.Name || ' ' || Products.Measure) as Prodotto , Time.Time_ID as Tempo FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID  JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID  JOIN Orders ON Orders.Orders_ID = Production.Order_ID  WHERE Production.Day_ID = @ID Union SELECT NULL , NULL , Time_ID ,(Real_STime || ' - ' ||Real_ETime) as 'Ora', NULL  , NULL , NULL  , NULL ,  Time.Time_ID as Tempo From Time ) as Orario Order By Orario.Tempo
+
+
+
+
+
+
+
+
+            

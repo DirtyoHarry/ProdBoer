@@ -46,7 +46,7 @@ namespace ProdCycleBoer
 
             dbC.Open();
 
-            string sql = "SELECT  Orario.Ordine , Orario.Ora , Orario.Lavoratore , Orario.Fase, Orario.Ordine, Orario.Prodotto, Orario.Tempo  From( Select Production.Order_ID as 'Ordine', (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'Ordine', (Products.Name || ' ' || Products.Measure) as Prodotto , Time.Time_ID as Tempo FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID  JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID  JOIN Orders ON Orders.Orders_ID = Production.Order_ID  WHERE Production.Day_ID = @ID Union SELECT NULL ,(Real_STime || ' - ' ||Real_ETime) as 'Ora', NULL  , NULL , NULL  , NULL ,  Time.Time_ID as Tempo From Time ) as Orario Order By Orario.Tempo";
+            string sql = "SELECT  Orario.Ordine ,Orario.ID, Orario.Tick, Orario.Ora , Orario.Lavoratore , Orario.Fase, Orario.OrdineN, Orario.Prodotto, Orario.Tempo  From( Select Production.Order_ID as 'Ordine', Production.Production_ID as 'ID', Production.Time_ID as 'Tick', (Real_STime || ' - ' ||Real_ETime) as 'Ora',Objs.Name as 'Lavoratore',Phases.Name as 'Fase',Orders.Name as 'OrdineN', (Products.Name || ' ' || Products.Measure) as Prodotto , Time.Time_ID as Tempo FROM Production JOIN Products ON Orders.Products_ID = Products.Products_ID  JOIN Time ON Time.Time_ID = Production.Time_ID JOIN Objs ON Objs.Objs_ID = Production.Obj_ID JOIN Phases ON Phases.Phases_ID = Production.Phase_ID  JOIN Orders ON Orders.Orders_ID = Production.Order_ID  WHERE Production.Day_ID = @ID Union SELECT NULL , NULL , Time_ID ,(Real_STime || ' - ' ||Real_ETime) as 'Ora', NULL  , NULL , NULL  , NULL ,  Time.Time_ID as Tempo From Time ) as Orario Order By Orario.Tempo";
             command = new SQLiteCommand(sql, dbC);
 
             command.Parameters.AddWithValue("@ID", input);
@@ -60,7 +60,7 @@ namespace ProdCycleBoer
 
             while (reader.Read()) // scrivo gli ID dentro ad una lista
             {
-                dataGridView1.Rows.Add(reader["Ordine"], reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["Ordine"], reader["Prodotto"], reader["Tempo"]);
+                dataGridView1.Rows.Add(reader["Ordine"], reader["ID"] , reader ["Tick"] , reader["Ora"], reader["Lavoratore"], reader["Fase"], reader["OrdineN"], reader["Prodotto"], reader["Tempo"]);
                 Refresh();
             }
             dbC.Close();
@@ -407,19 +407,22 @@ namespace ProdCycleBoer
 
                 DataGridViewRow rowToMove = e.Data.GetData(
                     typeof(DataGridViewRow)) as DataGridViewRow;
-
-                string memory = dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value.ToString();
+                string memoryDate = dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[3].Value.ToString();
+                string memory = dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[2].Value.ToString();
                 dataGridView1.Rows.RemoveAt(rowIndexFromMouseDown);
                 dataGridView1.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
 
-                dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value = memory;
+                dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[2].Value = memory;
+                dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[3].Value = memoryDate;
                 List<string> rowToAdd = new List<string>();
-                for (int i = 0; i < 5; i++)
-                {
-                    rowToAdd.Add(dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[i].Value.ToString());
-                }
 
-                production.EditProduction(rowToAdd);
+                rowToAdd.Add(dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[1].Value.ToString());
+                rowToAdd.Add(dataGridView1.Rows[rowIndexOfItemUnderMouseToDrop].Cells[2].Value.ToString());
+
+
+                
+
+                production.EditDragNDrop(rowToAdd);
             }
         }
 
