@@ -95,8 +95,9 @@ namespace ProdCycleBoer
                 swapTabPages[lastTPSelected] = true;
                 for (int i = 0; i < _dateTimePickerFrom[tabControlPhases.SelectedIndex].Count; i++)
                 {
-                    _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerTo[tabControlPhases.SelectedIndex-1][0].Value;
-                    _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value +_phLength[tabControlPhases.SelectedIndex];
+                    _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerTo[tabControlPhases.SelectedIndex-1][0].Value;
+                    if (_phLength != null && _phLength.Count > tabControlPhases.SelectedIndex)
+                    { _dateTimePickerTo[tabControlPhases.SelectedIndex][i].Value = _dateTimePickerFrom[tabControlPhases.SelectedIndex][i].Value + _phLength[tabControlPhases.SelectedIndex]; }
                 }
             }
             lastTPSelected = tabControlPhases.SelectedIndex;
@@ -492,7 +493,7 @@ namespace ProdCycleBoer
             AddTabPage(phase);
             if (showPh)
             { ShowOnePhase(phase); }
-            InitializeSwapTabPages(tabControlPhases.TabCount);
+            swapTabPages.Add(false);
         }
 
         private void AddPhase()
@@ -547,7 +548,7 @@ namespace ProdCycleBoer
             RemovePhase(phase, deleteFirstTP);
             ShowAllPhases();
             tabControlPhases.SelectedIndex = phase;
-            InitializeSwapTabPages(tabControlPhases.TabCount);
+            swapTabPages.RemoveAt(swapTabPages.Count-1);
         }
 
         private void RemovePhase(int phase, bool deleteFirstTP)
