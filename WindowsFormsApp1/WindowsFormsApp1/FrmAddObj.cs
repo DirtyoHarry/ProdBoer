@@ -24,7 +24,7 @@ namespace ProdCycleBoer
         
         private void cmbBoxSelObj_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbBoxSelObj.SelectedIndex == 0)
+            if (cmbBoxSelObj.SelectedIndex == 1)
             {
                 lblSurname.Visible = txtBoxSurname.Visible = false;
                 txtBoxSpec.Location = new System.Drawing.Point(119, 147);
@@ -41,11 +41,14 @@ namespace ProdCycleBoer
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            obj.Add(txtBoxName.Text);
-            obj.Add(txtBoxSurname.Text);
-            obj.Add(txtBoxSpec.Text);
-            obj.Add(cmbBoxSelObj.SelectedIndex.ToString());
-            SetIntExtSpec();
+            if (txtBoxName.Text != "" && cmbBoxSelObj.SelectedIndex != -1 && !(radioBbtnInt.Checked == radioBtnExt.Checked == radioBtnBoth.Checked == false))
+            {
+                obj.Add(txtBoxName.Text);
+                obj.Add(txtBoxSurname.Text);
+                obj.Add(txtBoxSpec.Text);
+                obj.Add(cmbBoxSelObj.SelectedIndex.ToString());
+                SetIntExtSpec();
+            }
         }
 
         private void SetIntExtSpec()

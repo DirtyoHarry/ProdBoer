@@ -671,7 +671,7 @@ namespace ProdCycleBoer
             List<List<string>> objs = new List<List<string>>();
             List<string> temp = new List<string>();
             dbC.Open();
-            string query = "SELECT Objs.Objs_ID, Objs.Name, Objs.Surname, CASE Objs.Type WHEN 0 THEN 'lavoratore' ELSE 'macchinario' END as 'lav/macch', CASE Objs.Spec_Int WHEN 0 THEN 'non capace' WHEN 1 THEN 'poco capace' ELSE 'molto capace' END as 'lavorare interno', CASE Objs.Spec_Ext WHEN 0 THEN 'non capace' WHEN 1 THEN 'poco capace' ELSE 'molto capace' END as 'lavorare esterno', Objs.Specialization FROM Objs";
+            string query = "SELECT Objs.Objs_ID, Objs.Name, Objs.Surname, CASE Objs.Type WHEN 0 THEN 'lavoratore' ELSE 'macchinario' END as 'lav/macch', CASE Objs.Spec_Int WHEN 0 THEN 'NON abilitato' WHEN 1 THEN 'abilitato' ELSE 'abilitato' END as 'lavorare interno', CASE Objs.Spec_Ext WHEN 0 THEN 'NON abilitato' WHEN 1 THEN 'abilitato' ELSE 'abilitato' END as 'lavorare esterno', Objs.Specialization FROM Objs";
             command = new SQLiteCommand(query, dbC);
             SQLiteDataReader reader = command.ExecuteReader();
             int i = 0;

@@ -34,7 +34,7 @@ namespace ProdCycleBoer
         List<List<int>> _cmbBoxSelObjSelInd; //salva selected index       
         List<int> _cmbBoxSelObjSelIndPhaseX;
 
-        List<bool> swapTabPages;
+        List<bool> swapTabPages = new List<bool>();
         int lastTPSelected = -1;
 
         List<Label> _LblNamePhase;
@@ -90,7 +90,7 @@ namespace ProdCycleBoer
         private void tabControlPhases_Selecting(object sender, TabControlCancelEventArgs e)
         {
             //fix date time picker
-            if(tabControlPhases.SelectedIndex < tabControlPhases.TabCount && tabControlPhases.SelectedIndex != tabControlPhases.TabCount && tabControlPhases.SelectedIndex == lastTPSelected+1 && lastTPSelected >= 0 && swapTabPages[lastTPSelected] == false)
+            if(tabControlPhases.SelectedIndex < tabControlPhases.TabCount && tabControlPhases.SelectedIndex != tabControlPhases.TabCount && tabControlPhases.SelectedIndex == lastTPSelected+1 && lastTPSelected >= 0 && swapTabPages[lastTPSelected] == false && newOrder)
             {
                 swapTabPages[lastTPSelected] = true;
                 for (int i = 0; i < _dateTimePickerFrom[tabControlPhases.SelectedIndex].Count; i++)
@@ -229,53 +229,78 @@ namespace ProdCycleBoer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            List<string> advises = new List<string>();
             List<string> error = new List<string>();
             List<string> order = SaveOrder(error);
             List<List<string>> productions = new List<List<string>>();
+            Save(error, advises, order, productions);
+        }
+
+        private void Save(List<string> error, List<string> advises, List<string> order, List<List<string>> productions)
+        {
+            bool recursive = false;
+            string title = "Stato Avanzamento Salvataggio Ordine";
+            string text = "";
             for (int i = 0; i < tabControlPhases.TabCount; i++)
             {
                 for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
-                { SaveProduction(i, j, error, productions); }
+                { SaveProduction(i, j, error, advises, productions); }
             }
-            if (newOrder)
+            if (error.Count == 0)
             {
-                if (error.Count == 0)
-                { production.AddOrder(order); }
-            }
-            else
-            {
-                if (error.Count == 0)
+                if (advises.Count == 0)
                 {
-                    production.EditOrder(order);
-                    //cancel all rows of that order in production
-                    production.RemoveRowsFromDB("Production", "Order_ID", orderID);
+                    //salvataggio senza problemi
+                    if (newOrder)
+                    {
+                        production.AddOrder(order);
+                    }
+                    else
+                    {
+                        production.EditOrder(order);
+                        //cancel all rows of that order in production
+                        production.RemoveRowsFromDB("Production", "Order_ID", orderID);
+                    }
+                    for (int i = 0; i < productions.Count; i++)
+                    { production.AddProduction(productions[i]); }
+                    text = "Salvataggio completato con successo";
+                }
+                else
+                {
+                    for (int i = 0; i < advises.Count; i++)
+                    { text += (i + 1) + ") " + advises[i] + Environment.NewLine; }
+                    text += "  - Premere si per: Salvare comunque senza gli orari lavorativi."+ Environment.NewLine;
+                    text += "  - Premere no per: Annullare i salvataggio e modificare gli orari.";
+                    DialogResult dialogResult = MessageBox.Show(text, title, MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        recursive = true;
+                        advises.Clear();
+                        Save(error, advises, order, productions);                        
+                    }
                 }
             }
-            if (error.Count == 0)
-            {
-                for (int i = 0; i < productions.Count; i++)
-                { production.AddProduction(productions[i]); }
-            }
-            string title = "Stato Avanzamento Salvataggio Ordine", text = "";
-            if (error.Count == 0)
-            { text = "Salvataggio completato con successo"; }
             else
             {
                 text = "Non è stato possibile salvare l'ordine. " + Environment.NewLine;
                 text = text + "Prima di riprovare a salvare sistemare i seguenti errori:" + Environment.NewLine;
                 for (int i = 0; i < error.Count; i++)
                 { text = text + (i + 1) + ") " + error[i] + Environment.NewLine; }
+                MessageBox.Show(text, title);
             }
-            MessageBox.Show(text, title);
-            this.DialogResult = DialogResult.None;
-            if (error.Count == 0)
+            if (!recursive)
             {
-                this.DialogResult = DialogResult.OK;
-                Close();
+                this.DialogResult = DialogResult.None;
+                if (error.Count == 0 && advises.Count == 0)
+                {
+                    MessageBox.Show(text, title);
+                    this.DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
         }
 
-        private void SaveProduction(int ph, int idx, List<string> error, List<List<string>> productions)
+        private void SaveProduction(int ph, int idx, List<string> error, List<string> advises, List<List<string>> productions)
         {
             //Time_ID, Obj_ID, Order_ID, Phase_ID, Day_ID
             DateTime startingProd = DateTime.Parse(String.Format("{0:dd/MM/yyyy HH:mm}", _dateTimePickerFrom[ph][idx].Value));
@@ -329,7 +354,10 @@ namespace ProdCycleBoer
                     productions[cnt].Add(inputDay);
                 }
                 else
-                { productions.RemoveAt(productions.Count - 1); }
+                {
+                    advises.Add("Il lavoratore/macchinario nella fase " + (ph + 1) + " n. " + (idx + 1) + " è programmato per lavorare anche durante la pausa pranzo o dalle 17.30 alle 8.00. Modificare l'orario o verrano salvati solo gli orari lavorativi");
+                    productions.RemoveAt(productions.Count - 1);
+                }
             }
         }
 
@@ -1082,7 +1110,8 @@ namespace ProdCycleBoer
 
         private void LoadDefaultPhases(int productID)
         {
-            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out bool existDefPh);
+            bool existDefPh = false;
+            List<List<string>> defPhases = production.GetDefaultPhasesOneProd(productID, out existDefPh);
             //defPhases columns --> Objs_ID, Phases_ID, Length
             string question = "";
             string title = "";

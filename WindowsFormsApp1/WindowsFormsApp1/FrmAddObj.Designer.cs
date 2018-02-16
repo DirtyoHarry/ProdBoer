@@ -49,8 +49,8 @@
             this.cmbBoxSelObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBoxSelObj.FormattingEnabled = true;
             this.cmbBoxSelObj.Items.AddRange(new object[] {
-            "Macchinario",
-            "Lavoratore"});
+            "Lavoratore",
+            "Macchinario"});
             this.cmbBoxSelObj.Location = new System.Drawing.Point(119, 67);
             this.cmbBoxSelObj.Name = "cmbBoxSelObj";
             this.cmbBoxSelObj.Size = new System.Drawing.Size(142, 21);
