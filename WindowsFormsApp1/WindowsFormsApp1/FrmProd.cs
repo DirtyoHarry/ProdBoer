@@ -233,6 +233,11 @@ namespace ProdCycleBoer
             List<string> error = new List<string>();
             List<string> order = SaveOrder(error);
             List<List<string>> productions = new List<List<string>>();
+            for (int i = 0; i < tabControlPhases.TabCount; i++)
+            {
+                for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
+                { SaveProduction(i, j, error, advises, productions); }
+            }
             Save(error, advises, order, productions);
         }
 
@@ -241,11 +246,6 @@ namespace ProdCycleBoer
             bool recursive = false;
             string title = "Stato Avanzamento Salvataggio Ordine";
             string text = "";
-            for (int i = 0; i < tabControlPhases.TabCount; i++)
-            {
-                for (int j = 0; j < _cmbBoxSelObj[i].Count; j++)
-                { SaveProduction(i, j, error, advises, productions); }
-            }
             if (error.Count == 0)
             {
                 if (advises.Count == 0)
@@ -267,10 +267,11 @@ namespace ProdCycleBoer
                 }
                 else
                 {
+                    text = "Elenco avvisi, decidere se salvare o modificare:" + Environment.NewLine;
                     for (int i = 0; i < advises.Count; i++)
                     { text += (i + 1) + ") " + advises[i] + Environment.NewLine; }
-                    text += "  - Premere si per: Salvare comunque senza gli orari lavorativi."+ Environment.NewLine;
-                    text += "  - Premere no per: Annullare i salvataggio e modificare gli orari.";
+                    text += "  - Premere SI per: Salvare comunque escludendo gli orari non lavorativi."+ Environment.NewLine;
+                    text += "  - Premere NO per: Annullare il salvataggio e modificare gli orari.";
                     DialogResult dialogResult = MessageBox.Show(text, title, MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
@@ -282,8 +283,7 @@ namespace ProdCycleBoer
             }
             else
             {
-                text = "Non è stato possibile salvare l'ordine. " + Environment.NewLine;
-                text = text + "Prima di riprovare a salvare sistemare i seguenti errori:" + Environment.NewLine;
+                text = "Elenco errori da correggere per salvare: " + Environment.NewLine;
                 for (int i = 0; i < error.Count; i++)
                 { text = text + (i + 1) + ") " + error[i] + Environment.NewLine; }
                 MessageBox.Show(text, title);
@@ -321,6 +321,7 @@ namespace ProdCycleBoer
             int objIdx = _cmbBoxSelObj[ph][idx].SelectedIndex;
             int objType = _cmbBoxSelObjType[ph][idx].SelectedIndex;
             int objID = production.GetObjAndProdRowID(objIdx, objType, "Objs_ID", "Objs");
+            bool objAdvised = false;
             if (objID == -1)
             { error.Add("NON è stato selezionato nessun lavoratore/macchinario nella fase " + (ph + 1) + " n. " + (idx + 1)); }
             for (int i = 0; i < totTime; i++) //si ripete per le ore di ogni azione
@@ -355,7 +356,11 @@ namespace ProdCycleBoer
                 }
                 else
                 {
-                    advises.Add("Il lavoratore/macchinario nella fase " + (ph + 1) + " n. " + (idx + 1) + " è programmato per lavorare anche durante la pausa pranzo o dalle 17.30 alle 8.00. Modificare l'orario o verrano salvati solo gli orari lavorativi");
+                    if (!objAdvised)
+                    {
+                        objAdvised = true;
+                        advises.Add("Il lavoratore/macchinario nella fase " + (ph + 1) + " n. " + (idx + 1) + " è programmato per lavorare anche durante la pausa pranzo o dalle 17.30 alle 8.00. Modificare l'orario o verrano salvati solo gli orari lavorativi");
+                    }
                     productions.RemoveAt(productions.Count - 1);
                 }
             }
@@ -367,10 +372,14 @@ namespace ProdCycleBoer
             List<string> saveOrd = new List<string>();
             int type = cmbBoxSelProd.SelectedIndex;
             int productID = production.GetObjAndProdRowID(cmbBoxNameProd.SelectedIndex, type, "Products_ID", "Products");
-            if (dateTmPickED.Value <= dateTmPickSD.Value)
+            if (dateTmPickED.Value.Date < dateTmPickSD.Value.Date)
             { error.Add("La data di scadenza NON è successiva alla data di inserimento dell'ordine"); }
             if (productID == -1)
-            { error.Add("NON è stato selezionato nessun prodotto da produrre"); }
+            { error.Add("Il campo 'nome prodotto' non può essere vuoto"); }
+            if(txtBoxNameOrd.Text == "")
+            { error.Add("Il campo 'nome ordine' non può essere vuoto"); }
+            if(txtBoxCodProd.Text == "")
+            { error.Add("Il campo 'codice prodotto' non può essere vuoto"); }
             saveOrd.Add(orderID.ToString());
             saveOrd.Add(txtBoxNameOrd.Text);
             saveOrd.Add(type.ToString());
@@ -1059,6 +1068,23 @@ namespace ProdCycleBoer
             {
                 RoundDownMinutes(_dateTimePickerTo[phase][j], phase, 30);
                 RoundDownMinutes(_dateTimePickerFrom[phase][j], phase, 30);
+                RoundHours(_dateTimePickerTo[phase][j], phase, "08:00", "21:00");
+                RoundHours(_dateTimePickerFrom[phase][j], phase, "08:00", "21:00");
+            }
+
+        }
+
+        private void RoundHours(DateTimePicker dtp, int phase, string minH, string maxH)
+        {
+            string minDate = String.Format("{0:dd/MM/yyyy }" + minH, dtp.Value);
+            string maxDate = String.Format("{0:dd/MM/yyyy }" + maxH, dtp.Value);
+            if (dtp.Value < DateTime.Parse(minDate))
+            {
+                dtp.Value = DateTime.Parse(minDate);
+            }
+            else if (dtp.Value > DateTime.Parse(maxDate))
+            {
+                dtp.Value = DateTime.Parse(maxDate);
             }
         }
 
